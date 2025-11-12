@@ -60,8 +60,8 @@ all: main-build
 main-build: swont_ide.elf secondary-outputs
 
 # Tool invocations
-swont_ide.elf swont_ide.map: $(OBJS) $(USER_OBJS) /home/gijs/STM32CubeIDE/workspace_1.19.0/swont_ide/STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "swont_ide.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/gijs/STM32CubeIDE/workspace_1.19.0/swont_ide/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="swont_ide.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+swont_ide.elf swont_ide.map: $(OBJS) $(USER_OBJS) /home/gijs/Documents/STM32/swont_ide/STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "swont_ide.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/gijs/Documents/STM32/swont_ide/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="swont_ide.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

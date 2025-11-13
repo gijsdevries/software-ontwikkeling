@@ -24,6 +24,7 @@ int main(void)
   UB_VGA_FillScreen(VGA_COL_BLUE);
 
   UB_VGA_SetPixel(160, 120, VGA_COL_GREEN);
+  //huhvt
 
   while(1)
   {

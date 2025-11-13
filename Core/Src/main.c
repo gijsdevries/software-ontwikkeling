@@ -17,8 +17,6 @@
 #include "io_layer.h"
 #include "logic_layer.h"
 
-//TEST LL
-
 int main(void)
 {
   SystemInit(); // System speed to 168MHz

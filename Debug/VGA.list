@@ -93,8 +93,8 @@ int main(void)
 	UB_VGA_Screen_Init(); // Init VGA-Screen
  80001d0:	f000 f868 	bl	80002a4 <UB_VGA_Screen_Init>
 
-	UB_VGA_FillScreen(VGA_COL_RED);
- 80001d4:	20e0      	movs	r0, #224	@ 0xe0
+	UB_VGA_FillScreen(VGA_COL_BLUE);
+ 80001d4:	2003      	movs	r0, #3
  80001d6:	f000 f8a5 	bl	8000324 <UB_VGA_FillScreen>
 
   while(1)

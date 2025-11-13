@@ -6,7 +6,7 @@ struct text_struct {
   char *fontname;
   int fontsize;
   int fontstyle;
-}
+};
 
 struct line_struct {
   int x_1;
@@ -15,7 +15,7 @@ struct line_struct {
   int y_2;
   int color;
   int weight;
-}
+};
 
 struct rectangle_struct {
   int x;
@@ -24,15 +24,15 @@ struct rectangle_struct {
   int height;
   int color;
   int filled;
-}
+};
 
 struct bitmap_struct {
   int x_lup;
   int y_lup;
   int bm_nr;
-}
+};
 
 struct clearscreen_struct {
   int color;
-}
+};
 

@@ -37,15 +37,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  0000d4d3  00000000  00000000  00008b10  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000463b  00000000  00000000  00015fe3  2**0
+ 17 .debug_line   00004479  00000000  00000000  00015fe3  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00046c27  00000000  00000000  0001a61e  2**0
+ 18 .debug_str    00046c27  00000000  00000000  0001a45c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  00061245  2**0
+ 19 .comment      00000043  00000000  00000000  00061083  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001d60  00000000  00000000  00061288  2**2
+ 20 .debug_frame  00001d60  00000000  00000000  000610c8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000004d  00000000  00000000  00062fe8  2**0
+ 21 .debug_line_str 0000004d  00000000  00000000  00062e28  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -93,8 +93,8 @@ int main(void)
 	UB_VGA_Screen_Init(); // Init VGA-Screen
  80001d0:	f000 f868 	bl	80002a4 <UB_VGA_Screen_Init>
 
-	UB_VGA_FillScreen(VGA_COL_BLUE);
- 80001d4:	2003      	movs	r0, #3
+	UB_VGA_FillScreen(VGA_COL_RED);
+ 80001d4:	20e0      	movs	r0, #224	@ 0xe0
  80001d6:	f000 f8a5 	bl	8000324 <UB_VGA_FillScreen>
 
   while(1)

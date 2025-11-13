@@ -13,18 +13,20 @@
 #include "main.h"
 #include "stm32_ub_vga_screen.h"
 #include <math.h>
-
+#include "front_layer.h"
+#include "io_layer.h"
+#include "logic_layer.h"
 
 int main(void)
 {
-	SystemInit(); // System speed to 168MHz
+  SystemInit(); // System speed to 168MHz
+  UB_VGA_Screen_Init(); // Init VGA-Screen
+  UB_VGA_FillScreen(VGA_COL_BLUE);
 
-	UB_VGA_Screen_Init(); // Init VGA-Screen
-
-	UB_VGA_FillScreen(VGA_COL_GREEN);
+  UB_VGA_SetPixel(160, 120, VGA_COL_GREEN);
 
   while(1)
   {
-    
+   
   }
 }

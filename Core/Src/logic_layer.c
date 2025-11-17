@@ -1,9 +1,7 @@
 #include "logic_layer.h"
 #include "global.h"
 
-unsigned char* clearScreenToBitmap(clearscreen_struct CS_struct) {
-  unsigned char bitmap[320][240][3];
-  unsigned char *pbitmap = bitmap;
+void clearScreenToBitmap(clearscreen_struct clearScreenStruct, unsigned char bitmap[320][240][3]) {
   unsigned char drawColors[3];
   RGB c;
 

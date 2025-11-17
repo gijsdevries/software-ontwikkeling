@@ -41,6 +41,6 @@ typedef struct {
 } clearscreen_struct;
 
 //function prototypes
-unsigned char* clearScreenToBitmap(clearscreen_struct CS_struct);
+void clearScreenToBitmap(clearscreen_struct clearScreenStruct, unsigned char bitmap[320][240][3]);
 
 #endif

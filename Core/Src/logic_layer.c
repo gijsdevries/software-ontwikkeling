@@ -7,35 +7,30 @@ unsigned char* clearScreenToBitmap(clearscreen_struct CS_struct) {
   unsigned char drawColors[3];
   RGB c;
 
+  //TODO: add switch case for every color
   switch (CS_struct.color)
   {
     case BLACK:
-      printf("recieved black\n");
       c = BLACK_RGB;
       drawColors[2] = c.b; drawColors[1] = c.g; drawColors[0] = c.r;
       break; 
     case BLUE:
-      printf("recieved blue\n");
       c = BLUE_RGB;
       drawColors[2] = c.b; drawColors[1] = c.g; drawColors[0] = c.r;
       break;
     case RED:
-      printf("recieved black\n");
       c = RED_RGB;
       drawColors[2] = c.b; drawColors[1] = c.g; drawColors[0] = c.r;
       break;
     case GREEN:
-      printf("recieved black\n");
       c = GREEN_RGB;
       drawColors[2] = c.b; drawColors[1] = c.g; drawColors[0] = c.r;
       break;
     case WHITE:
-      printf("recieved black\n");
       c = WHITE_RGB;
       drawColors[2] = c.b; drawColors[1] = c.g; drawColors[0] = c.r;
       break;
    default:
-      printf("recieved invalid value\n");
       break;
    }
 

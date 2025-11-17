@@ -25,6 +25,7 @@ enum colors {
   WHITE
 };
 
+//TODO: give appropiate color ranges.
 #define BLACK_RGB         (RGB){0, 0, 0}
 #define BLUE_RGB          (RGB){0, 0, 255}
 #define LIGHT_BLUE_RGB    (RGB){0, 0, 0}

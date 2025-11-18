@@ -25,6 +25,8 @@ int main(void)
 
   UB_VGA_SetPixel(160, 120, VGA_COL_GREEN);
 
+  plot_VGA();
+
   while(1)
   {
    

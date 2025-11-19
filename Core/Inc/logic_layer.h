@@ -1,7 +1,6 @@
 #ifndef LOGIC_LAYER_H 
 #define LOGIC_LAYER_H
 
-/*
 //structs per msg type
 typedef struct {
   int x_lup;
@@ -22,7 +21,7 @@ typedef struct {
   int weight;
 } line_struct;
 
-struct {
+typedef struct {
   int x;
   int y;
   int width;
@@ -31,13 +30,12 @@ struct {
   int filled;
 } rectangle_struct;
 
-struct {
+typedef struct {
   int x_lup;
   int y_lup;
   int bm_nr;
 } bitmap_struct;
 
-*/
 typedef struct {
   int color;
 } clearscreen_struct;

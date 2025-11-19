@@ -1,6 +1,7 @@
 #ifndef LOGIC_LAYER_H 
 #define LOGIC_LAYER_H
 
+/*
 //structs per msg type
 typedef struct {
   int x_lup;
@@ -36,11 +37,12 @@ struct {
   int bm_nr;
 } bitmap_struct;
 
+*/
 typedef struct {
   int color;
 } clearscreen_struct;
 
 //function prototypes
-void clearScreenToBitmap(clearscreen_struct clearScreenStruct, unsigned char bitmap[320][240][3]);
+void clearScreenToVGA(clearscreen_struct CS_struct);
 
 #endif

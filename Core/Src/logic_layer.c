@@ -9,17 +9,8 @@ void clearScreenToVGA(clearscreen_struct CS_struct) {
 void lineToVGA(line_struct lineStruct) {
   uint16_t xp,yp;
 
-  for(yp=0;yp<VGA_DISPLAY_Y;yp++) {
-    for(xp=0;xp<VGA_DISPLAY_X;xp++) {
-      if (xp == lineStruct.x_1 && yp == lineStruct.y_1) 
-        UB_VGA_SetPixel(xp, yp, lineStruct.color);
-      if (xp == lineStruct.x_2 && yp == lineStruct.y_2) {
-        UB_VGA_SetPixel(xp, yp, lineStruct.color);
-        for (uint8_t i = 0; i < 50; i++) {
-          UB_VGA_SetPixel(xp - i, yp, lineStruct.color);
-          UB_VGA_SetPixel(xp, yp - i, lineStruct.color);
-        }
-      }
-    }
-  }
+  for (uint16_t lineRangeX = lineStruct.x_1; lineRangeX < lineStruct.x_2; lineRangeX++) {
+    for (uint16_t lineRangeY = lineStruct.y_1; lineRangeY < lineStruct.y_2; lineRangeY++) { 
+      UB_VGA_SetPixel(lineRangeX, lineRangeY, lineStruct.color);
+  }}
 }

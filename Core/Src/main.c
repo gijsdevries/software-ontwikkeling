@@ -29,9 +29,11 @@ int main(void)
     .y_1 = 3,
     .x_2 = 100,
     .y_2 = 60,
-    .color = VGA_COL_CYAN,
+    .color = VGA_COL_BLACK,
     .weight = 5,
   };
+
+  lineToVGA(lineStruct);
 
   while(1)
   {

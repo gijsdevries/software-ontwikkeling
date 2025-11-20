@@ -42,5 +42,6 @@ typedef struct {
 
 //function prototypes
 void clearScreenToVGA(clearscreen_struct CS_struct);
+void lineToVGA(line_struct lineStruct);
 
 #endif

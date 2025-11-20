@@ -22,15 +22,15 @@ int main(void)
 {
   SystemInit(); // System speed to 168MHz
   UB_VGA_Screen_Init(); // Init VGA-Screen
-  UB_VGA_FillScreen(VGA_COL_BLUE);
+  UB_VGA_FillScreen(VGA_COL_CYAN);
 
   clearscreen_struct clearScreenStruct;
-  clearScreenStruct.color = VGA_COL_BLUE;
+  clearScreenStruct.color = VGA_COL_LIGHT_MAGENTA;
 
   clearScreenToVGA(clearScreenStruct);
 
   while(1)
   {
-   
+
   }
 }

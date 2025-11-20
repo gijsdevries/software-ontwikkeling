@@ -36,16 +36,13 @@
 #define  VGA_COL_MAGENTA        0xE3
 #define  VGA_COL_YELLOW         0xFC
 
-//TODO
-#define VGA_COL_LIGHT_BLUE      0x00
-#define VGA_COL_LIGHT_GREEN     0x00
-#define VGA_COL_LIGHT_CYAN      0x00
-#define VGA_COL_LIGHT_RED       0x00
-#define VGA_COL_LIGHT_MAGENTA   0x00
-#define VGA_COL_BROWN           0x00
-#define VGA_COL_GREY            0x00
-
-
+#define VGA_COL_LIGHT_BLUE      0x5B
+#define VGA_COL_LIGHT_GREEN     0x3D
+#define VGA_COL_LIGHT_CYAN      0x7F
+#define VGA_COL_LIGHT_RED       0xE9
+#define VGA_COL_LIGHT_MAGENTA   0xEF
+#define VGA_COL_BROWN           0x88
+#define VGA_COL_GREY            0x92
 
 //--------------------------------------------------------------
 // define the VGA_display

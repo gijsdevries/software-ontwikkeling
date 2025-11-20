@@ -14,7 +14,15 @@ void lineToVGA(line_struct lineStruct) {
   int dy = y_2 - y_1;
 
   if (dx > dy) { //dx is bigger
-    UB_VGA_FillScreen(VGA_COL_YELLOW);
+    int division = dx / dy;
+    int modulo = dx % dy;
+
+    for (int lineRange = x_1; lineRange < x_2; lineRange++) {
+     if (lineRange % division == 0) {
+        y_1++;
+      }
+     UB_VGA_SetPixel(lineRange, y_1, lineStruct.color);
+    }
   }
   else if (dx < dy) { //dy is bigger
     UB_VGA_FillScreen(VGA_COL_RED);

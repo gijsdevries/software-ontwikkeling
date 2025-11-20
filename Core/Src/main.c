@@ -22,14 +22,14 @@ int main(void)
 {
   SystemInit(); // System speed to 168MHz
   UB_VGA_Screen_Init(); // Init VGA-Screen
-  UB_VGA_FillScreen(VGA_COL_YELLOW);
+  UB_VGA_FillScreen(VGA_COL_LIGHT_GREEN);
 
   line_struct lineStruct = {
-    .x_1 = 30,
-    .y_1 = 30,
-    .x_2 = 100,
-    .y_2 = 100,
-    .color = VGA_COL_BLACK,
+    .x_1 = 10,
+    .y_1 = 10,
+    .x_2 = 230,
+    .y_2 = 60,
+    .color = VGA_COL_MAGENTA,
     .weight = 5,
   };
 

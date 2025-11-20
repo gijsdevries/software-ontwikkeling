@@ -1,4 +1,8 @@
-struct text_struct {
+#ifndef LOGIC_LAYER_H 
+#define LOGIC_LAYER_H
+
+//structs per msg type
+typedef struct {
   int x_lup;
   int y_lup;
   int color;
@@ -6,33 +10,37 @@ struct text_struct {
   char *fontname;
   int fontsize;
   int fontstyle;
-};
+} text_struct;
 
-struct line_struct {
+typedef struct {
   int x_1;
   int y_1;
   int x_2;
   int y_2;
   int color;
   int weight;
-};
+} line_struct;
 
-struct rectangle_struct {
+typedef struct {
   int x;
   int y;
   int width;
   int height;
   int color;
   int filled;
-};
+} rectangle_struct;
 
-struct bitmap_struct {
+typedef struct {
   int x_lup;
   int y_lup;
   int bm_nr;
-};
+} bitmap_struct;
 
-struct clearscreen_struct {
+typedef struct {
   int color;
-};
+} clearscreen_struct;
 
+//function prototypes
+void clearScreenToVGA(clearscreen_struct CS_struct);
+
+#endif

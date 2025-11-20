@@ -1,4 +1,4 @@
-//--------------------------------------------------------------
+///--------------------------------------------------------------
 // File     : main.c
 // Datum    : 30.03.2016
 // Version  : 1.0
@@ -16,17 +16,21 @@
 #include "front_layer.h"
 #include "io_layer.h"
 #include "logic_layer.h"
+#include "global.h"
 
 int main(void)
 {
   SystemInit(); // System speed to 168MHz
   UB_VGA_Screen_Init(); // Init VGA-Screen
-  UB_VGA_FillScreen(VGA_COL_BLUE);
+  UB_VGA_FillScreen(VGA_COL_CYAN);
 
-  UB_VGA_SetPixel(160, 120, VGA_COL_GREEN);
+  clearscreen_struct clearScreenStruct;
+  clearScreenStruct.color = VGA_COL_LIGHT_MAGENTA;
+
+  clearScreenToVGA(clearScreenStruct);
 
   while(1)
   {
-   
+
   }
 }

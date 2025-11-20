@@ -25,10 +25,10 @@ int main(void)
   UB_VGA_FillScreen(VGA_COL_YELLOW);
 
   line_struct lineStruct = {
-    .x_1 = 3,
-    .y_1 = 3,
+    .x_1 = 30,
+    .y_1 = 30,
     .x_2 = 100,
-    .y_2 = 60,
+    .y_2 = 100,
     .color = VGA_COL_BLACK,
     .weight = 5,
   };

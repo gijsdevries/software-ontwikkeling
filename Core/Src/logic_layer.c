@@ -17,7 +17,11 @@ void lineToVGA(line_struct lineStruct) {
   int err = dx - dy;
 
   while (1) {
-    UB_VGA_SetPixel(x1, y1, lineStruct.color);
+    for (int i = 0; i < lineStruct.weight; i++)
+      if (dx > dy)
+        UB_VGA_SetPixel(x1, y1 + i, lineStruct.color);
+      else
+        UB_VGA_SetPixel(x1 + i, y1, lineStruct.color);
 
     if (x1 == x2 && y1 == y2)
       break;

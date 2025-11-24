@@ -25,12 +25,12 @@ int main(void)
   UB_VGA_FillScreen(VGA_COL_LIGHT_GREEN);
 
   line_struct lineStruct = {
-    .x_1 = 35,
+    .x_1 = 1,
     .y_1 = 1,
-    .x_2 = 44,
-    .y_2 = 105,
+    .x_2 = 230,
+    .y_2 = 231,
     .color = VGA_COL_MAGENTA,
-    .weight = 5,
+    .weight = 2,
   };
 
   lineToVGA(lineStruct);

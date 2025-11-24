@@ -7,10 +7,33 @@ void clearScreenToVGA(clearscreen_struct CS_struct) {
 }
 
 void rectangleToVGA(rectangle_struct rectangleStruct) {
-  if (rectangleStruct.x == 1)
-    UB_VGA_FillScreen(VGA_COL_GREEN);
-  else
-    UB_VGA_FillScreen(VGA_COL_CYAN);
+  int x = rectangleStruct.x; int w = rectangleStruct.width; 
+  int y = rectangleStruct.y; int h = rectangleStruct.height;
+
+  if (rectangleStruct.filled) {
+    for (int yy = y; yy < y + h; yy++) {
+      for (int xx = x; xx < x + w; xx++) {
+        UB_VGA_SetPixel(xx, yy, rectangleStruct.color);
+      }
+    }
+  } else {
+    // ---- OUTLINE ONLY ----
+    // Top edge
+    for (int xx = x; xx < x + w; xx++)
+      UB_VGA_SetPixel(xx, y, rectangleStruct.color);
+
+    // Bottom edge
+    for (int xx = x; xx < x + w; xx++)
+      UB_VGA_SetPixel(xx, y + h - 1, rectangleStruct.color);
+
+    // Left edge
+    for (int yy = y; yy < y + h; yy++)
+      UB_VGA_SetPixel(x, yy, rectangleStruct.color);
+
+    // Right edge
+    for (int yy = y; yy < y + h; yy++)
+      UB_VGA_SetPixel(x + w - 1, yy, rectangleStruct.color);
+  }
 }
 
 void lineToVGA(line_struct lineStruct) {

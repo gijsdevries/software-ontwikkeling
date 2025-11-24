@@ -17,7 +17,6 @@ void rectangleToVGA(rectangle_struct rectangleStruct) {
       }
     }
   } else {
-    // ---- OUTLINE ONLY ----
     // Top edge
     for (int xx = x; xx < x + w; xx++)
       UB_VGA_SetPixel(xx, y, rectangleStruct.color);

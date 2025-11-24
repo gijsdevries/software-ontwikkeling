@@ -22,18 +22,18 @@ int main(void)
 {
   SystemInit(); // System speed to 168MHz
   UB_VGA_Screen_Init(); // Init VGA-Screen
-  UB_VGA_FillScreen(VGA_COL_LIGHT_GREEN);
+  UB_VGA_FillScreen(VGA_COL_RED);
 
-  line_struct lineStruct = {
-    .x_1 = 1,
-    .y_1 = 1,
-    .x_2 = 230,
-    .y_2 = 231,
-    .color = VGA_COL_MAGENTA,
-    .weight = 2,
+  rectangle_struct rectangleStruct = {
+    .x = 10,
+    .y = 1,
+    .width = 100,
+    .height = 50,
+    .color = VGA_COL_LIGHT_GREEN,
+    .filled = 1,
   };
 
-  lineToVGA(lineStruct);
+  rectangleToVGA(rectangleStruct);
 
   while(1)
   {

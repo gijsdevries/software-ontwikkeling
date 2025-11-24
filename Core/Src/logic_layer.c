@@ -6,6 +6,13 @@ void clearScreenToVGA(clearscreen_struct CS_struct) {
   UB_VGA_FillScreen(CS_struct.color);
 }
 
+void rectangleToVGA(rectangle_struct rectangleStruct) {
+  if (rectangleStruct.x == 1)
+    UB_VGA_FillScreen(VGA_COL_GREEN);
+  else
+    UB_VGA_FillScreen(VGA_COL_CYAN);
+}
+
 void lineToVGA(line_struct lineStruct) {
   int x1 = lineStruct.x_1; int x2 = lineStruct.x_2; 
   int y1 = lineStruct.y_1; int y2 = lineStruct.y_2;
@@ -37,5 +44,4 @@ void lineToVGA(line_struct lineStruct) {
       y1 += sy;
     }
   }
-
 }

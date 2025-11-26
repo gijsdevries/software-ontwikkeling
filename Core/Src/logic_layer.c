@@ -5,7 +5,6 @@
 void clearScreenToVGA(clearscreen_struct CS_struct) {
   UB_VGA_FillScreen(CS_struct.color);
 }
-<<<<<<< HEAD
 
 void rectangleToVGA(rectangle_struct rectangleStruct) {
   int x = rectangleStruct.x; int w = rectangleStruct.width; 
@@ -68,5 +67,3 @@ void lineToVGA(line_struct lineStruct) {
     }
   }
 }
-=======
->>>>>>> dc64697d52016e93d2792f0d216001a55e561154

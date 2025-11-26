@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include "stm32f4xx.h"
 #include "front_layer.h"
 #include <string.h>
@@ -63,6 +62,3 @@ char USART2_ReceiveChar(void) {
     while (!(USART2->SR & USART_SR_RXNE));
     return USART2->DR;
 }
-=======
-#include "front_layer.h"
->>>>>>> dc64697d52016e93d2792f0d216001a55e561154

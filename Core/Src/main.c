@@ -1,4 +1,4 @@
-///--------------------------------------------------------------
+//--------------------------------------------------------------
 // File     : main.c
 // Datum    : 30.03.2016
 // Version  : 1.0
@@ -20,7 +20,6 @@
 
 int main(void)
 {
-<<<<<<< HEAD
   SystemCoreClockUpdate();
   SystemInit(); // System speed to 168MHz
   UB_VGA_Screen_Init(); // Init VGA-Screen
@@ -39,13 +38,13 @@ int main(void)
   rectangleToVGA(rectangleStruct);
 
   rectangleStruct.x = 10,
-  rectangleStruct.y = 1,
-  rectangleStruct.width = 150,
-  rectangleStruct.height = 101,
-  rectangleStruct.color = VGA_COL_BLUE,
-  rectangleStruct.filled = 0,
+    rectangleStruct.y = 1,
+    rectangleStruct.width = 150,
+    rectangleStruct.height = 101,
+    rectangleStruct.color = VGA_COL_BLUE,
+    rectangleStruct.filled = 0,
 
-  rectangleToVGA(rectangleStruct);
+    rectangleToVGA(rectangleStruct);
 
   line_struct lineStruct = {
     .x_1 = 115,
@@ -59,30 +58,29 @@ int main(void)
   lineToVGA(lineStruct);
 
   lineStruct.x_1 = 1,
-  lineStruct.y_1 = 1,
-  lineStruct.x_2 = 230,
-  lineStruct.y_2 = 231,
-  lineStruct.color = VGA_COL_LIGHT_GREEN,
-  lineStruct.weight = 2,
+    lineStruct.y_1 = 1,
+    lineStruct.x_2 = 230,
+    lineStruct.y_2 = 231,
+    lineStruct.color = VGA_COL_LIGHT_GREEN,
+    lineStruct.weight = 2,
 
-  lineToVGA(lineStruct);
-
-  while(1)
-  {
-	  USART2_BUFFER();
-=======
-  SystemInit(); // System speed to 168MHz
-  UB_VGA_Screen_Init(); // Init VGA-Screen
-  UB_VGA_FillScreen(VGA_COL_CYAN);
-
-  clearscreen_struct clearScreenStruct;
-  clearScreenStruct.color = VGA_COL_LIGHT_MAGENTA;
-
-  clearScreenToVGA(clearScreenStruct);
+    lineToVGA(lineStruct);
 
   while(1)
   {
+    USART2_BUFFER();
+    SystemInit(); // System speed to 168MHz
+    UB_VGA_Screen_Init(); // Init VGA-Screen
+    UB_VGA_FillScreen(VGA_COL_CYAN);
+    
+      clearscreen_struct clearScreenStruct;
+    clearScreenStruct.color = VGA_COL_LIGHT_MAGENTA;
 
->>>>>>> dc64697d52016e93d2792f0d216001a55e561154
+    clearScreenToVGA(clearScreenStruct);
+
+    while(1)
+    {
+
+    }
   }
 }

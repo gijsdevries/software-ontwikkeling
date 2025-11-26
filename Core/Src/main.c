@@ -41,7 +41,7 @@ int main(void)
   rectangleStruct.y = 1,
   rectangleStruct.width = 150,
   rectangleStruct.height = 101,
-  rectangleStruct.color = VGA_COL_LIGHT_GREEN,
+  rectangleStruct.color = VGA_COL_BLUE,
   rectangleStruct.filled = 0,
 
   rectangleToVGA(rectangleStruct);

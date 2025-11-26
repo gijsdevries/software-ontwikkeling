@@ -55,6 +55,8 @@ int main(void)
     .weight = 10,
   };
 
+  //fruhfei
+
   lineToVGA(lineStruct);
 
   lineStruct.x_1 = 1,

@@ -20,9 +20,11 @@
 
 int main(void)
 {
+  SystemCoreClockUpdate();
   SystemInit(); // System speed to 168MHz
   UB_VGA_Screen_Init(); // Init VGA-Screen
   UB_VGA_FillScreen(VGA_COL_RED);
+  USART2_Init();
 
   rectangle_struct rectangleStruct = {
     .x = 200,
@@ -66,6 +68,6 @@ int main(void)
 
   while(1)
   {
-
+	  USART2_BUFFER();
   }
 }

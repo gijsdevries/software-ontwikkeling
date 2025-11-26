@@ -20,6 +20,7 @@
 
 int main(void)
 {
+<<<<<<< HEAD
   SystemCoreClockUpdate();
   SystemInit(); // System speed to 168MHz
   UB_VGA_Screen_Init(); // Init VGA-Screen
@@ -69,5 +70,19 @@ int main(void)
   while(1)
   {
 	  USART2_BUFFER();
+=======
+  SystemInit(); // System speed to 168MHz
+  UB_VGA_Screen_Init(); // Init VGA-Screen
+  UB_VGA_FillScreen(VGA_COL_CYAN);
+
+  clearscreen_struct clearScreenStruct;
+  clearScreenStruct.color = VGA_COL_LIGHT_MAGENTA;
+
+  clearScreenToVGA(clearScreenStruct);
+
+  while(1)
+  {
+
+>>>>>>> dc64697d52016e93d2792f0d216001a55e561154
   }
 }

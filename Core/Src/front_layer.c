@@ -3,7 +3,9 @@
 #include <string.h>
 
 char *buffer = NULL;   // Dynamische buffer
+char *tempBuffer = NULL;
 uint8_t idx = 0;
+uint8_t tempIdx = 0;
 
 void USART2_BUFFER()
 {
@@ -21,7 +23,7 @@ void USART2_BUFFER()
     if (UART_karakter == '\n') {
         buffer[idx] = '\0';
 
-        USART2_SendString(buffer);
+        Buffer_to_struct(buffer, idx);
 
         idx = 0;
 
@@ -31,6 +33,25 @@ void USART2_BUFFER()
         //parse
     }
 }
+
+void Buffer_to_struct(char *buffer, uint8_t idx)
+{
+    char *new_tempBuffer = realloc(tempBuffer, idx + 1);
+    tempBuffer = new_tempBuffer;
+
+    for(uint8_t i = 0; i < idx; i++)
+    {
+        tempBuffer[i] = buffer[i];
+
+        if (buffer[i] == ',')
+        {
+            tempBuffer[i+1] = '\0';
+            USART2_SendString(tempBuffer);
+            break;
+        }
+    }
+}
+
 
 
 void USART2_Init(void) {

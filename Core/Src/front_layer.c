@@ -48,15 +48,16 @@ void Buffer_to_struct(char *buffer, uint8_t idx)
 
         if(buffer[i] == ',') // Wanneer een komma gevonden is
         {
-            tempBuffer[j] = '\0'; // Sluit de opgelagen string af
+            tempBuffer[j] = '\0'; // Sluit de opgeslagen string af
             USART2_SendString(tempBuffer);
             USART2_SendString("\r\n");
-            j = 0; // Start op -1 zodat de gevonden komma overgeslagen wordt
+            j = -1; // Start op -1 zodat de gevonden komma overgeslagen wordt
         }
 
-        tempBuffer[j++] = buffer[i]; // Schrijf string naar buffer
+        tempBuffer[j++] = buffer[i]; // Schrijf karakter uit buffer naar tempBuffer
     }
 
+    // Check voor het laatste woord in de string, deze heeft namelijk geen komma
     if(j > 0)
     {
         tempBuffer[j] = '\0';

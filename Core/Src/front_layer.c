@@ -5,7 +5,6 @@
 char *buffer = NULL;   // Dynamische buffer
 char *tempBuffer = NULL;
 uint8_t idx = 0;
-uint8_t tempIdx = 0;
 
 void USART2_BUFFER()
 {
@@ -36,22 +35,35 @@ void USART2_BUFFER()
 
 void Buffer_to_struct(char *buffer, uint8_t idx)
 {
-    char *new_tempBuffer = realloc(tempBuffer, idx + 1);
+    char *new_tempBuffer = realloc(tempBuffer, idx + 1); // Maak buffer dynamic
     tempBuffer = new_tempBuffer;
 
+    uint8_t j = 0; // Tel-variabele voor tempBuffer
+
+    // Loop daar de voledige buffer
     for(uint8_t i = 0; i < idx; i++)
     {
-        tempBuffer[i] = buffer[i];
+    	if(buffer[i] == ' ') // Sla spaties over
+    		continue;
 
-        if (buffer[i] == ',')
+        if(buffer[i] == ',') // Wanneer een komma gevonden is
         {
-            tempBuffer[i+1] = '\0';
+            tempBuffer[j] = '\0'; // Sluit de opgelagen string af
             USART2_SendString(tempBuffer);
-            break;
+            USART2_SendString("\r\n");
+            j = 0; // Start op -1 zodat de gevonden komma overgeslagen wordt
         }
+
+        tempBuffer[j++] = buffer[i]; // Schrijf string naar buffer
+    }
+
+    if(j > 0)
+    {
+        tempBuffer[j] = '\0';
+        USART2_SendString(tempBuffer);
+        USART2_SendString("\r\n");
     }
 }
-
 
 
 void USART2_Init(void) {

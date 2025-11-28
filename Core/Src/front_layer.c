@@ -21,7 +21,8 @@ void USART2_BUFFER()
     if (UART_karakter == '\n') {
         buffer[idx] = '\0';
 
-        USART2_SendString(buffer);
+        //USART2_SendString(buffer);
+        Buffer_Check();
 
         idx = 0;
 
@@ -30,6 +31,26 @@ void USART2_BUFFER()
 
         //parse
     }
+}
+
+
+void Buffer_Check()
+{
+	char cmd_var;
+    for (int i = 0; i < NUM_COMMANDS; i++) //Controleert hoeveel commando's erin de define staan
+    {
+    	//Is er een match in het eerste woord van de commando en de define code
+        if (strncmp(buffer, commands[i].name, strlen(commands[i].name)) == 0)
+        {
+        	cmd_var = commands[i].code;
+            USART2_SendChar(cmd_var);
+            USART2_SendChar('\n');
+            return;
+        }
+    }
+
+    USART2_SendString("ERROR: Onbekend commando\n");
+    USART2_SendString("Herzie het het woord voor de eerste komma\n");
 }
 
 

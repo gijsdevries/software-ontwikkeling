@@ -1,3 +1,7 @@
+/** \file
+ * Logic layer of application. 
+ */ 
+
 #ifndef LOGIC_LAYER_H 
 #define LOGIC_LAYER_H
 
@@ -40,9 +44,18 @@ typedef struct {
   int color;
 } clearscreen_struct;
 
-//function prototypes
+/**
+ * @brief writes a color to VGA screen. 
+ *
+ * This functions writes a predefined color to the entire VGA screen   
+ *
+ * @param a clearscreen_struct.
+ */
+
 void clearScreenToVGA(clearscreen_struct CS_struct);
+
 void rectangleToVGA(rectangle_struct rectangleStruct);
+
 void lineToVGA(line_struct lineStruct);
 
 #endif

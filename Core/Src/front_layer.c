@@ -35,11 +35,11 @@ void USART2_BUFFER()
 
 void Buffer_to_struct(void)
 {
-    char* w;
+    char* argument;
 
-    while ((w = take_word()) != NULL)
+    while ((argument = take_word()) != NULL)
     {
-        USART2_SendString(w);
+        USART2_SendString(argument);
         USART2_SendString("\r\n");
     }
 }

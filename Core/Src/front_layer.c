@@ -22,7 +22,7 @@ void USART2_BUFFER()
     if (UART_karakter == '\n') {
         buffer[idx] = '\0';
 
-        Buffer_to_struct(buffer, idx);
+        Buffer_to_struct();
 
         idx = 0;
 
@@ -33,7 +33,7 @@ void USART2_BUFFER()
     }
 }
 
-void Buffer_to_struct(char *buffer, uint8_t idx)
+void Buffer_to_struct()
 {
     char *new_tempBuffer = realloc(tempBuffer, idx + 1);
     tempBuffer = new_tempBuffer;

@@ -22,7 +22,7 @@ void USART2_BUFFER()
     if (UART_karakter == '\n') {
         buffer[idx] = '\0';
 
-        Buffer_to_struct();
+        Buffer_to_struct(0);
 
         idx = 0;
 
@@ -33,47 +33,48 @@ void USART2_BUFFER()
     }
 }
 
-void Buffer_to_struct()
+void Buffer_to_struct(void)
 {
-    char *new_tempBuffer = realloc(tempBuffer, idx + 1);
-    tempBuffer = new_tempBuffer;
+    char* w;
 
-    uint8_t j = 0; // Teller voor de tempBuffer
-    uint8_t word_started = 0; // Om te weten of we binnen een woord zitten
-
-    // Loop door de buffer heen
-    for(uint8_t i = 0; i < idx; i++)
+    while ((w = take_word()) != NULL)
     {
-    	// Als er een komma gevonden is of het einde van de string is bereikt
-        if(buffer[i] == ',' || i == idx - 1)
-        {
-            // Voeg laatste karakter toe als buffer eindigt zonder komma
-            if (i == idx - 1 && buffer[i] != ',')
-            {
-                tempBuffer[j++] = buffer[i];
-            }
-
-            // Skip spaties
-            while(j > 0 && tempBuffer[j - 1] == ' ')
-                j--;
-
-            tempBuffer[j] = '\0';
-            USART2_SendString(tempBuffer);
-            USART2_SendString("\r\n");
-
-            j = 0;
-            word_started = 0;
-            continue;
-        }
-
-        // Skip spaties
-        if(!word_started && buffer[i] == ' ')
-            continue;
-
-        // We zijn nu in een woord, ook spaties binnen woorden meenemen
-        word_started = 1;
-        tempBuffer[j++] = buffer[i];
+        USART2_SendString(w);
+        USART2_SendString("\r\n");
     }
+}
+
+
+char* take_word(void)
+{
+    static uint8_t i = 0;
+    if (i >= idx) return NULL; // Ga terug als de volledige zin al is uitgelezen
+
+    while (i < idx && buffer[i] == ' ') // Skip de spaties vóór het woord
+        i++;
+
+    uint8_t start = i;
+    uint8_t len = 0;
+
+    while (i < idx && buffer[i] != ',') // Onthoud startlocatie woord en zoek eindlocatie
+    {
+        i++;
+        len++;
+    }
+
+    while (len > 0 && buffer[start + len - 1] == ' ') // Kort eindlocatie in om eindspaties te negeren
+        len--;
+
+    char* word = malloc(len + 1); // Maak word even groot als nodig (dynamic)
+    if (!word) return NULL; // Ga terug als word geen lengte heeft
+
+    for (uint8_t j = 0; j < len; j++) // Vul word nu met het gevonden woord op basis van de eerder gevonden lengte
+        word[j] = buffer[start + j];
+    word[len] = '\0'; // Sluit het woord af
+
+    if (i < idx && buffer[i] == ',') i++; // Skip de volgende komma zodat die niet in het volgende woord wordt meegenomen
+
+    return word;
 }
 
 

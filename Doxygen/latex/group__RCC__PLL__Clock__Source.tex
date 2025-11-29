@@ -1,0 +1,51 @@
+\doxysubsubsubsection{RCC\+\_\+\+PLL\+\_\+\+Clock\+\_\+\+Source}
+\hypertarget{group__RCC__PLL__Clock__Source}{}\label{group__RCC__PLL__Clock__Source}\index{RCC\_PLL\_Clock\_Source@{RCC\_PLL\_Clock\_Source}}
+Collaboration diagram for RCC\+\_\+\+PLL\+\_\+\+Clock\+\_\+\+Source\+:
+% FIG 0
+\doxysubsubsubsubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{group__RCC__PLL__Clock__Source_ga1cbb1ae8d9e282a763a0070b251921f9}\label{group__RCC__PLL__Clock__Source_ga1cbb1ae8d9e282a763a0070b251921f9} 
+\#define {\bfseries RCC\+\_\+\+PLLSource\+\_\+\+HSI}~((uint32\+\_\+t)0x00000000)
+\item 
+\Hypertarget{group__RCC__PLL__Clock__Source_ga3706d0db7fe1836c65dc2ea7deded721}\label{group__RCC__PLL__Clock__Source_ga3706d0db7fe1836c65dc2ea7deded721} 
+\#define {\bfseries RCC\+\_\+\+PLLSource\+\_\+\+HSE}~((uint32\+\_\+t)0x00400000)
+\item 
+\#define \mbox{\hyperlink{group__RCC__PLL__Clock__Source_ga8a8a84a16989bb4e5aca1af65ccf9a1b}{IS\+\_\+\+RCC\+\_\+\+PLL\+\_\+\+SOURCE}}(SOURCE)
+\item 
+\Hypertarget{group__RCC__PLL__Clock__Source_ga8db327c085e20aeb673a9784f8508597}\label{group__RCC__PLL__Clock__Source_ga8db327c085e20aeb673a9784f8508597} 
+\#define {\bfseries IS\+\_\+\+RCC\+\_\+\+PLLM\+\_\+\+VALUE}(VALUE)~((VALUE) $<$= 63)
+\item 
+\Hypertarget{group__RCC__PLL__Clock__Source_ga12835741fbedd278ad1e91abebe00837}\label{group__RCC__PLL__Clock__Source_ga12835741fbedd278ad1e91abebe00837} 
+\#define {\bfseries IS\+\_\+\+RCC\+\_\+\+PLLN\+\_\+\+VALUE}(VALUE)~((192 $<$= (VALUE)) \&\& ((VALUE) $<$= 432))
+\item 
+\Hypertarget{group__RCC__PLL__Clock__Source_gad808f83505f4e802e5bafab7831f0235}\label{group__RCC__PLL__Clock__Source_gad808f83505f4e802e5bafab7831f0235} 
+\#define {\bfseries IS\+\_\+\+RCC\+\_\+\+PLLP\+\_\+\+VALUE}(VALUE)~(((VALUE) == 2) \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} ((VALUE) == 4) \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} ((VALUE) == 6) \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} ((VALUE) == 8))
+\item 
+\Hypertarget{group__RCC__PLL__Clock__Source_gad66dbe75bf8ab2b64b200e796281a851}\label{group__RCC__PLL__Clock__Source_gad66dbe75bf8ab2b64b200e796281a851} 
+\#define {\bfseries IS\+\_\+\+RCC\+\_\+\+PLLQ\+\_\+\+VALUE}(VALUE)~((4 $<$= (VALUE)) \&\& ((VALUE) $<$= 15))
+\item 
+\Hypertarget{group__RCC__PLL__Clock__Source_gac30fb7f6fe9f22a7d6c5585909db5c3c}\label{group__RCC__PLL__Clock__Source_gac30fb7f6fe9f22a7d6c5585909db5c3c} 
+\#define {\bfseries IS\+\_\+\+RCC\+\_\+\+PLLI2\+SN\+\_\+\+VALUE}(VALUE)~((192 $<$= (VALUE)) \&\& ((VALUE) $<$= 432))
+\item 
+\Hypertarget{group__RCC__PLL__Clock__Source_gaa2fece4b24f6219b423e1b092b7705c8}\label{group__RCC__PLL__Clock__Source_gaa2fece4b24f6219b423e1b092b7705c8} 
+\#define {\bfseries IS\+\_\+\+RCC\+\_\+\+PLLI2\+SR\+\_\+\+VALUE}(VALUE)~((2 $<$= (VALUE)) \&\& ((VALUE) $<$= 7))
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsubsubsection{Detailed Description}
+
+
+\doxysubsubsubsubsection{Macro Definition Documentation}
+\Hypertarget{group__RCC__PLL__Clock__Source_ga8a8a84a16989bb4e5aca1af65ccf9a1b}\label{group__RCC__PLL__Clock__Source_ga8a8a84a16989bb4e5aca1af65ccf9a1b} 
+\index{RCC\_PLL\_Clock\_Source@{RCC\_PLL\_Clock\_Source}!IS\_RCC\_PLL\_SOURCE@{IS\_RCC\_PLL\_SOURCE}}
+\index{IS\_RCC\_PLL\_SOURCE@{IS\_RCC\_PLL\_SOURCE}!RCC\_PLL\_Clock\_Source@{RCC\_PLL\_Clock\_Source}}
+\doxysubsubsubsubsubsection{\texorpdfstring{IS\_RCC\_PLL\_SOURCE}{IS\_RCC\_PLL\_SOURCE}}
+{\footnotesize\ttfamily \#define IS\+\_\+\+RCC\+\_\+\+PLL\+\_\+\+SOURCE(\begin{DoxyParamCaption}\item[{}]{SOURCE }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (((SOURCE)\ ==\ RCC\_PLLSource\_HSI)\ ||\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((SOURCE)\ ==\ RCC\_PLLSource\_HSE))}
+
+\end{DoxyCode}

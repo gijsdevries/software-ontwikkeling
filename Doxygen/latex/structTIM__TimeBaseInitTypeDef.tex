@@ -1,0 +1,81 @@
+\doxysection{TIM\+\_\+\+Time\+Base\+Init\+Type\+Def Struct Reference}
+\hypertarget{structTIM__TimeBaseInitTypeDef}{}\label{structTIM__TimeBaseInitTypeDef}\index{TIM\_TimeBaseInitTypeDef@{TIM\_TimeBaseInitTypeDef}}
+
+
+TIM Time Base Init structure definition ~\newline
+  
+
+
+
+
+{\ttfamily \#include $<$stm32f4xx\+\_\+tim.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{structTIM__TimeBaseInitTypeDef_a6d3c8632780db819b2eb811e71ce251e}{TIM\+\_\+\+Prescaler}}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{structTIM__TimeBaseInitTypeDef_a0de4138cd939566bc667f21df089e195}{TIM\+\_\+\+Counter\+Mode}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{structTIM__TimeBaseInitTypeDef_a06a7f47b1ced6fa2227ec98a86eb391f}{TIM\+\_\+\+Period}}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{structTIM__TimeBaseInitTypeDef_ab473f51adaa9474702e454fc8c24a407}{TIM\+\_\+\+Clock\+Division}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{structTIM__TimeBaseInitTypeDef_a81648259851390e090e1f507dfea7de8}{TIM\+\_\+\+Repetition\+Counter}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+TIM Time Base Init structure definition ~\newline
+ 
+
+\begin{DoxyNote}{Note}
+This structure is used with all TIMx except for TIM6 and TIM7. ~\newline
+ 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structTIM__TimeBaseInitTypeDef_ab473f51adaa9474702e454fc8c24a407}\label{structTIM__TimeBaseInitTypeDef_ab473f51adaa9474702e454fc8c24a407} 
+\index{TIM\_TimeBaseInitTypeDef@{TIM\_TimeBaseInitTypeDef}!TIM\_ClockDivision@{TIM\_ClockDivision}}
+\index{TIM\_ClockDivision@{TIM\_ClockDivision}!TIM\_TimeBaseInitTypeDef@{TIM\_TimeBaseInitTypeDef}}
+\doxysubsubsection{\texorpdfstring{TIM\_ClockDivision}{TIM\_ClockDivision}}
+{\footnotesize\ttfamily uint16\+\_\+t TIM\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+TIM\+\_\+\+Clock\+Division}
+
+Specifies the clock division. This parameter can be a value of \doxylink{group__TIM__Clock__Division__CKD}{TIM\+\_\+\+Clock\+\_\+\+Division\+\_\+\+CKD} \Hypertarget{structTIM__TimeBaseInitTypeDef_a0de4138cd939566bc667f21df089e195}\label{structTIM__TimeBaseInitTypeDef_a0de4138cd939566bc667f21df089e195} 
+\index{TIM\_TimeBaseInitTypeDef@{TIM\_TimeBaseInitTypeDef}!TIM\_CounterMode@{TIM\_CounterMode}}
+\index{TIM\_CounterMode@{TIM\_CounterMode}!TIM\_TimeBaseInitTypeDef@{TIM\_TimeBaseInitTypeDef}}
+\doxysubsubsection{\texorpdfstring{TIM\_CounterMode}{TIM\_CounterMode}}
+{\footnotesize\ttfamily uint16\+\_\+t TIM\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+TIM\+\_\+\+Counter\+Mode}
+
+Specifies the counter mode. This parameter can be a value of \doxylink{group__TIM__Counter__Mode}{TIM\+\_\+\+Counter\+\_\+\+Mode} \Hypertarget{structTIM__TimeBaseInitTypeDef_a06a7f47b1ced6fa2227ec98a86eb391f}\label{structTIM__TimeBaseInitTypeDef_a06a7f47b1ced6fa2227ec98a86eb391f} 
+\index{TIM\_TimeBaseInitTypeDef@{TIM\_TimeBaseInitTypeDef}!TIM\_Period@{TIM\_Period}}
+\index{TIM\_Period@{TIM\_Period}!TIM\_TimeBaseInitTypeDef@{TIM\_TimeBaseInitTypeDef}}
+\doxysubsubsection{\texorpdfstring{TIM\_Period}{TIM\_Period}}
+{\footnotesize\ttfamily uint32\+\_\+t TIM\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+TIM\+\_\+\+Period}
+
+Specifies the period value to be loaded into the active Auto-\/\+Reload Register at the next update event. This parameter must be a number between 0x0000 and 0x\+FFFF. ~\newline
+ \Hypertarget{structTIM__TimeBaseInitTypeDef_a6d3c8632780db819b2eb811e71ce251e}\label{structTIM__TimeBaseInitTypeDef_a6d3c8632780db819b2eb811e71ce251e} 
+\index{TIM\_TimeBaseInitTypeDef@{TIM\_TimeBaseInitTypeDef}!TIM\_Prescaler@{TIM\_Prescaler}}
+\index{TIM\_Prescaler@{TIM\_Prescaler}!TIM\_TimeBaseInitTypeDef@{TIM\_TimeBaseInitTypeDef}}
+\doxysubsubsection{\texorpdfstring{TIM\_Prescaler}{TIM\_Prescaler}}
+{\footnotesize\ttfamily uint16\+\_\+t TIM\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+TIM\+\_\+\+Prescaler}
+
+Specifies the prescaler value used to divide the TIM clock. This parameter can be a number between 0x0000 and 0x\+FFFF \Hypertarget{structTIM__TimeBaseInitTypeDef_a81648259851390e090e1f507dfea7de8}\label{structTIM__TimeBaseInitTypeDef_a81648259851390e090e1f507dfea7de8} 
+\index{TIM\_TimeBaseInitTypeDef@{TIM\_TimeBaseInitTypeDef}!TIM\_RepetitionCounter@{TIM\_RepetitionCounter}}
+\index{TIM\_RepetitionCounter@{TIM\_RepetitionCounter}!TIM\_TimeBaseInitTypeDef@{TIM\_TimeBaseInitTypeDef}}
+\doxysubsubsection{\texorpdfstring{TIM\_RepetitionCounter}{TIM\_RepetitionCounter}}
+{\footnotesize\ttfamily uint8\+\_\+t TIM\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+TIM\+\_\+\+Repetition\+Counter}
+
+Specifies the repetition counter value. Each time the RCR downcounter reaches zero, an update event is generated and counting restarts from the RCR value (N). This means in PWM mode that (N+1) corresponds to\+:
+\begin{DoxyItemize}
+\item the number of PWM periods in edge-\/aligned mode
+\item the number of half PWM period in center-\/aligned mode This parameter must be a number between 0x00 and 0x\+FF. \begin{DoxyNote}{Note}
+This parameter is valid only for TIM1 and TIM8. 
+\end{DoxyNote}
+
+\end{DoxyItemize}
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/gijs/\+Documents/\+STM32/\+VGA/\+Core/\+Inc/\mbox{\hyperlink{stm32f4xx__tim_8h}{stm32f4xx\+\_\+tim.\+h}}\end{DoxyCompactItemize}

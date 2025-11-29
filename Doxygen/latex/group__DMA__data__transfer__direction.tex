@@ -1,0 +1,37 @@
+\doxysubsubsubsection{DMA\+\_\+data\+\_\+transfer\+\_\+direction}
+\hypertarget{group__DMA__data__transfer__direction}{}\label{group__DMA__data__transfer__direction}\index{DMA\_data\_transfer\_direction@{DMA\_data\_transfer\_direction}}
+Collaboration diagram for DMA\+\_\+data\+\_\+transfer\+\_\+direction\+:
+% FIG 0
+\doxysubsubsubsubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{group__DMA__data__transfer__direction_ga4d7847b57371eef92ec5da34511416a7}\label{group__DMA__data__transfer__direction_ga4d7847b57371eef92ec5da34511416a7} 
+\#define {\bfseries DMA\+\_\+\+DIR\+\_\+\+Peripheral\+To\+Memory}~((uint32\+\_\+t)0x00000000)
+\item 
+\Hypertarget{group__DMA__data__transfer__direction_gae1e6aa2722beb09b5be7140205244986}\label{group__DMA__data__transfer__direction_gae1e6aa2722beb09b5be7140205244986} 
+\#define {\bfseries DMA\+\_\+\+DIR\+\_\+\+Memory\+To\+Peripheral}~((uint32\+\_\+t)0x00000040)
+\item 
+\Hypertarget{group__DMA__data__transfer__direction_gafb7d5b786f2fb56a903936cdc6d5e89a}\label{group__DMA__data__transfer__direction_gafb7d5b786f2fb56a903936cdc6d5e89a} 
+\#define {\bfseries DMA\+\_\+\+DIR\+\_\+\+Memory\+To\+Memory}~((uint32\+\_\+t)0x00000080)
+\item 
+\#define \mbox{\hyperlink{group__DMA__data__transfer__direction_gae2b02e8e823854bcd7c5746cdd29e70d}{IS\+\_\+\+DMA\+\_\+\+DIRECTION}}(DIRECTION)
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsubsubsection{Detailed Description}
+
+
+\doxysubsubsubsubsection{Macro Definition Documentation}
+\Hypertarget{group__DMA__data__transfer__direction_gae2b02e8e823854bcd7c5746cdd29e70d}\label{group__DMA__data__transfer__direction_gae2b02e8e823854bcd7c5746cdd29e70d} 
+\index{DMA\_data\_transfer\_direction@{DMA\_data\_transfer\_direction}!IS\_DMA\_DIRECTION@{IS\_DMA\_DIRECTION}}
+\index{IS\_DMA\_DIRECTION@{IS\_DMA\_DIRECTION}!DMA\_data\_transfer\_direction@{DMA\_data\_transfer\_direction}}
+\doxysubsubsubsubsubsection{\texorpdfstring{IS\_DMA\_DIRECTION}{IS\_DMA\_DIRECTION}}
+{\footnotesize\ttfamily \#define IS\+\_\+\+DMA\+\_\+\+DIRECTION(\begin{DoxyParamCaption}\item[{}]{DIRECTION }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (((DIRECTION)\ ==\ DMA\_DIR\_PeripheralToMemory\ )\ ||\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((DIRECTION)\ ==\ DMA\_DIR\_MemoryToPeripheral)\ \ ||\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((DIRECTION)\ ==\ DMA\_DIR\_MemoryToMemory))}
+
+\end{DoxyCode}

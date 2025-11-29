@@ -35,34 +35,44 @@ void USART2_BUFFER()
 
 void Buffer_to_struct(char *buffer, uint8_t idx)
 {
-    char *new_tempBuffer = realloc(tempBuffer, idx + 1); // Maak buffer dynamic
+    char *new_tempBuffer = realloc(tempBuffer, idx + 1);
     tempBuffer = new_tempBuffer;
 
-    uint8_t j = 0; // Tel-variabele voor tempBuffer
+    uint8_t j = 0; // Teller voor de tempBuffer
+    uint8_t word_started = 0; // Om te weten of we binnen een woord zitten
 
-    // Loop daar de voledige buffer
+    // Loop door de buffer heen
     for(uint8_t i = 0; i < idx; i++)
     {
-    	if(buffer[i] == ' ') // Sla spaties over
-    		continue;
-
-        if(buffer[i] == ',') // Wanneer een komma gevonden is
+    	// Als er een komma gevonden is of het einde van de string is bereikt
+        if(buffer[i] == ',' || i == idx - 1)
         {
-            tempBuffer[j] = '\0'; // Sluit de opgeslagen string af
+            // Voeg laatste karakter toe als buffer eindigt zonder komma
+            if (i == idx - 1 && buffer[i] != ',')
+            {
+                tempBuffer[j++] = buffer[i];
+            }
+
+            // Skip spaties
+            while(j > 0 && tempBuffer[j - 1] == ' ')
+                j--;
+
+            tempBuffer[j] = '\0';
             USART2_SendString(tempBuffer);
             USART2_SendString("\r\n");
-            j = -1; // Start op -1 zodat de gevonden komma overgeslagen wordt
+
+            j = 0;
+            word_started = 0;
+            continue;
         }
 
-        tempBuffer[j++] = buffer[i]; // Schrijf karakter uit buffer naar tempBuffer
-    }
+        // Skip spaties
+        if(!word_started && buffer[i] == ' ')
+            continue;
 
-    // Check voor het laatste woord in de string, deze heeft namelijk geen komma
-    if(j > 0)
-    {
-        tempBuffer[j] = '\0';
-        USART2_SendString(tempBuffer);
-        USART2_SendString("\r\n");
+        // We zijn nu in een woord, ook spaties binnen woorden meenemen
+        word_started = 1;
+        tempBuffer[j++] = buffer[i];
     }
 }
 

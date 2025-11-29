@@ -1,5 +1,5 @@
 /** \mainpage
- * VGA project gijs piotr en luuk
+ * VGA project gijs piotr en luuk.
 */
 
 #ifndef GLOBAL_H 

@@ -1,5 +1,3 @@
-#include "logic_layer.h"
-
 void USART2_BUFFER();
 char USART2_ReceiveChar();
 void USART2_SendString();

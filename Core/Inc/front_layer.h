@@ -7,3 +7,4 @@ void USART2_SendChar(char c);
 void USART2_Init();
 void Buffer_to_struct(cmd_var);
 char* take_word(take_index);
+int take_int(take_index);

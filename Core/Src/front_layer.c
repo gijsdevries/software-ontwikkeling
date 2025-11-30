@@ -23,7 +23,7 @@ void USART2_BUFFER()
     if (UART_karakter == '\n') {
         buffer[idx] = '\0';
 
-        Buffer_to_struct(TEXT);
+        Buffer_to_struct(CLEARSCHERM);
 
         idx = 0;
 
@@ -36,145 +36,92 @@ void USART2_BUFFER()
 
 void Buffer_to_struct(int cmd_val)
 {
-	char* argument = NULL;
-	uint8_t take_index = 0;
+    char* argument = NULL;
+    uint8_t take_index = 0;
 
-	argument = take_word(&take_index);
-	free(argument);
+    take_int(&take_index);
 
     switch (cmd_val)
     {
-		case LIJN:
-		{
-			line_struct lijn;
+        case LIJN:
+        {
+            line_struct lijn;
 
-			argument = take_word(&take_index);
-			lijn.x_1 = atoi(argument);
-			free(argument);
+            lijn.x_1 = take_int(&take_index);
+            lijn.y_1 = take_int(&take_index);
+            lijn.x_2 = take_int(&take_index);
+            lijn.y_2 = take_int(&take_index);
+            lijn.color = take_int(&take_index);
+            lijn.weight = take_int(&take_index);
 
-			argument = take_word(&take_index);
-			lijn.y_1 = atoi(argument);
-			free(argument);
+            //LOGIC LAYER FUNCTIE
+        }
+        break;
 
-			argument = take_word(&take_index);
-			lijn.x_2 = atoi(argument);
-			free(argument);
+        case RECHTHOEK:
+        {
+            rectangle_struct rechthoek;
 
-			argument = take_word(&take_index);
-			lijn.y_2 = atoi(argument);
-			free(argument);
+            rechthoek.x = take_int(&take_index);
+            rechthoek.y = take_int(&take_index);
+            rechthoek.width = take_int(&take_index);
+            rechthoek.height = take_int(&take_index);
+            rechthoek.color = take_int(&take_index);
+            rechthoek.filled = take_int(&take_index);
 
-			argument = take_word(&take_index);
-			lijn.color = atoi(argument);
-			free(argument);
+            //LOGIC LAYER FUNCTIE
+        }
+        break;
 
-			argument = take_word(&take_index);
-			lijn.weight = atoi(argument);
-			free(argument);
+        case TEXT:
+        {
+            text_struct text;
 
-			//FUNCTIE LOGIC LAYER
-		}
-		break;
+            text.x_lup = take_int(&take_index);
+            text.y_lup = take_int(&take_index);
+            text.color = take_int(&take_index);
+            text.text = take_word(&take_index);
+            text.fontname = take_word(&take_index);
+            text.fontsize = take_int(&take_index);
+            text.fontstyle = take_int(&take_index);
 
-		case RECHTHOEK:
-		{
-			rectangle_struct rechthoek;
+            //LOGIC LAYER FUNCTIE
 
-			argument = take_word(&take_index);
-			rechthoek.x = atoi(argument);
-			free(argument);
+            free(text.text);
+            free(text.fontname);
+        }
+        break;
 
-			argument = take_word(&take_index);
-			rechthoek.y = atoi(argument);
-			free(argument);
+        case BITMAP:
+        {
+            bitmap_struct bitmap;
 
-			argument = take_word(&take_index);
-			rechthoek.width = atoi(argument);
-			free(argument);
+            bitmap.x_lup = take_int(&take_index);
+            bitmap.y_lup = take_int(&take_index);
+            bitmap.bm_nr = take_int(&take_index);
 
-			argument = take_word(&take_index);
-			rechthoek.height = atoi(argument);
-			free(argument);
+            //LOGIC LAYER FUNCTIE
+        }
+        break;
 
-			argument = take_word(&take_index);
-			rechthoek.color = atoi(argument);
-			free(argument);
+        case CLEARSCHERM:
+        {
+            clearscreen_struct clearscherm;
 
-			argument = take_word(&take_index);
-			rechthoek.filled = atoi(argument);
-			free(argument);
+            clearscherm.color = take_int(&take_index);
 
-			//FUNCTIE LOGIC LAYER
-		}
-		break;
-
-		case TEXT:
-		{
-			text_struct text;
-
-			argument = take_word(&take_index);
-			text.x_lup = atoi(argument);
-			free(argument);
-
-			argument = take_word(&take_index);
-			text.y_lup = atoi(argument);
-			free(argument);
-
-			argument = take_word(&take_index);
-			text.color = atoi(argument);
-			free(argument);
-
-			text.text = take_word(&take_index);
-
-			text.fontname = take_word(&take_index);
-
-
-			argument = take_word(&take_index);
-			text.fontsize = atoi(argument);
-			free(argument);
-
-			argument = take_word(&take_index);
-			text.fontstyle = atoi(argument);
-			free(argument);
-
-			//FUCNTIE LOGIC LAYER
-
-			free(text.fontname);
-			free(text.text);
-		}
-		break;
-
-		case BITMAP:
-		{
-			bitmap_struct bitmap;
-
-			argument = take_word(&take_index);
-			bitmap.x_lup = atoi(argument);
-			free(argument);
-
-			argument = take_word(&take_index);
-			bitmap.y_lup = atoi(argument);
-			free(argument);
-
-			argument = take_word(&take_index);
-			bitmap.bm_nr = atoi(argument);
-			free(argument);
-
-			//FUCNTIE LOGIC LAYER
-		}
-		break;
-
-		case CLEARSCHERM:
-		{
-			clearscreen_struct clearscherm;
-
-			argument = take_word(&take_index);
-			clearscherm.color = atoi(argument);
-			free(argument);
-
-			//FUCNTIE LOGIC LAYER
-		}
+            //LOGIC LAYER FUNCTIE
+        }
+        break;
     }
+}
+
+int take_int(uint8_t *take_index)
+{
+	char* argument = take_word(take_index);
+	int int_argument = atoi(argument);
+	free(argument);
+	return int_argument;
 }
 
 char* take_word(uint8_t *take_index)

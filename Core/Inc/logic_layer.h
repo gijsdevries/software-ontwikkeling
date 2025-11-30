@@ -47,7 +47,7 @@ typedef struct {
 /**
  * @brief writes a color to VGA screen. 
  *
- * This functions writes a predefined color to the entire VGA screen   
+ * This functions writes a predefined color to the entire VGA screen. 
  *
  * @param a clearscreen_struct.
  */

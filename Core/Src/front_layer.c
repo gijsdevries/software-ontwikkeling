@@ -23,7 +23,7 @@ void USART2_BUFFER()
     if (UART_karakter == '\n') {
         buffer[idx] = '\0';
 
-        Buffer_to_struct(2);
+        Buffer_to_struct(3);
 
         idx = 0;
 
@@ -77,14 +77,7 @@ void Buffer_to_struct(int cmd_val)
 			lijn.weight = atoi(argument);
 			free(argument);
 
-            char buffer[200];
-            snprintf(buffer, sizeof(buffer),
-                     "x_1=%d, y_1=%d, x_2=%d, y_2=%d, color=%d, weight=%d",
-                     lijn.x_1, lijn.y_1, lijn.x_2,
-                     lijn.y_2, lijn.color, lijn.weight);
-
-            USART2_SendString(buffer);
-            USART2_SendString("\r\n");
+			//FUNCTIE LOGIC LAYER
 		}
 		break;
 
@@ -149,6 +142,32 @@ void Buffer_to_struct(int cmd_val)
             free(text.text);
             free(text.fontname);
 		}
+
+		case BITMAP:
+		{
+			argument = take_word(&take_index);
+			bitmap.x_lup = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			bitmap.y_lup = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			bitmap.bm_nr = atoi(argument);
+			free(argument);
+
+            char buffer[200];
+            snprintf(buffer, sizeof(buffer),
+                     "x_lup=%d, y_lup=%d, bm_nr=%d",
+                     bitmap.x_lup, bitmap.y_lup, bitmap.bm_nr);
+
+            USART2_SendString(buffer);
+            USART2_SendString("\r\n");
+		}
+		break;
+
+
     }
 }
 

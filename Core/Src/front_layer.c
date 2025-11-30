@@ -23,7 +23,7 @@ void USART2_BUFFER()
     if (UART_karakter == '\n') {
         buffer[idx] = '\0';
 
-        Buffer_to_struct(3);
+        Buffer_to_struct(TEXT);
 
         idx = 0;
 
@@ -36,15 +36,8 @@ void USART2_BUFFER()
 
 void Buffer_to_struct(int cmd_val)
 {
+	char* argument = NULL;
 	uint8_t take_index = 0;
-
-	line_struct lijn;
-	rectangle_struct rechthoek;
-	text_struct text;
-	bitmap_struct bitmap;
-	clearscreen_struct clearscherm;
-
-	char* argument;
 
 	argument = take_word(&take_index);
 	free(argument);
@@ -53,6 +46,8 @@ void Buffer_to_struct(int cmd_val)
     {
 		case LIJN:
 		{
+			line_struct lijn;
+
 			argument = take_word(&take_index);
 			lijn.x_1 = atoi(argument);
 			free(argument);
@@ -83,6 +78,8 @@ void Buffer_to_struct(int cmd_val)
 
 		case RECHTHOEK:
 		{
+			rectangle_struct rechthoek;
+
 			argument = take_word(&take_index);
 			rechthoek.x = atoi(argument);
 			free(argument);
@@ -113,6 +110,8 @@ void Buffer_to_struct(int cmd_val)
 
 		case TEXT:
 		{
+			text_struct text;
+
 			argument = take_word(&take_index);
 			text.x_lup = atoi(argument);
 			free(argument);
@@ -129,6 +128,7 @@ void Buffer_to_struct(int cmd_val)
 
 			text.fontname = take_word(&take_index);
 
+
 			argument = take_word(&take_index);
 			text.fontsize = atoi(argument);
 			free(argument);
@@ -139,12 +139,15 @@ void Buffer_to_struct(int cmd_val)
 
 			//FUCNTIE LOGIC LAYER
 
-            free(text.text);
-            free(text.fontname);
+			free(text.fontname);
+			free(text.text);
 		}
+		break;
 
 		case BITMAP:
 		{
+			bitmap_struct bitmap;
+
 			argument = take_word(&take_index);
 			bitmap.x_lup = atoi(argument);
 			free(argument);
@@ -157,17 +160,20 @@ void Buffer_to_struct(int cmd_val)
 			bitmap.bm_nr = atoi(argument);
 			free(argument);
 
-            char buffer[200];
-            snprintf(buffer, sizeof(buffer),
-                     "x_lup=%d, y_lup=%d, bm_nr=%d",
-                     bitmap.x_lup, bitmap.y_lup, bitmap.bm_nr);
-
-            USART2_SendString(buffer);
-            USART2_SendString("\r\n");
+			//FUCNTIE LOGIC LAYER
 		}
 		break;
 
+		case CLEARSCHERM:
+		{
+			clearscreen_struct clearscherm;
 
+			argument = take_word(&take_index);
+			clearscherm.color = atoi(argument);
+			free(argument);
+
+			//FUCNTIE LOGIC LAYER
+		}
     }
 }
 

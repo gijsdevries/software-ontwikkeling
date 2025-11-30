@@ -23,7 +23,7 @@ void USART2_BUFFER()
     if (UART_karakter == '\n') {
         buffer[idx] = '\0';
 
-        Buffer_to_struct(1);
+        Buffer_to_struct(2);
 
         idx = 0;
 
@@ -40,8 +40,12 @@ void Buffer_to_struct(int cmd_val)
 
 	line_struct lijn;
 	rectangle_struct rechthoek;
+	text_struct text;
+	bitmap_struct bitmap;
+	clearscreen_struct clearscherm;
 
 	char* argument;
+
 	argument = take_word(&take_index);
 	free(argument);
 
@@ -110,15 +114,41 @@ void Buffer_to_struct(int cmd_val)
 			rechthoek.filled = atoi(argument);
 			free(argument);
 
-            char buffer[200];
-            snprintf(buffer, sizeof(buffer),
-                     "x=%d, y=%d, width=%d, height=%d, color=%d, filled=%d",
-                     rechthoek.x, rechthoek.y, rechthoek.width,
-                     rechthoek.height, rechthoek.color, rechthoek.filled);
-            USART2_SendString(buffer);
-            USART2_SendString("\r\n");
+			//FUNCTIE LOGIC LAYER
 		}
 		break;
+
+		case TEXT:
+		{
+			argument = take_word(&take_index);
+			text.x_lup = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			text.y_lup = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			text.color = atoi(argument);
+			free(argument);
+
+			text.text = take_word(&take_index);
+
+			text.fontname = take_word(&take_index);
+
+			argument = take_word(&take_index);
+			text.fontsize = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			text.fontstyle = atoi(argument);
+			free(argument);
+
+			//FUCNTIE LOGIC LAYER
+
+            free(text.text);
+            free(text.fontname);
+		}
     }
 }
 

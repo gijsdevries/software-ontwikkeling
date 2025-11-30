@@ -1,6 +1,12 @@
 #ifndef LOGIC_LAYER_H 
 #define LOGIC_LAYER_H
 
+#define LIJN 0
+#define RECHTHOEK 1
+#define TEXT 2
+#define BITMAP 3
+#define CLEARSCHERM 4
+
 //structs per msg type
 typedef struct {
   int x_lup;

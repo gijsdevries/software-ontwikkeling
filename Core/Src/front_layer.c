@@ -1,5 +1,6 @@
 #include "stm32f4xx.h"
 #include "front_layer.h"
+#include "logic_layer.h"
 #include <string.h>
 
 char *buffer = NULL;   // Dynamische buffer
@@ -22,7 +23,7 @@ void USART2_BUFFER()
     if (UART_karakter == '\n') {
         buffer[idx] = '\0';
 
-        Buffer_to_struct(0);
+        Buffer_to_struct(1);
 
         idx = 0;
 
@@ -33,32 +34,107 @@ void USART2_BUFFER()
     }
 }
 
-void Buffer_to_struct(void)
+void Buffer_to_struct(int cmd_val)
 {
-    char* argument;
+	uint8_t take_index = 0;
 
-    while ((argument = take_word()) != NULL)
+	line_struct lijn;
+	rectangle_struct rechthoek;
+
+	char* argument;
+	argument = take_word(&take_index);
+	free(argument);
+
+    switch (cmd_val)
     {
-        USART2_SendString(argument);
-        USART2_SendString("\r\n");
+		case LIJN:
+		{
+			argument = take_word(&take_index);
+			lijn.x_1 = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			lijn.y_1 = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			lijn.x_2 = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			lijn.y_2 = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			lijn.color = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			lijn.weight = atoi(argument);
+			free(argument);
+
+            char buffer[200];
+            snprintf(buffer, sizeof(buffer),
+                     "x_1=%d, y_1=%d, x_2=%d, y_2=%d, color=%d, weight=%d",
+                     lijn.x_1, lijn.y_1, lijn.x_2,
+                     lijn.y_2, lijn.color, lijn.weight);
+
+            USART2_SendString(buffer);
+            USART2_SendString("\r\n");
+		}
+		break;
+
+		case RECHTHOEK:
+		{
+			argument = take_word(&take_index);
+			rechthoek.x = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			rechthoek.y = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			rechthoek.width = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			rechthoek.height = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			rechthoek.color = atoi(argument);
+			free(argument);
+
+			argument = take_word(&take_index);
+			rechthoek.filled = atoi(argument);
+			free(argument);
+
+            char buffer[200];
+            snprintf(buffer, sizeof(buffer),
+                     "x=%d, y=%d, width=%d, height=%d, color=%d, filled=%d",
+                     rechthoek.x, rechthoek.y, rechthoek.width,
+                     rechthoek.height, rechthoek.color, rechthoek.filled);
+            USART2_SendString(buffer);
+            USART2_SendString("\r\n");
+		}
+		break;
     }
 }
 
-
-char* take_word(void)
+char* take_word(uint8_t *take_index)
 {
-    static uint8_t i = 0;
-    if (i >= idx) return NULL; // Ga terug als de volledige zin al is uitgelezen
+    if (*take_index >= idx) return NULL; // Ga terug als de volledige zin al is uitgelezen
 
-    while (i < idx && buffer[i] == ' ') // Skip de spaties vóór het woord
-        i++;
+    while (*take_index < idx && buffer[*take_index] == ' ') // Skip de spaties vóór het woord
+        (*take_index)++;
 
-    uint8_t start = i;
+    uint8_t start = *take_index;
     uint8_t len = 0;
 
-    while (i < idx && buffer[i] != ',') // Onthoud startlocatie woord en zoek eindlocatie
+    while (*take_index < idx && buffer[*take_index] != ',') // Onthoud startlocatie woord en zoek eindlocatie
     {
-        i++;
+        (*take_index)++;
         len++;
     }
 
@@ -72,7 +148,7 @@ char* take_word(void)
         word[j] = buffer[start + j];
     word[len] = '\0'; // Sluit het woord af
 
-    if (i < idx && buffer[i] == ',') i++; // Skip de volgende komma zodat die niet in het volgende woord wordt meegenomen
+    if (*take_index < idx && buffer[*take_index] == ',') (*take_index)++; // Skip de volgende komma zodat die niet in het volgende woord wordt meegenomen
 
     return word;
 }

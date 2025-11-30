@@ -36,14 +36,13 @@ void USART2_BUFFER()
 
 void Buffer_to_struct(int cmd_val)
 {
-    char* argument = NULL;
-    uint8_t take_index = 0;
+    uint8_t take_index = 0; // Take_index zodat de plek in de buffer makkelijk gereset kan worden
 
-    take_int(&take_index);
+    take_int(&take_index); // Skip het eerste woord
 
-    switch (cmd_val)
+    switch (cmd_val) // Vul juiste struct en start juiste functie op basis van de in X functie (Piotr) gevonden commando
     {
-        case LIJN:
+        case LIJN: // Vul lijn struct en roep lijn functie aan
         {
             line_struct lijn;
 
@@ -58,7 +57,7 @@ void Buffer_to_struct(int cmd_val)
         }
         break;
 
-        case RECHTHOEK:
+        case RECHTHOEK: // Vul rechthoek struct en roep rechthoek functie aan
         {
             rectangle_struct rechthoek;
 
@@ -73,26 +72,27 @@ void Buffer_to_struct(int cmd_val)
         }
         break;
 
-        case TEXT:
+        case TEXT: // Vul text struct en roep text functie aan
         {
             text_struct text;
 
             text.x_lup = take_int(&take_index);
             text.y_lup = take_int(&take_index);
             text.color = take_int(&take_index);
-            text.text = take_word(&take_index);
-            text.fontname = take_word(&take_index);
+            text.text = take_word(&take_index); // Bij het pakken van een string gebruik primaire commando, deze moet na alle logica weer vrij gegeven worden
+            text.fontname = take_word(&take_index); // Zelfde hier
             text.fontsize = take_int(&take_index);
             text.fontstyle = take_int(&take_index);
 
             //LOGIC LAYER FUNCTIE
 
+            // Geef geheugen vrij
             free(text.text);
             free(text.fontname);
         }
         break;
 
-        case BITMAP:
+        case BITMAP: // Vul bitmap struct en roep bitmap functie aan
         {
             bitmap_struct bitmap;
 
@@ -104,7 +104,7 @@ void Buffer_to_struct(int cmd_val)
         }
         break;
 
-        case CLEARSCHERM:
+        case CLEARSCHERM: // Vul clearscherm struct en roep clearscherm functie aan
         {
             clearscreen_struct clearscherm;
 
@@ -118,10 +118,11 @@ void Buffer_to_struct(int cmd_val)
 
 int take_int(uint8_t *take_index)
 {
-	char* argument = take_word(take_index);
-	int int_argument = atoi(argument);
-	free(argument);
-	return int_argument;
+	char* argument = take_word(take_index); // Pak het woord uit de buffer
+	int int_argument = atoi(argument); // Converteer woord naar int
+	free(argument); // Geef geheugen vrij
+
+	return int_argument; // Geef int terug
 }
 
 char* take_word(uint8_t *take_index)

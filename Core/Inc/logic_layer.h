@@ -1,6 +1,8 @@
 #ifndef LOGIC_LAYER_H 
 #define LOGIC_LAYER_H
 
+#include <stdint.h>
+
 //structs per msg type
 typedef struct {
   int x_lup;
@@ -42,5 +44,6 @@ typedef struct {
 
 //function prototypes
 void clearScreenToVGA(clearscreen_struct CS_struct);
+int letterToVGA(int x_lup, int y_lup, int color, uint8_t bitmap[5][5], int font_size);
 
 #endif

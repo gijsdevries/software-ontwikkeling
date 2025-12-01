@@ -18,6 +18,14 @@
 #include "logic_layer.h"
 #include "global.h"
 
+uint8_t letter[5][5] = {
+    {0,1,1,1,0},
+    {1,0,0,0,1},
+    {1,1,1,1,1},
+    {1,0,0,0,1},
+    {1,0,0,0,1}
+};
+
 int main(void)
 {
   SystemInit(); // System speed to 168MHz
@@ -28,7 +36,7 @@ int main(void)
   clearScreenStruct.color = VGA_COL_LIGHT_MAGENTA;
 
   clearScreenToVGA(clearScreenStruct);
-
+  letterToVGA(60, 50, VGA_COL_GREEN, letter, 5);
   while(1)
   {
 

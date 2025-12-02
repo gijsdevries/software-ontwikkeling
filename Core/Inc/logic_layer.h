@@ -2,6 +2,7 @@
 #define LOGIC_LAYER_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 //structs per msg type
 typedef struct {
@@ -46,6 +47,7 @@ typedef struct {
 void clearScreenToVGA(clearscreen_struct CS_struct);
 void rectangleToVGA(rectangle_struct rectangleStruct);
 void lineToVGA(line_struct lineStruct);
+int letterToVGA(int x_lup, int y_lup, int color, uint8_t bitmap[5][5], int font_size);
 
 const bool lc_a[5][5] = {
   {0, 1, 1, 0, 0},

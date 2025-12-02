@@ -34,7 +34,7 @@ void USART2_BUFFER()
     }
 }
 
-void Buffer_to_struct(int cmd_val)
+void Buffer_to_struct(char cmd_val)
 {
     uint8_t take_index = 0; // Take_index zodat de plek in de buffer makkelijk gereset kan worden
 

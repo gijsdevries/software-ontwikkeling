@@ -8,6 +8,7 @@ void USART2_Init();
 void USART2_BUFFER();
 void Buffer_Check();
 void Argument_counter();
+void Clearscherm_check();
 
 //Define waardes van de fucnties
 #define LIJN 0

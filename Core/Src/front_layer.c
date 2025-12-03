@@ -109,10 +109,11 @@ void Buffer_to_struct(char cmd_val)
         case CLEARSCHERM: // Vul clearscherm struct en roep clearscherm functie aan
         {
             clearscreen_struct clearscherm;
-
             clearscherm.color = take_color(&take_index);
 
+
             //LOGIC LAYER FUNCTIE
+            Clearscherm_check(&clearscherm);
         }
         break;
     }
@@ -168,35 +169,45 @@ int take_int(uint8_t *take_index)
 
 char* take_word(uint8_t *take_index)
 {
-    if (*take_index >= idx) return NULL; // Ga terug als de volledige zin al is uitgelezen
+    if (*take_index >= idx) return NULL; // Alles al gelezen
 
-    while (*take_index < idx && buffer[*take_index] == ' ') // Skip de spaties vóór het woord
+    // Skip spaties voor het woord
+    while (*take_index < idx && buffer[*take_index] == ' ')
         (*take_index)++;
 
     uint8_t start = *take_index;
     uint8_t len = 0;
 
-    while (*take_index < idx && buffer[*take_index] != ',') // Onthoud startlocatie woord en zoek eindlocatie
+    // Zoek het einde van het woord (komma of einde buffer)
+    while (*take_index < idx && buffer[*take_index] != ',')
     {
         (*take_index)++;
         len++;
     }
 
-    while (len > 0 && buffer[start + len - 1] == ' ') // Kort eindlocatie in om eindspaties te negeren
+    // Trim spaties, newline (\n) en carriage return (\r) van het einde
+    while (len > 0 &&
+           (buffer[start + len - 1] == ' ' ||
+            buffer[start + len - 1] == '\n' ||
+            buffer[start + len - 1] == '\r'))
+    {
         len--;
+    }
 
-    char* word = malloc(len + 1); // Maak word even groot als nodig (dynamic)
-    if (!word) return NULL; // Ga terug als word geen lengte heeft
+    // Allocate geheugen voor het woord
+    char* word = malloc(len + 1);
+    if (!word) return NULL;
 
-    for (uint8_t j = 0; j < len; j++) // Vul word nu met het gevonden woord op basis van de eerder gevonden lengte
+    for (uint8_t j = 0; j < len; j++)
         word[j] = buffer[start + j];
-    word[len] = '\0'; // Sluit het woord af
 
-    if (*take_index < idx && buffer[*take_index] == ',') (*take_index)++; // Skip de volgende komma zodat die niet in het volgende woord wordt meegenomen
+    word[len] = '\0'; // Sluit af
+
+    // Skip de komma als die er is
+    if (*take_index < idx && buffer[*take_index] == ',') (*take_index)++;
 
     return word;
 }
-
 
 void Buffer_Check()
 {
@@ -211,6 +222,7 @@ void Buffer_Check()
             //USART2_SendChar(cmd_var);
             //USART2_SendChar('\n');
             Argument_counter();
+            Buffer_to_struct(cmd_var);
 
             return;
         }
@@ -219,6 +231,16 @@ void Buffer_Check()
     USART2_SendString("ERROR: Onbekend commando\n");
     USART2_SendString("Herzie het het woord voor de eerste komma\n");
 
+}
+
+void Clearscherm_check(clearscreen_struct *clearscherm)
+{
+	USART2_SendString("clearscreen_struct { color = ");
+	if ((clearscherm -> color) == VGA_COL_BLACK)
+	{
+		USART2_SendString("ZWARTEEEEEE2!!!!");
+		USART2_SendString("\n");
+	}
 }
 
 void Argument_counter()

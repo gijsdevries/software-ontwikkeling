@@ -24,9 +24,8 @@ void USART2_BUFFER()
     if (UART_karakter == '\n') {
         buffer[idx] = '\0';
 
-        //USART2_SendString(buffer);
         Buffer_Check();
-        Buffer_to_struct(RECHTHOEK);
+        //Buffer_to_struct(RECHTHOEK);
 
         idx = 0;
 
@@ -202,22 +201,57 @@ char* take_word(uint8_t *take_index)
 void Buffer_Check()
 {
 	char cmd_var;
+
     for (int i = 0; i < NUM_COMMANDS; i++) //Controleert hoeveel commando's erin de define staan
     {
     	//Is er een match in het eerste woord van de commando en de define code
         if (strncmp(buffer, commands[i].name, strlen(commands[i].name)) == 0)
         {
         	cmd_var = commands[i].code;
-            USART2_SendChar(cmd_var);
-            USART2_SendChar('\n');
+            //USART2_SendChar(cmd_var);
+            //USART2_SendChar('\n');
+            Argument_counter();
+
             return;
         }
     }
 
     USART2_SendString("ERROR: Onbekend commando\n");
     USART2_SendString("Herzie het het woord voor de eerste komma\n");
+
 }
 
+void Argument_counter()
+{
+	int8_t idx_check = 0;
+	char argAmount = 0;
+
+	    // 1. Skip het commando woord ("lijn")
+		take_int(&idx_check);
+	    // 2. Parse parameters op basis van buffer
+		char *arg[6];
+	    arg[0] = take_word(&idx_check);
+	    arg[1] = take_word(&idx_check);
+	    arg[2] = take_word(&idx_check);
+	    arg[3] = take_word(&idx_check);
+	    arg[4] = take_word(&idx_check);
+	    arg[5] = take_word(&idx_check);
+
+	    // buffer wordt hier gebruikt:
+	    // buffer = "lijn,100,200,300"
+
+	    // Doe nu checks
+	    for(char argNum = 0; argNum < 6; argNum++)
+	    {
+	    	if (arg[argNum] != NULL)
+	    	{
+	    		argAmount++;
+	    	}
+	    	free(arg[argNum]);
+	    }
+
+		return argAmount;
+}
 
 void USART2_Init(void) {
     // Enable clocks

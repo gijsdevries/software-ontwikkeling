@@ -7,6 +7,7 @@ void USART2_Init();
 //Prototypes voor buffer
 void USART2_BUFFER();
 void Buffer_Check();
+void Argument_counter();
 
 //Define waardes van de fucnties
 #define LIJN 0
@@ -36,3 +37,6 @@ void Buffer_to_struct(char cmd_var);
 char* take_word(uint8_t *take_index);
 int take_int(uint8_t *take_index);
 int take_color(uint8_t *take_index);
+
+#define X_AS_MAX 240
+#define Y_AS_MAX 320

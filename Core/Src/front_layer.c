@@ -1,6 +1,7 @@
 #include "stm32f4xx.h"
 #include "front_layer.h"
 #include "logic_layer.h"
+#include "stm32_ub_vga_screen.h"
 #include <string.h>
 
 char *buffer = NULL;   // Dynamische buffer
@@ -127,11 +128,39 @@ void Buffer_to_struct(char cmd_val)
 int take_color(uint8_t *take_index)
 {
 	char* color_arg = take_word(take_index);
+	//If-tree voor het bepalen van kleurwaardes
 	if (strcmp(color_arg, "zwart") == 0)
-	{
-		USART2_SendString("EH ZWARTE!!!!");
-		USART2_SendString("\r\n");
-	}
+		return VGA_COL_BLACK;
+	if (strcmp(color_arg, "blauw") == 0)
+		return VGA_COL_BLUE;
+	if (strcmp(color_arg, "groen") == 0)
+		return VGA_COL_GREEN;
+	if (strcmp(color_arg, "rood") == 0)
+		return VGA_COL_RED;
+	if (strcmp(color_arg, "wit") == 0)
+		return VGA_COL_WHITE;
+
+	if (strcmp(color_arg, "cyaan") == 0)
+		return VGA_COL_CYAN;
+	if (strcmp(color_arg, "magenta") == 0)
+		return VGA_COL_MAGENTA;
+	if (strcmp(color_arg, "geel") == 0)
+		return VGA_COL_YELLOW;
+
+	if (strcmp(color_arg, "lichtblauw") == 0)
+		return VGA_COL_LIGHT_BLUE;
+	if (strcmp(color_arg, "lichtgroen") == 0)
+		return VGA_COL_LIGHT_GREEN;
+	if (strcmp(color_arg, "lichtcyaan") == 0)
+		return VGA_COL_LIGHT_CYAN;
+	if (strcmp(color_arg, "lichtrood") == 0)
+		return VGA_COL_LIGHT_RED;
+	if (strcmp(color_arg, "lichtmagenta") == 0)
+		return VGA_COL_LIGHT_MAGENTA;
+	if (strcmp(color_arg, "bruin") == 0)
+		return VGA_COL_BROWN;
+	if (strcmp(color_arg, "grijs") == 0)
+		return VGA_COL_GREY;
 }
 
 

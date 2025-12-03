@@ -23,7 +23,7 @@ void USART2_BUFFER()
     if (UART_karakter == '\n') {
         buffer[idx] = '\0';
 
-        Buffer_to_struct(CLEARSCHERM);
+        Buffer_to_struct(RECHTHOEK);
 
         idx = 0;
 
@@ -65,10 +65,18 @@ void Buffer_to_struct(char cmd_val)
             rechthoek.y = take_int(&take_index);
             rechthoek.width = take_int(&take_index);
             rechthoek.height = take_int(&take_index);
-            rechthoek.color = take_int(&take_index);
+            rechthoek.color = take_color(&take_index);
             rechthoek.filled = take_int(&take_index);
 
             //LOGIC LAYER FUNCTIE
+
+            char buffer[200];
+			snprintf(buffer, sizeof(buffer),
+					 "RECHTHOEK -> x=%d, y=%d, width=%d, height=%d, color=%d, filled=%d",
+					 rechthoek.x, rechthoek.y, rechthoek.width,
+					 rechthoek.height, rechthoek.color, rechthoek.filled);
+			USART2_SendString(buffer);
+			USART2_SendString("\r\n");
         }
         break;
 
@@ -115,6 +123,17 @@ void Buffer_to_struct(char cmd_val)
         break;
     }
 }
+
+int take_color(uint8_t *take_index)
+{
+	char* color_arg = take_word(take_index);
+	if (strcmp(color_arg, "zwart") == 0)
+	{
+		USART2_SendString("EH ZWARTE!!!!");
+		USART2_SendString("\r\n");
+	}
+}
+
 
 int take_int(uint8_t *take_index)
 {

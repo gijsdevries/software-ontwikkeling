@@ -6,3 +6,4 @@ void USART2_Init();
 void Buffer_to_struct(char cmd_var);
 char* take_word(uint8_t *take_index);
 int take_int(uint8_t *take_index);
+int take_color(uint8_t *take_index);

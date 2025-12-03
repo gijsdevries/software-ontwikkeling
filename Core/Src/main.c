@@ -33,10 +33,10 @@ int main(void)
   UB_VGA_FillScreen(VGA_COL_CYAN);
 
   clearscreen_struct clearScreenStruct;
-  clearScreenStruct.color = VGA_COL_LIGHT_MAGENTA;
+  clearScreenStruct.color = VGA_COL_BLACK;
 
   clearScreenToVGA(clearScreenStruct);
-  letterToVGA(60, 50, VGA_COL_GREEN, letter, 5);
+  letterToVGA(60, 50, VGA_COL_WHITE, letter, 5);
   while(1)
   {
 

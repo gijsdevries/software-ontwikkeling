@@ -68,7 +68,8 @@ void lineToVGA(line_struct lineStruct) {
       y1 += sy;
     }
   }
-  
+}
+
 int letterToVGA(int x_lup, int y_lup, int color, uint8_t bitmap[5][5], int font_size)
 {
     for (int y = 0; y < font_size; y++) // Loop door alle y coördinaten heen

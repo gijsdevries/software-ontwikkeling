@@ -1,7 +1,7 @@
 /.settings
-.settings
-.settings/
 
 /Debug
-Debug
-Debug/
+
+/Doxygen/latex
+/Doxygen/html
+!/Doxygen/html/index.html

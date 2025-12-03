@@ -51,7 +51,7 @@ void Buffer_to_struct(char cmd_val)
             lijn.y_1 = take_int(&take_index);
             lijn.x_2 = take_int(&take_index);
             lijn.y_2 = take_int(&take_index);
-            lijn.color = take_int(&take_index);
+            lijn.color = take_color(&take_index);
             lijn.weight = take_int(&take_index);
 
             //LOGIC LAYER FUNCTIE
@@ -70,14 +70,6 @@ void Buffer_to_struct(char cmd_val)
             rechthoek.filled = take_int(&take_index);
 
             //LOGIC LAYER FUNCTIE
-
-            char buffer[200];
-			snprintf(buffer, sizeof(buffer),
-					 "RECHTHOEK -> x=%d, y=%d, width=%d, height=%d, color=%d, filled=%d",
-					 rechthoek.x, rechthoek.y, rechthoek.width,
-					 rechthoek.height, rechthoek.color, rechthoek.filled);
-			USART2_SendString(buffer);
-			USART2_SendString("\r\n");
         }
         break;
 
@@ -87,7 +79,7 @@ void Buffer_to_struct(char cmd_val)
 
             text.x_lup = take_int(&take_index);
             text.y_lup = take_int(&take_index);
-            text.color = take_int(&take_index);
+            text.color = take_color(&take_index);
             text.text = take_word(&take_index); // Bij het pakken van een string gebruik primaire commando, deze moet na alle logica weer vrij gegeven worden
             text.fontname = take_word(&take_index); // Zelfde hier
             text.fontsize = take_int(&take_index);
@@ -117,7 +109,7 @@ void Buffer_to_struct(char cmd_val)
         {
             clearscreen_struct clearscherm;
 
-            clearscherm.color = take_int(&take_index);
+            clearscherm.color = take_color(&take_index);
 
             //LOGIC LAYER FUNCTIE
         }

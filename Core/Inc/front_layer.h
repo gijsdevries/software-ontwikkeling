@@ -32,3 +32,7 @@ static Eerste_woord commands[] = {
 
 //Berekend de waarde van het aantal commando's
 #define NUM_COMMANDS (sizeof(commands)/sizeof(commands[0]))
+void Buffer_to_struct(char cmd_var);
+char* take_word(uint8_t *take_index);
+int take_int(uint8_t *take_index);
+int take_color(uint8_t *take_index);

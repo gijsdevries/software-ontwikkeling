@@ -111,9 +111,11 @@ void Buffer_to_struct(char cmd_val)
             clearscreen_struct clearscherm;
             clearscherm.color = take_color(&take_index);
 
+            if (clearscherm.color == NULL)
+            	return;
 
             //LOGIC LAYER FUNCTIE
-            Clearscherm_check(&clearscherm);
+            clearScreenToVGA(clearscherm);
         }
         break;
     }
@@ -155,6 +157,9 @@ int take_color(uint8_t *take_index)
 		return VGA_COL_BROWN;
 	if (strcmp(color_arg, "grijs") == 0)
 		return VGA_COL_GREY;
+
+	USART2_SendString("De kleur die ingevuld is bestaat niet\n");
+	return NULL;
 }
 
 
@@ -231,39 +236,6 @@ void Buffer_Check()
     USART2_SendString("ERROR: Onbekend commando\n");
     USART2_SendString("Herzie het het woord voor de eerste komma\n");
 
-}
-
-void Clearscherm_check(clearscreen_struct *clearscherm)
-{
-	clearscreen_struct clearScreenStruct;
-	clearScreenStruct.color = clearscherm->color;
-
-	clearScreenToVGA(clearScreenStruct);
-
-    if (clearscherm->color == VGA_COL_BLACK)
-    {
-        USART2_SendString("clearscreen_struct { color = ZWART! }\n");
-    }
-    else if (clearscherm->color == VGA_COL_BLUE)
-    {
-        USART2_SendString("clearscreen_struct { color = BLAUWE! }\n");
-    }
-    else if (clearscherm->color == VGA_COL_GREEN)
-    {
-        USART2_SendString("clearscreen_struct { color = GROEN! }\n");
-    }
-    else if (clearscherm->color == VGA_COL_RED)
-    {
-        USART2_SendString("clearscreen_struct { color = ROOD! }\n");
-    }
-    else if (clearscherm->color == VGA_COL_WHITE)
-    {
-        USART2_SendString("clearscreen_struct { color = WIT! }\n");
-    }
-    else
-    {
-        USART2_SendString("De kleur die ingevuld is bestaat niet\n");
-    }
 }
 
 void Lijn_check(line_struct *lijn)

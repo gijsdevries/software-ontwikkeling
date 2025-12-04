@@ -1,3 +1,8 @@
+#ifndef FRONT_LAYER_H
+#define FRONT_LAYER_H
+
+#include <global.h>
+
 //Prototypes voor UART
 char USART2_ReceiveChar();
 void USART2_SendString();
@@ -9,13 +14,6 @@ void USART2_BUFFER();
 void Buffer_Check();
 void Argument_counter();
 void Clearscherm_check();
-
-//Define waardes van de fucnties
-#define LIJN 0
-#define RECHTHOEK 1
-#define TEKST 2
-#define BITMAP 3
-#define CLEARSCHERM 4
 
 //De naam van het eerste woorde koppelen aan de define code
 typedef struct {
@@ -39,3 +37,5 @@ char* take_word(uint8_t *take_index);
 int take_int(uint8_t *take_index);
 int take_color(uint8_t *take_index);
 static uint8_t check_coord(int val, int max_val, const char* argument_name);
+
+#endif

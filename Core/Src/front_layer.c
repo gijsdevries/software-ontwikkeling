@@ -40,8 +40,10 @@ void Buffer_to_struct(char cmd_val)
 {
     uint8_t take_index = 0; // Take_index zodat de plek in de buffer makkelijk gereset kan worden
     char errors = 0;
+    char arg_diff = 0;
 
     take_int(&take_index); // Skip het eerste woord
+    char argAmount = Argument_counter();
 
     switch (cmd_val) // Vul juiste struct en start juiste functie op basis van de in X functie (Piotr) gevonden commando
     {
@@ -49,6 +51,20 @@ void Buffer_to_struct(char cmd_val)
         {
             line_struct lijn;
 
+            if(argAmount > LIJN_ARGS)
+            {
+            	arg_diff = argAmount - LIJN_ARGS;
+				USART2_SendChar(arg_diff);
+            	USART2_SendString(" argument(en) te veel. \n");
+            	return;
+            }
+            if(argAmount < LIJN_ARGS)
+            {
+            	arg_diff = LIJN_ARGS - argAmount;
+				USART2_SendChar(arg_diff);
+            	USART2_SendString(" argument(en) te weinig. \n");
+            	return;
+            }
             lijn.x_1 = take_int(&take_index);
             errors += check_coord(lijn.x_1, VGA_DISPLAY_X, "X_1");
 
@@ -271,7 +287,6 @@ void Buffer_Check()
         	cmd_var = commands[i].code;
             //USART2_SendChar(cmd_var);
             //USART2_SendChar('\n');
-            Argument_counter();
             Buffer_to_struct(cmd_var);
 
             return;
@@ -293,7 +308,7 @@ static uint8_t check_coord(int val, int max_val, const char* argument_name) {
 }
 
 
-void Argument_counter()
+char Argument_counter()
 {
 	int8_t idx_check = 0;
 	char argAmount = 0;
@@ -301,19 +316,20 @@ void Argument_counter()
 	    // 1. Skip het commando woord ("lijn")
 		take_int(&idx_check);
 	    // 2. Parse parameters op basis van buffer
-		char *arg[6];
+		char *arg[7];
 	    arg[0] = take_word(&idx_check);
 	    arg[1] = take_word(&idx_check);
 	    arg[2] = take_word(&idx_check);
 	    arg[3] = take_word(&idx_check);
 	    arg[4] = take_word(&idx_check);
 	    arg[5] = take_word(&idx_check);
+	    arg[6] = take_word(&idx_check);
 
 	    // buffer wordt hier gebruikt:
 	    // buffer = "lijn,100,200,300"
 
 	    // Doe nu checks
-	    for(char argNum = 0; argNum < 6; argNum++)
+	    for(char argNum = 0; argNum < 7; argNum++)
 	    {
 	    	if (arg[argNum] != NULL)
 	    	{

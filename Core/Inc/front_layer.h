@@ -7,15 +7,21 @@ void USART2_Init();
 //Prototypes voor buffer
 void USART2_BUFFER();
 void Buffer_Check();
-void Argument_counter();
+char Argument_counter();
 void Clearscherm_check();
 
-//Define waardes van de fucnties
+//Define waardes van de functies
 #define LIJN 0
 #define RECHTHOEK 1
 #define TEKST 2
 #define BITMAP 3
 #define CLEARSCHERM 4
+
+#define LIJN_ARGS 6
+#define RECHTHOEK_ARGS 6
+#define TEKST_ARGS 7
+#define BITMAP_ARGS 3
+#define CLEARSCHERM_ARGS 1
 
 //De naam van het eerste woorde koppelen aan de define code
 typedef struct {

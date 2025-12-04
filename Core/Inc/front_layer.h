@@ -15,7 +15,7 @@ void Buffer_Check();
 char Argument_counter();
 void Clearscherm_check();
 
-#define MAX_ARG 6
+#define MAX_ARG 7
 char Argument_checker(char Argument_goal);
 
 #define LIJN_ARGS 6

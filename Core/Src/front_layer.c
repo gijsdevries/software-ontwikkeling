@@ -39,7 +39,7 @@ void USART2_BUFFER()
 void Buffer_to_struct(char cmd_val)
 {
     uint8_t take_index = 0; // Take_index zodat de plek in de buffer makkelijk gereset kan worden
-    char check_var = 0;
+    char errors = 0;
 
     take_int(&take_index); // Skip het eerste woord
 
@@ -50,43 +50,32 @@ void Buffer_to_struct(char cmd_val)
             line_struct lijn;
 
             lijn.x_1 = take_int(&take_index);
-            	if((lijn.x_1 > VGA_DISPLAY_X) | (lijn.x_1 < 0))
-            	{
-            		USART2_SendString("X_1 coordinaat out of range\n");
-            		check_var++;
-            	}
-            lijn.y_1 = take_int(&take_index);
-				if((lijn.y_1 > VGA_DISPLAY_Y) | (lijn.y_1 < 0))
-				{
-					USART2_SendString("Y_1 coordinaat out of range\n");
-					check_var++;
-				}
-            lijn.x_2 = take_int(&take_index);
-				if((lijn.x_2 > VGA_DISPLAY_X) | (lijn.x_2 < 0))
-				{
-					USART2_SendString("X_2 coordinaat out of range\n");
-					check_var++;
-				}
-            lijn.y_2 = take_int(&take_index);
-        	if((lijn.y_2 > VGA_DISPLAY_Y) | (lijn.y_2 < 0))
-				{
-					USART2_SendString("Y_2 coordinaat out of range\n");
-					check_var++;
-				}
-            lijn.color = take_color(&take_index);
-				if (lijn.color == -1)
-					check_var++;
-            lijn.weight = take_int(&take_index);
+            errors += check_coord(lijn.x_1, VGA_DISPLAY_X, "X_1");
 
-            if(check_var > 0)
+            lijn.y_1 = take_int(&take_index);
+            errors += check_coord(lijn.y_1, VGA_DISPLAY_Y, "Y_1");
+
+            lijn.x_2 = take_int(&take_index);
+            errors += check_coord(lijn.x_2, VGA_DISPLAY_X, "X_2");
+
+            lijn.y_2 = take_int(&take_index);
+            errors += check_coord(lijn.y_2, VGA_DISPLAY_Y, "Y_2");
+
+            lijn.color = take_color(&take_index);
+			if (lijn.color == -1) errors++;
+
+            lijn.weight = take_int(&take_index); // ERROR HANDLING IN LOGIC LAYER
+
+            if(errors > 0)
             {
             	USART2_SendString("Totaal aantal errors: ");
-            	USART2_SendChar(check_var);
+            	USART2_SendChar(errors);
             	USART2_SendString("\n");
+
+            	return;
             }
 
             lineToVGA(lijn);
-            //LOGIC LAYER FUNCTIE
         }
         break;
 
@@ -269,10 +258,15 @@ void Buffer_Check()
 
 }
 
-void Lijn_check(line_struct *lijn)
-{
-
+static uint8_t check_coord(int val, int max_val, const char* argument_name) {
+    if (val < 0 || val > max_val) {
+        USART2_SendString(argument_name);
+        USART2_SendString(" coordinaat out of range\n");
+        return 1;
+    }
+    return 0;
 }
+
 
 void Argument_counter()
 {

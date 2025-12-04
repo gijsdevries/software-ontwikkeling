@@ -38,3 +38,4 @@ void Buffer_to_struct(char cmd_var);
 char* take_word(uint8_t *take_index);
 int take_int(uint8_t *take_index);
 int take_color(uint8_t *take_index);
+static uint8_t check_coord(int val, int max_val, const char* argument_name);

@@ -235,12 +235,40 @@ void Buffer_Check()
 
 void Clearscherm_check(clearscreen_struct *clearscherm)
 {
-	USART2_SendString("clearscreen_struct { color = ");
-	if ((clearscherm -> color) == VGA_COL_BLACK)
-	{
-		USART2_SendString("ZWARTEEEEEE2!!!!");
-		USART2_SendString("\n");
-	}
+	clearscreen_struct clearScreenStruct;
+	clearScreenStruct.color = clearscherm->color;
+
+	clearScreenToVGA(clearScreenStruct);
+
+    if (clearscherm->color == VGA_COL_BLACK)
+    {
+        USART2_SendString("clearscreen_struct { color = ZWART! }\n");
+    }
+    else if (clearscherm->color == VGA_COL_BLUE)
+    {
+        USART2_SendString("clearscreen_struct { color = BLAUWE! }\n");
+    }
+    else if (clearscherm->color == VGA_COL_GREEN)
+    {
+        USART2_SendString("clearscreen_struct { color = GROEN! }\n");
+    }
+    else if (clearscherm->color == VGA_COL_RED)
+    {
+        USART2_SendString("clearscreen_struct { color = ROOD! }\n");
+    }
+    else if (clearscherm->color == VGA_COL_WHITE)
+    {
+        USART2_SendString("clearscreen_struct { color = WIT! }\n");
+    }
+    else
+    {
+        USART2_SendString("De kleur die ingevuld is bestaat niet\n");
+    }
+}
+
+void Lijn_check(line_struct *lijn)
+{
+
 }
 
 void Argument_counter()

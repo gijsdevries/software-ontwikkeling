@@ -25,7 +25,6 @@ void USART2_BUFFER()
         buffer[idx] = '\0';
 
         Buffer_Check();
-        //Buffer_to_struct(RECHTHOEK);
 
         idx = 0;
 
@@ -279,7 +278,7 @@ void Buffer_Check()
     }
 
     USART2_SendString("ERROR: Onbekend commando\n");
-    USART2_SendString("Herzie het het woord voor de eerste komma\n");
+    USART2_SendString("Herzie het woord voor de eerste komma\n");
 
 }
 
@@ -301,19 +300,13 @@ void Argument_counter()
     // 1. Skip het commando woord ("lijn")
     take_int(&idx_check);
     // 2. Parse parameters op basis van buffer
-    char *arg[6];
-    arg[0] = take_word(&idx_check);
-    arg[1] = take_word(&idx_check);
-    arg[2] = take_word(&idx_check);
-    arg[3] = take_word(&idx_check);
-    arg[4] = take_word(&idx_check);
-    arg[5] = take_word(&idx_check);
+    char *arg[MAX_ARG];
 
-    // buffer wordt hier gebruikt:
-    // buffer = "lijn,100,200,300"
-
+    for (char argCounter = 0; argCounter < MAX_ARG; argCounter++)
+        arg[argCounter] = take_word(&idx_check);
+    
     // Doe nu checks
-    for(char argNum = 0; argNum < 6; argNum++)
+    for(char argNum = 0; argNum < MAX_ARG; argNum++)
     {
         if (arg[argNum] != NULL)
         {

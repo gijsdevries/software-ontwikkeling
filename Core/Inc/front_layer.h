@@ -15,6 +15,8 @@ void Buffer_Check();
 void Argument_counter();
 void Clearscherm_check();
 
+#define MAX_ARG 6
+
 //De naam van het eerste woorde koppelen aan de define code
 typedef struct {
     const char *name;

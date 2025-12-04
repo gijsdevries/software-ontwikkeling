@@ -3,34 +3,38 @@
 
 #include <global.h>
 
-//Prototypes voor UART
-char USART2_ReceiveChar();
-void USART2_SendString();
-void USART2_SendChar(char c);
-void USART2_Init();
-
-//Prototypes voor buffer
-void USART2_BUFFER();
+// Prototypes voor parsing en checking
 void Buffer_Check();
-char Argument_counter();
-void Clearscherm_check();
-
-#define MAX_ARG 7
+void Buffer_to_struct(char cmd_var);
 char Argument_checker(char Argument_goal);
+char Argument_counter();
+int take_int(uint8_t *take_index);
+char* take_word(uint8_t *take_index);
+int take_color(uint8_t *take_index);
+static uint8_t check_coord(int val, int max_val, const char* argument_name);
 
+// Prototypes voor UART
+void USART2_Init();
+char USART2_ReceiveChar();
+void USART2_BUFFER();
+void USART2_SendChar(char c);
+void USART2_SendString();
+
+// Argument defines
+#define MAX_ARG 7
 #define LIJN_ARGS 6
 #define RECHTHOEK_ARGS 6
 #define TEKST_ARGS 7
 #define BITMAP_ARGS 3
 #define CLEARSCHERM_ARGS 1
 
-//De naam van het eerste woorde koppelen aan de define code
+//De functienaam koppelen aan de define code
 typedef struct {
     const char *name;
     char code;
 } Eerste_woord;
 
-//Alle mogelijke eerste woorden in het commando
+// Aantal commando types
 static Eerste_woord commands[] = {
     {"lijn",        LIJN},
     {"rechthoek",   RECHTHOEK},
@@ -39,12 +43,8 @@ static Eerste_woord commands[] = {
     {"clearscherm", CLEARSCHERM}
 };
 
-//Berekend de waarde van het aantal commando's
+// Bereken aantal commando's
 #define NUM_COMMANDS (sizeof(commands)/sizeof(commands[0]))
-void Buffer_to_struct(char cmd_var);
-char* take_word(uint8_t *take_index);
-int take_int(uint8_t *take_index);
-int take_color(uint8_t *take_index);
-static uint8_t check_coord(int val, int max_val, const char* argument_name);
+
 
 #endif

@@ -82,6 +82,7 @@ void Buffer_to_struct(char cmd_val)
             {
             	USART2_SendString("Totaal aantal errors: ");
             	USART2_SendChar(check_var);
+            	USART2_SendString("\n");
             }
 
             lineToVGA(lijn);

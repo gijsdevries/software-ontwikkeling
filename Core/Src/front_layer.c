@@ -327,6 +327,7 @@ static uint8_t check_coord(int val, int max_val, const char* argument_name) {
     return 0;
 }
 
+
 // UART ontvang en zend functies
 void USART2_Init(void) {
     // Enable clocks

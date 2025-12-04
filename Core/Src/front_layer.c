@@ -40,10 +40,10 @@ void Buffer_to_struct(char cmd_val)
 {
     uint8_t take_index = 0; // Take_index zodat de plek in de buffer makkelijk gereset kan worden
     char errors = 0;
-    char arg_diff = 0;
+    char arg_diff;
 
     take_int(&take_index); // Skip het eerste woord
-    char argAmount = Argument_counter();
+
 
     switch (cmd_val) // Vul juiste struct en start juiste functie op basis van de in X functie (Piotr) gevonden commando
     {
@@ -51,20 +51,9 @@ void Buffer_to_struct(char cmd_val)
         {
             line_struct lijn;
 
-            if(argAmount > LIJN_ARGS)
-            {
-            	arg_diff = argAmount - LIJN_ARGS;
-				USART2_SendChar(arg_diff);
-            	USART2_SendString(" argument(en) te veel. \n");
-            	return;
-            }
-            if(argAmount < LIJN_ARGS)
-            {
-            	arg_diff = LIJN_ARGS - argAmount;
-				USART2_SendChar(arg_diff);
-            	USART2_SendString(" argument(en) te weinig. \n");
-            	return;
-            }
+            arg_diff = Argument_checker(LIJN_ARGS);
+            if (arg_diff != 0)return;
+
             lijn.x_1 = take_int(&take_index);
             errors += check_coord(lijn.x_1, VGA_DISPLAY_X, "X_1");
 
@@ -98,6 +87,9 @@ void Buffer_to_struct(char cmd_val)
         case RECHTHOEK: // Vul rechthoek struct en roep rechthoek functie aan
         {
             rectangle_struct rechthoek;
+
+            arg_diff = Argument_checker(RECHTHOEK_ARGS);
+			if (arg_diff != 0)return;
 
             rechthoek.x = take_int(&take_index);
             errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
@@ -139,6 +131,9 @@ void Buffer_to_struct(char cmd_val)
         {
             text_struct text;
 
+            arg_diff = Argument_checker(TEKST_ARGS);
+			if (arg_diff != 0)return;
+
             text.x_lup = take_int(&take_index);
             text.y_lup = take_int(&take_index);
             text.color = take_color(&take_index);
@@ -159,6 +154,9 @@ void Buffer_to_struct(char cmd_val)
         {
             bitmap_struct bitmap;
 
+            arg_diff = Argument_checker(BITMAP_ARGS);
+			if (arg_diff != 0)return;
+
             bitmap.x_lup = take_int(&take_index);
             bitmap.y_lup = take_int(&take_index);
             bitmap.bm_nr = take_int(&take_index);
@@ -170,6 +168,10 @@ void Buffer_to_struct(char cmd_val)
         case CLEARSCHERM: // Vul clearscherm struct en roep clearscherm functie aan
         {
             clearscreen_struct clearscherm;
+
+            arg_diff = Argument_checker(CLEARSCHERM_ARGS);
+			if (arg_diff != 0)return;
+
             clearscherm.color = take_color(&take_index);
 
             if (clearscherm.color == -1)
@@ -181,6 +183,29 @@ void Buffer_to_struct(char cmd_val)
         break;
     }
 }
+
+char Argument_checker(char Argument_goal)
+{
+	char argAmount = Argument_counter();
+	char arg_diff = 0;
+
+	if(argAmount > Argument_goal)
+	{
+		arg_diff = argAmount - Argument_goal;
+		USART2_SendChar(arg_diff);
+		USART2_SendString(" argument(en) te veel. \n");
+	}
+ 	if(argAmount < Argument_goal)
+	{
+		arg_diff = Argument_goal - argAmount;
+		USART2_SendChar(arg_diff);
+		USART2_SendString(" argument(en) te weinig. \n");
+	}
+
+ 	return arg_diff;
+}
+
+
 
 int take_color(uint8_t *take_index)
 {

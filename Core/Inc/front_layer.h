@@ -10,6 +10,8 @@ void Buffer_Check();
 char Argument_counter();
 void Clearscherm_check();
 
+char Argument_checker(char Argument_goal);
+
 //Define waardes van de functies
 #define LIJN 0
 #define RECHTHOEK 1

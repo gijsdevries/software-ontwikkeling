@@ -84,11 +84,35 @@ void Buffer_to_struct(char cmd_val)
             rectangle_struct rechthoek;
 
             rechthoek.x = take_int(&take_index);
+            errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
+
             rechthoek.y = take_int(&take_index);
+            errors += check_coord(rechthoek.y, VGA_DISPLAY_Y, "Y");
+
             rechthoek.width = take_int(&take_index);
+            errors += check_coord((rechthoek.x + rechthoek.width), VGA_DISPLAY_X, "Breedte");
+
             rechthoek.height = take_int(&take_index);
+            errors += check_coord((rechthoek.y + rechthoek.height), VGA_DISPLAY_Y, "Hoogte");
+
             rechthoek.color = take_color(&take_index);
+            if (rechthoek.color == -1) errors++;
+
             rechthoek.filled = take_int(&take_index);
+            if ((rechthoek.filled != 0) && (rechthoek.filled != 1))
+			{
+				errors++;
+				USART2_SendString("Opvulling kan alleen 0 of 1 zijn \n");
+			}
+
+            if(errors > 0)
+            {
+            	USART2_SendString("Totaal aantal errors: ");
+            	USART2_SendChar(errors);
+            	USART2_SendString("\n");
+
+            	return;
+            }
 
             //LOGIC LAYER FUNCTIE
             rectangleToVGA(rechthoek);

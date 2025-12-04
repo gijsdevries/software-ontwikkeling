@@ -91,6 +91,7 @@ void Buffer_to_struct(char cmd_val)
             rechthoek.filled = take_int(&take_index);
 
             //LOGIC LAYER FUNCTIE
+            rectangleToVGA(rechthoek);
         }
         break;
 

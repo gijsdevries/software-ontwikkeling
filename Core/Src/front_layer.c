@@ -39,6 +39,7 @@ void USART2_BUFFER()
 void Buffer_to_struct(char cmd_val)
 {
     uint8_t take_index = 0; // Take_index zodat de plek in de buffer makkelijk gereset kan worden
+    char check_var = 0;
 
     take_int(&take_index); // Skip het eerste woord
 
@@ -52,30 +53,36 @@ void Buffer_to_struct(char cmd_val)
             	if((lijn.x_1 > VGA_DISPLAY_X) | (lijn.x_1 < 0))
             	{
             		USART2_SendString("X_1 coordinaat out of range\n");
-            		return;
+            		check_var++;
             	}
             lijn.y_1 = take_int(&take_index);
 				if((lijn.y_1 > VGA_DISPLAY_Y) | (lijn.y_1 < 0))
 				{
 					USART2_SendString("Y_1 coordinaat out of range\n");
-					return;
+					check_var++;
 				}
             lijn.x_2 = take_int(&take_index);
 				if((lijn.x_2 > VGA_DISPLAY_X) | (lijn.x_2 < 0))
 				{
 					USART2_SendString("X_2 coordinaat out of range\n");
-					return;
+					check_var++;
 				}
             lijn.y_2 = take_int(&take_index);
         	if((lijn.y_2 > VGA_DISPLAY_Y) | (lijn.y_2 < 0))
 				{
 					USART2_SendString("Y_2 coordinaat out of range\n");
-					return;
+					check_var++;
 				}
             lijn.color = take_color(&take_index);
 				if (lijn.color == -1)
-					return;
+					check_var++;
             lijn.weight = take_int(&take_index);
+
+            if(check_var > 0)
+            {
+            	USART2_SendString("Totaal aantal errors: ");
+            	USART2_SendChar(check_var);
+            }
 
             lineToVGA(lijn);
             //LOGIC LAYER FUNCTIE

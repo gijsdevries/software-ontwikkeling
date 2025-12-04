@@ -49,12 +49,35 @@ void Buffer_to_struct(char cmd_val)
             line_struct lijn;
 
             lijn.x_1 = take_int(&take_index);
+            	if((lijn.x_1 > VGA_DISPLAY_X) | (lijn.x_1 < 0))
+            	{
+            		USART2_SendString("X_1 coordinaat out of range\n");
+            		return;
+            	}
             lijn.y_1 = take_int(&take_index);
+				if((lijn.y_1 > VGA_DISPLAY_Y) | (lijn.y_1 < 0))
+				{
+					USART2_SendString("Y_1 coordinaat out of range\n");
+					return;
+				}
             lijn.x_2 = take_int(&take_index);
+				if((lijn.x_2 > VGA_DISPLAY_X) | (lijn.x_2 < 0))
+				{
+					USART2_SendString("X_2 coordinaat out of range\n");
+					return;
+				}
             lijn.y_2 = take_int(&take_index);
+        	if((lijn.y_2 > VGA_DISPLAY_Y) | (lijn.y_2 < 0))
+				{
+					USART2_SendString("Y_2 coordinaat out of range\n");
+					return;
+				}
             lijn.color = take_color(&take_index);
+				if (lijn.color == -1)
+					return;
             lijn.weight = take_int(&take_index);
 
+            lineToVGA(lijn);
             //LOGIC LAYER FUNCTIE
         }
         break;
@@ -111,7 +134,7 @@ void Buffer_to_struct(char cmd_val)
             clearscreen_struct clearscherm;
             clearscherm.color = take_color(&take_index);
 
-            if (clearscherm.color == NULL)
+            if (clearscherm.color == -1)
             	return;
 
             //LOGIC LAYER FUNCTIE
@@ -159,7 +182,7 @@ int take_color(uint8_t *take_index)
 		return VGA_COL_GREY;
 
 	USART2_SendString("De kleur die ingevuld is bestaat niet\n");
-	return NULL;
+	return -1;
 }
 
 

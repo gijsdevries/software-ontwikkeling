@@ -12,10 +12,17 @@ void USART2_Init();
 //Prototypes voor buffer
 void USART2_BUFFER();
 void Buffer_Check();
-void Argument_counter();
+char Argument_counter();
 void Clearscherm_check();
 
 #define MAX_ARG 6
+char Argument_checker(char Argument_goal);
+
+#define LIJN_ARGS 6
+#define RECHTHOEK_ARGS 6
+#define TEKST_ARGS 7
+#define BITMAP_ARGS 3
+#define CLEARSCHERM_ARGS 1
 
 //De naam van het eerste woorde koppelen aan de define code
 typedef struct {

@@ -39,8 +39,10 @@ void Buffer_to_struct(char cmd_val)
 {
     uint8_t take_index = 0; // Take_index zodat de plek in de buffer makkelijk gereset kan worden
     char errors = 0;
+    char arg_diff;
 
     take_int(&take_index); // Skip het eerste woord
+
 
     switch (cmd_val) // Vul juiste struct en start juiste functie op basis van de in X functie (Piotr) gevonden commando
     {
@@ -48,8 +50,11 @@ void Buffer_to_struct(char cmd_val)
             {
                 line_struct lijn;
 
-                lijn.x_1 = take_int(&take_index);
-                errors += check_coord(lijn.x_1, VGA_DISPLAY_X, "X_1");
+            arg_diff = Argument_checker(LIJN_ARGS);
+            if (arg_diff != 0)return;
+
+            lijn.x_1 = take_int(&take_index);
+            errors += check_coord(lijn.x_1, VGA_DISPLAY_X, "X_1");
 
                 lijn.y_1 = take_int(&take_index);
                 errors += check_coord(lijn.y_1, VGA_DISPLAY_Y, "Y_1");
@@ -82,8 +87,11 @@ void Buffer_to_struct(char cmd_val)
             {
                 rectangle_struct rechthoek;
 
-                rechthoek.x = take_int(&take_index);
-                errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
+            arg_diff = Argument_checker(RECHTHOEK_ARGS);
+			if (arg_diff != 0)return;
+
+            rechthoek.x = take_int(&take_index);
+            errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
 
                 rechthoek.y = take_int(&take_index);
                 errors += check_coord(rechthoek.y, VGA_DISPLAY_Y, "Y");
@@ -122,13 +130,16 @@ void Buffer_to_struct(char cmd_val)
             {
                 text_struct text;
 
-                text.x_lup = take_int(&take_index);
-                text.y_lup = take_int(&take_index);
-                text.color = take_color(&take_index);
-                text.text = take_word(&take_index); // Bij het pakken van een string gebruik primaire commando, deze moet na alle logica weer vrij gegeven worden
-                text.fontname = take_word(&take_index); // Zelfde hier
-                text.fontsize = take_int(&take_index);
-                text.fontstyle = take_int(&take_index);
+            arg_diff = Argument_checker(TEKST_ARGS);
+			if (arg_diff != 0)return;
+
+            text.x_lup = take_int(&take_index);
+            text.y_lup = take_int(&take_index);
+            text.color = take_color(&take_index);
+            text.text = take_word(&take_index); // Bij het pakken van een string gebruik primaire commando, deze moet na alle logica weer vrij gegeven worden
+            text.fontname = take_word(&take_index); // Zelfde hier
+            text.fontsize = take_int(&take_index);
+            text.fontstyle = take_int(&take_index);
 
                 //LOGIC LAYER FUNCTIE TODO
 
@@ -142,18 +153,25 @@ void Buffer_to_struct(char cmd_val)
             {
                 bitmap_struct bitmap;
 
-                bitmap.x_lup = take_int(&take_index);
-                bitmap.y_lup = take_int(&take_index);
-                bitmap.bm_nr = take_int(&take_index);
+            arg_diff = Argument_checker(BITMAP_ARGS);
+			if (arg_diff != 0)return;
+
+            bitmap.x_lup = take_int(&take_index);
+            bitmap.y_lup = take_int(&take_index);
+            bitmap.bm_nr = take_int(&take_index);
 
                 //LOGIC LAYER FUNCTIE TODO
             }
             break;
 
         case CLEARSCHERM: // Vul clearscherm struct en roep clearscherm functie aan
-            {
-                clearscreen_struct clearscherm;
-                clearscherm.color = take_color(&take_index);
+        {
+            clearscreen_struct clearscherm;
+
+            arg_diff = Argument_checker(CLEARSCHERM_ARGS);
+			if (arg_diff != 0)return;
+
+            clearscherm.color = take_color(&take_index);
 
                 if (clearscherm.color == -1)
                     return;
@@ -164,6 +182,29 @@ void Buffer_to_struct(char cmd_val)
             break;
     }
 }
+
+char Argument_checker(char Argument_goal)
+{
+	char argAmount = Argument_counter();
+	char arg_diff = 0;
+
+	if(argAmount > Argument_goal)
+	{
+		arg_diff = argAmount - Argument_goal;
+		USART2_SendChar(arg_diff);
+		USART2_SendString(" argument(en) te veel. \n");
+	}
+ 	if(argAmount < Argument_goal)
+	{
+		arg_diff = Argument_goal - argAmount;
+		USART2_SendChar(arg_diff);
+		USART2_SendString(" argument(en) te weinig. \n");
+	}
+
+ 	return arg_diff;
+}
+
+
 
 int take_color(uint8_t *take_index)
 {
@@ -270,7 +311,6 @@ void Buffer_Check()
             cmd_var = commands[i].code;
             //USART2_SendChar(cmd_var);
             //USART2_SendChar('\n');
-            Argument_counter();
             Buffer_to_struct(cmd_var);
 
             return;
@@ -292,7 +332,7 @@ static uint8_t check_coord(int val, int max_val, const char* argument_name) {
 }
 
 
-void Argument_counter()
+char Argument_counter()
 {
     int8_t idx_check = 0;
     char argAmount = 0;

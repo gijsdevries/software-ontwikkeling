@@ -16,7 +16,7 @@ typedef struct {
   char *text;
   char *fontname;
   int fontsize;
-  int fontstyle;
+  char *fontstyle;
 } text_struct;
 
 typedef struct {

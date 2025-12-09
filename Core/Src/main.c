@@ -1,4 +1,5 @@
-/*#include "main.h"
+#include "main.h"
+/*
 #include "stm32_ub_vga_screen.h"
 #include <math.h>
 #include "front_layer.h"
@@ -12,40 +13,135 @@
 #include "stm32_ub_vga_screen.h"
 #include "global.h"
 #include "string.h"
+#include "bitmap_defines.h"
 
-//TODO
-void getBitmap(text_struct textStruct) {
+enum FONTNAMES {
+  ARIAL,
+  CONSOLAS
+};
 
-  if (!strcmp(textStruct.fontname, "arial"))
-      printf("fontname arial\n");
-  else if (!strcmp(textStruct.fontname, "consolas"))
-    printf("fontname consolas\n");
+enum FONTSTYLE {
+  NORMAAL,
+  VET,
+  CURSIEF
+};
+
+enum FONTGROOTTE {
+  GROOT,
+  KLEIN
+};
+
+typedef struct {
+  int FONTNAAM;
+  int FONTSTIJL;
+  int FONTGROOTTE;
+} textInfo;
+
+textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
+
+  textInfo textInfo;
+
+  if (!strcmp(fontname, "arial"))
+    textInfo.FONTNAAM = ARIAL; 
+  else if (!strcmp(fontname, "consolas"))
+    textInfo.FONTNAAM = CONSOLAS;
+  else //struct is already error handled, so it should never be -1
+    textInfo.FONTNAAM = -1; 
+
+  if (!strcmp(fontstyle, "normaal"))
+    textInfo.FONTSTIJL = NORMAAL; 
+  else if (!strcmp(fontstyle, "vet"))
+    textInfo.FONTSTIJL = VET;
+  else if (!strcmp(fontstyle, "cursief"))
+    textInfo.FONTSTIJL = CURSIEF;
+  else //struct is already error handled, so it should never be -1
+    textInfo.FONTSTIJL= -1;
+
+  if (fontsize == 1)
+    textInfo.FONTGROOTTE = KLEIN;
+  else if (fontsize == 2)
+    textInfo.FONTGROOTTE = GROOT;
   else
-    printf("unknown cmd\n");
+    textInfo.FONTGROOTTE = -1;
 
-/*
-  switch (textStruct.fontname) {
-    case "arial":
-      printf("arials");
+  return textInfo;
+}
+
+const char (*gitSmallBitmap(textInfo textInfo, char letter))[5] {
+  /*
+  switch (textInfo.FONTGROOTTE) {
+    case KLEIN:
+      break;
+    case GROOT:
       break;
     default:
-      printf("no arial");
       break;
   }
- */ 
+  */
+
+  switch (textInfo.FONTSTIJL) {
+    case NORMAAL:
+      switch (textInfo.FONTNAAM) {
+        case ARIAL:
+          if (letter == 'a')
+            return lc_a;
+          if (letter == 'b')
+            return lc_b;
+          if (letter == 'c')
+            return lc_c;
+          break;
+        case CONSOLAS:
+        default:
+          break;
+      }
+      break;
+    case VET:
+      switch (textInfo.FONTNAAM) {
+        case ARIAL:
+        case CONSOLAS:
+        default:
+          break;
+      }
+      break;
+    case CURSIEF:
+      switch (textInfo.FONTNAAM) {
+        case ARIAL:
+        case CONSOLAS:
+        default:
+          break;
+      }
+      break;
+    default:
+      break;
+  }
+  return NULL;
 }
+
 
 void textToVGA(text_struct textStruct)
 {
-  char sizeOfText = 0;
+  size_t sizeOfText = strlen(textStruct.text);
 
-  for(sizeOfText = 0; sizeOfText < 255; sizeOfText++) {
-    if (textStruct.text[sizeOfText] == 0)
-      break;
+  textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
+
+  printf("size of string: %zu\n", sizeOfText);
+
+  if (textInfo.FONTGROOTTE == KLEIN) {
+    int x = 5;
+    int y = 1;
+    for (char i = 0; i < sizeOfText; i++) {
+      const char (*psmall_bitmap)[5] = gitSmallBitmap(textInfo, textStruct.text[i]);
+      if (psmall_bitmap != NULL) {
+        printf("drawing bitmap now....\n");
+        letterToVGA(x, y, textStruct.color, (uint8_t(*)[5])psmall_bitmap, 5);
+      }
+    }
+  }
+  else {
+    //TODO
   }
 
-  printf("size of string: %d\n", sizeOfText);
-  getBitmap(textStruct);
+
 }
 
 int main(void)
@@ -54,10 +150,10 @@ int main(void)
     .x_lup = 10,
     .y_lup = 20,
     .color = VGA_COL_WHITE,
-    .text = "hallo daar",
-    .fontname = "consolas",
-    .fontsize = 12,
-    .fontstyle = 2
+    .text = "aabbccabc",
+    .fontname = "arial",
+    .fontsize = 1,
+    .fontstyle = "normaal"
   };
 
   textToVGA(textStruct);

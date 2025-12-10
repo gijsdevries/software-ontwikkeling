@@ -157,6 +157,7 @@ void Buffer_to_struct(char cmd_val)
             bitmap.bm_nr = take_int(&take_index);
 
                 //LOGIC LAYER FUNCTIE TODO
+            bitmapToVGA(bitmap);
             }
             break;
 

@@ -2,6 +2,7 @@
 #include "stm32_ub_vga_screen.h"
 #include <stdio.h>
 
+
 void clearScreenToVGA(clearscreen_struct CS_struct) {
   UB_VGA_FillScreen(CS_struct.color);
 }
@@ -67,3 +68,27 @@ void lineToVGA(line_struct lineStruct) {
     }
   }
 }
+
+
+void bitmapToVGA(bitmap_struct bitmapStruct) {
+    int bitmapWidth = 100;
+    int bitmapHeight = 100;
+    uint8_t *bitmap = NULL;
+
+    switch (bitmapStruct.bm_nr) {
+            case 0:
+                bitmap = smiley_bitmap;
+                break;
+        }
+
+    if (bitmap == NULL) return; // niks doen als bitmap niet bestaat
+
+    for (int yy = 0; yy < bitmapHeight; yy++) {
+        for (int xx = 0; xx < bitmapWidth; xx++) {
+            uint8_t pixelColor = bitmap[yy * bitmapWidth + xx];
+            if (pixelColor == 255)
+                UB_VGA_SetPixel(bitmapStruct.x_lup + xx, bitmapStruct.y_lup + yy, pixelColor);
+        }
+    }
+}
+

@@ -64,18 +64,44 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
   return textInfo;
 }
 
-const char (*gitSmallBitmap(textInfo textInfo, char letter))[5] {
+const char (*getSmallBitmapSmallLetter(char letter))[5] {
+  switch (letter) {
+    case 'a': return lc_a;
+    case 'b': return lc_b;
+    case 'c': return lc_c;
+    case 'd': return lc_d;
+    case 'e': return lc_e;
+    case 'f': return lc_f;
+    case 'g': return lc_g;
+    case 'h': return lc_h;
+    case 'i': return lc_i;
+    case 'j': return lc_j;
+    case 'k': return lc_k;
+    case 'l': return lc_l;
+    case 'm': return lc_m;
+    case 'n': return lc_n;
+    case 'o': return lc_o;
+    case 'p': return lc_p;
+    case 'q': return lc_q;
+    case 'r': return lc_r;
+    case 's': return lc_s;
+    case 't': return lc_t;
+    case 'u': return lc_u;
+    case 'v': return lc_v;
+    case 'w': return lc_w;
+    case 'x': return lc_x;
+    case 'y': return lc_y;
+    case 'z': return lc_z;
+  }
+}
 
-   switch (textInfo.FONTSTIJL) {
+const char (*getSmallBitmap(textInfo textInfo, char letter))[5] {
+
+  switch (textInfo.FONTSTIJL) {
     case NORMAAL:
       switch (textInfo.FONTNAAM) {
         case ARIAL:
-          if (letter == 'a')
-            return lc_a;
-          if (letter == 'b')
-            return lc_b;
-          if (letter == 'c')
-            return lc_c;
+          return getSmallBitmapSmallLetter(letter);
           break;
         case CONSOLAS:
         default:
@@ -115,7 +141,7 @@ void ttextToVGA(text_struct textStruct)
     int x = 5;
     int y = 1;
     for (char i = 0; i < sizeOfText; i++) {
-      const char (*psmall_bitmap)[5] = gitSmallBitmap(textInfo, textStruct.text[i]);
+      const char (*psmall_bitmap)[5] = getSmallBitmap(textInfo, textStruct.text[i]);
       if (psmall_bitmap != NULL) {
         printf("drawing bitmap now....\n");
         letterToVGA(x, y, textStruct.color, (uint8_t(*)[5])psmall_bitmap, 5);
@@ -140,12 +166,12 @@ int main(void)
   UB_VGA_Screen_Init(); // Init VGA-Screen
   UB_VGA_FillScreen(VGA_COL_RED);
   USART2_Init();
-  
+
   text_struct textStruct = {
     .x_lup = 10,
     .y_lup = 20,
     .color = VGA_COL_WHITE,
-    .text = "abcabcabcabacabacabcabca",
+    .text = "hallo luuk en piotr",
     .fontname = "arial",
     .fontsize = 1,
     .fontstyle = "normaal"

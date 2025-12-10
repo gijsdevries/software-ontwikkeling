@@ -20,22 +20,14 @@
 
 int main(void)
 {
-    SystemCoreClockUpdate();
-    SystemInit();
-    UB_VGA_Screen_Init();
-    UB_VGA_FillScreen(VGA_COL_RED);
-    USART2_Init();
+  SystemCoreClockUpdate();
+  SystemInit(); // System speed to 168MHz
+  UB_VGA_Screen_Init(); // Init VGA-Screen
+  UB_VGA_FillScreen(VGA_COL_RED);
+  USART2_Init();
 
-    while(1)
-    {
-        // verwerk alle ontvangen UART-karakters
-        while (uart_tail != uart_head)
-        {
-            char c = uart_buf[uart_tail];
-            uart_tail = (uart_tail + 1) % UART_BUF_SIZE;
-            USART2_ProcessChar(c);
-        }
-
-        // hier kun je andere taken doen, VGA loopt soepel
-    }
+  while(1)
+  {
+	  USART2_BUFFER();
+  }
 }

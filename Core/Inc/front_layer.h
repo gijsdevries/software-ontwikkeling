@@ -3,12 +3,6 @@
 
 #include <global.h>
 
-// UART ringbuffer extern maken
-#define UART_BUF_SIZE 256
-extern volatile char uart_buf[UART_BUF_SIZE];
-extern volatile uint16_t uart_head;
-extern volatile uint16_t uart_tail;
-
 // Prototypes voor parsing en checking
 void Buffer_Check();
 void Buffer_to_struct(char cmd_var);
@@ -24,7 +18,7 @@ void USART2_Init();
 char USART2_ReceiveChar();
 void USART2_BUFFER();
 void USART2_SendChar(char c);
-void USART2_SendString(char *str);
+void USART2_SendString();
 
 // Argument defines
 #define MAX_ARG 7
@@ -51,8 +45,6 @@ static Eerste_woord commands[] = {
 
 // Bereken aantal commando's
 #define NUM_COMMANDS (sizeof(commands)/sizeof(commands[0]))
-
-extern volatile uint8_t uart_ready;  // 1 = kan nieuw commando accepteren
 
 
 #endif

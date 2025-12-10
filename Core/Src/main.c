@@ -26,8 +26,12 @@ int main(void)
   UB_VGA_FillScreen(VGA_COL_RED);
   USART2_Init();
 
-  while(1)
+  while (1)
   {
-	  USART2_BUFFER();
-  }
+	      USART2_ProcessBuffer();   // verwerk characters uit interrupt ringbuffer
+	      USART2_ParseCommand();    // parse command als deze compleet is
+
+	      // hier kunnen andere VGA/logica taken vloeiend doorlopen
+
+}
 }

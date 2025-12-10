@@ -4,8 +4,17 @@
 #include "stm32_ub_vga_screen.h"
 #include <string.h>
 
-char *buffer = NULL;   // Dynamische buffer
-uint8_t idx = 0;
+#include <stdlib.h>
+
+
+volatile char uart_buf[UART_BUF_SIZE];
+volatile uint16_t uart_head = 0;
+volatile uint16_t uart_tail = 0;
+volatile uint8_t command_ready = 0;
+
+char *buffer = NULL;    // dynamische buffer
+uint16_t idx = 0;
+
 
 // Parsing en checking functies
 void Buffer_Check()
@@ -338,44 +347,76 @@ void USART2_Init(void) {
     GPIOA->MODER |= (2 << (2*2)) | (2 << (3*2));
     GPIOA->AFR[0] |= (7 << (2*4)) | (7 << (3*4));
 
-    // Baudrate 115200
+    // Baudrate 115200 (check APB1 klok)
     uint32_t pclk1 = SystemCoreClock / 4; // APB1
     USART2->BRR = pclk1 / 115200;
 
-    USART2->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
+    // Enable USART, TX, RX en RX interrupt
+    USART2->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE | USART_CR1_RXNEIE;
+
+    // Enable NVIC interrupt
+    NVIC_EnableIRQ(USART2_IRQn);
 }
+
+void USART2_IRQHandler(void)
+{
+    if (USART2->SR & USART_SR_RXNE)
+    {
+        char c = USART2->DR;
+        uint16_t next = (uart_head + 1) % UART_BUF_SIZE;
+        if(next != uart_tail)
+        {
+            uart_buf[uart_head] = c;
+            uart_head = next;
+        }
+    }
+}
+
 
 char USART2_ReceiveChar(void) {
     while (!(USART2->SR & USART_SR_RXNE));
     return USART2->DR;
 }
 
-void USART2_BUFFER()
+void USART2_ProcessBuffer(void)
 {
-    char UART_karakter = USART2_ReceiveChar(); // Ontvang karakter vanaf USART2
+    while(uart_tail != uart_head)
+    {
+        char c = uart_buf[uart_tail];
+        uart_tail = (uart_tail + 1) % UART_BUF_SIZE;
 
-    char *new_buffer = realloc(buffer, idx + 2); // Pas buffer dynamisch aan
-                                                 // Als er geen karakter is ingevuld doe niks
-    if (new_buffer == NULL) {
-        return;
-    }
-    // Pas buffer aan
-    buffer = new_buffer;
-    buffer[idx++] = UART_karakter;
-    // Als enter is ingevuld sluit string af en start parsing
-    if (UART_karakter == '\n') {
-        buffer[idx] = '\0';
+        if(idx == 0 && buffer == NULL)
+            buffer = malloc(1);
+        else
+            buffer = realloc(buffer, idx + 1);
 
-        Buffer_Check();
+        if(!buffer) continue;  // memory fail
 
-        idx = 0;
+        buffer[idx++] = c;
 
-        free(buffer);
-        buffer = NULL;
-
-        //parse
+        if(c == '\n')  // einde commando
+        {
+            buffer[idx] = '\0';
+            command_ready = 1;  // signaleer dat command compleet is
+        }
     }
 }
+
+void USART2_ParseCommand(void)
+{
+    if(command_ready)
+    {
+        Buffer_Check();   // parse en teken via bestaande functies
+
+        // buffer opruimen
+        free(buffer);
+        buffer = NULL;
+        idx = 0;
+        command_ready = 0;
+    }
+}
+
+
 
 void USART2_SendChar(char c) {
     while (!(USART2->SR & USART_SR_TXE));
@@ -383,5 +424,7 @@ void USART2_SendChar(char c) {
 }
 
 void USART2_SendString(char *str) {
+
+
     while (*str) USART2_SendChar(*str++);
 }

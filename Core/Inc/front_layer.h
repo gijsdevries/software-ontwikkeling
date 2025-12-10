@@ -3,6 +3,20 @@
 
 #include <global.h>
 
+// Toevoegen bovenaan bij de parsing/UART sectie
+#define UART_BUF_SIZE 128   // of groter, afhankelijk van maximale commando lengte
+extern volatile char uart_buf[UART_BUF_SIZE];
+extern volatile uint16_t uart_head;
+extern volatile uint16_t uart_tail;
+extern volatile uint8_t command_ready;   // flag om te weten dat er een compleet commando is
+extern char *buffer;     // dynamische buffer
+extern uint16_t idx;
+
+
+// Toevoegen prototypes
+void USART2_ProcessBuffer(void);   // verwerk characters uit ringbuffer
+void USART2_ParseCommand(void);    // parse als command_ready == 1
+
 // Prototypes voor parsing en checking
 void Buffer_Check();
 void Buffer_to_struct(char cmd_var);

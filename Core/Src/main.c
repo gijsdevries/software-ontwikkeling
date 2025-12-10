@@ -1,12 +1,9 @@
-#include "main.h"
-/*
 #include "stm32_ub_vga_screen.h"
 #include <math.h>
 #include "front_layer.h"
 #include "io_layer.h"
 #include "logic_layer.h"
 #include "global.h"
-*/
 
 #include "stdio.h"
 #include "logic_layer.h"
@@ -68,18 +65,8 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
 }
 
 const char (*gitSmallBitmap(textInfo textInfo, char letter))[5] {
-  /*
-  switch (textInfo.FONTGROOTTE) {
-    case KLEIN:
-      break;
-    case GROOT:
-      break;
-    default:
-      break;
-  }
-  */
 
-  switch (textInfo.FONTSTIJL) {
+   switch (textInfo.FONTSTIJL) {
     case NORMAAL:
       switch (textInfo.FONTNAAM) {
         case ARIAL:
@@ -117,11 +104,9 @@ const char (*gitSmallBitmap(textInfo textInfo, char letter))[5] {
   return NULL;
 }
 
-
-void textToVGA(text_struct textStruct)
+void ttextToVGA(text_struct textStruct)
 {
   size_t sizeOfText = strlen(textStruct.text);
-
   textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
 
   printf("size of string: %zu\n", sizeOfText);
@@ -134,27 +119,42 @@ void textToVGA(text_struct textStruct)
       if (psmall_bitmap != NULL) {
         printf("drawing bitmap now....\n");
         letterToVGA(x, y, textStruct.color, (uint8_t(*)[5])psmall_bitmap, 5);
+        if (x > 315) {
+          x = 0;
+          y = y + 5;
+        }
+
+        x = x + 5;
       }
     }
   }
   else {
     //TODO
   }
-
-
 }
 
 int main(void)
 {
+  SystemCoreClockUpdate();
+  SystemInit(); // System speed to 168MHz
+  UB_VGA_Screen_Init(); // Init VGA-Screen
+  UB_VGA_FillScreen(VGA_COL_RED);
+  USART2_Init();
+  
   text_struct textStruct = {
     .x_lup = 10,
     .y_lup = 20,
     .color = VGA_COL_WHITE,
-    .text = "aabbccabc",
+    .text = "abcabcabcabacabacabcabca",
     .fontname = "arial",
     .fontsize = 1,
     .fontstyle = "normaal"
   };
 
-  textToVGA(textStruct);
+  ttextToVGA(textStruct);
+
+  while(1)
+  {
+    USART2_BUFFER();
+  }
 }

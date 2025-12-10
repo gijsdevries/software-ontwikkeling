@@ -61,7 +61,7 @@ void rectangleToVGA(rectangle_struct rectangleStruct);
 
 void lineToVGA(line_struct lineStruct);
 int letterToVGA(int x_lup, int y_lup, int color, uint8_t bitmap[5][5], int font_size);
-void textToVGA(text_struct textStruct);
+//void textToVGA(text_struct textStruct);
 
 #define SMALL_LETTER_SIZE 5
 #define BIG_LETTER_SIZE 8

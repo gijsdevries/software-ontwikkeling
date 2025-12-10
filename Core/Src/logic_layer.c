@@ -2,10 +2,12 @@
 #include "stm32_ub_vga_screen.h"
 #include <stdio.h>
 
+/*
 void textToVGA(text_struct textstruct)
 {
   printf("hello world");
 }
+*/
 
 void clearScreenToVGA(clearscreen_struct CS_struct)
 {

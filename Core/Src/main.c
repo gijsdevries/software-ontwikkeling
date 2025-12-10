@@ -2,12 +2,9 @@
 #include <math.h>
 #include "front_layer.h"
 #include "io_layer.h"
-#include "logic_layer.h"
 #include "global.h"
-
 #include "stdio.h"
 #include "logic_layer.h"
-#include "stm32_ub_vga_screen.h"
 #include "global.h"
 #include "string.h"
 #include "bitmap_defines.h"
@@ -64,44 +61,45 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
   return textInfo;
 }
 
-const char (*getSmallBitmapSmallLetter(char letter))[5] {
+//fontnaam arial, fontstijl normaal
+const char (*getSmallBitmapLetter(char letter))[SMALL_LETTER_SIZE] {
   switch (letter) {
-    case 'a': return lc_a;
-    case 'b': return lc_b;
-    case 'c': return lc_c;
-    case 'd': return lc_d;
-    case 'e': return lc_e;
-    case 'f': return lc_f;
-    case 'g': return lc_g;
-    case 'h': return lc_h;
-    case 'i': return lc_i;
-    case 'j': return lc_j;
-    case 'k': return lc_k;
-    case 'l': return lc_l;
-    case 'm': return lc_m;
-    case 'n': return lc_n;
-    case 'o': return lc_o;
-    case 'p': return lc_p;
-    case 'q': return lc_q;
-    case 'r': return lc_r;
-    case 's': return lc_s;
-    case 't': return lc_t;
-    case 'u': return lc_u;
-    case 'v': return lc_v;
-    case 'w': return lc_w;
-    case 'x': return lc_x;
-    case 'y': return lc_y;
-    case 'z': return lc_z;
+    case 'a': return nor_arial_a;
+    case 'b': return nor_arial_b;
+    case 'c': return nor_arial_c;
+    case 'd': return nor_arial_d;
+    case 'e': return nor_arial_e;
+    case 'f': return nor_arial_f;
+    case 'g': return nor_arial_g;
+    case 'h': return nor_arial_h;
+    case 'i': return nor_arial_i;
+    case 'j': return nor_arial_j;
+    case 'k': return nor_arial_k;
+    case 'l': return nor_arial_l;
+    case 'm': return nor_arial_m;
+    case 'n': return nor_arial_n;
+    case 'o': return nor_arial_o;
+    case 'p': return nor_arial_p;
+    case 'q': return nor_arial_q;
+    case 'r': return nor_arial_r;
+    case 's': return nor_arial_s;
+    case 't': return nor_arial_t;
+    case 'u': return nor_arial_u;
+    case 'v': return nor_arial_v;
+    case 'w': return nor_arial_w;
+    case 'x': return nor_arial_x;
+    case 'y': return nor_arial_y;
+    case 'z': return nor_arial_z;
   }
 }
 
-const char (*getSmallBitmap(textInfo textInfo, char letter))[5] {
+const char (*getSmallBitmap(textInfo textInfo, char letter))[SMALL_LETTER_SIZE] {
 
   switch (textInfo.FONTSTIJL) {
     case NORMAAL:
       switch (textInfo.FONTNAAM) {
         case ARIAL:
-          return getSmallBitmapSmallLetter(letter);
+          return getSmallBitmapLetter(letter);
           break;
         case CONSOLAS:
         default:
@@ -137,20 +135,20 @@ void ttextToVGA(text_struct textStruct)
 
   printf("size of string: %zu\n", sizeOfText);
 
+  int x = textStruct.x_lup;
+  int y = textStruct.y_lup;
+
   if (textInfo.FONTGROOTTE == KLEIN) {
-    int x = 5;
-    int y = 1;
     for (char i = 0; i < sizeOfText; i++) {
-      const char (*psmall_bitmap)[5] = getSmallBitmap(textInfo, textStruct.text[i]);
+      const char (*psmall_bitmap)[SMALL_LETTER_SIZE] = getSmallBitmapLetter(textStruct.text[i]);
       if (psmall_bitmap != NULL) {
         printf("drawing bitmap now....\n");
-        letterToVGA(x, y, textStruct.color, (uint8_t(*)[5])psmall_bitmap, 5);
-        if (x > 315) {
+        letterToVGA(x, y, textStruct.color, (uint8_t(*)[SMALL_LETTER_SIZE])psmall_bitmap, SMALL_LETTER_SIZE);
+        if (x > VGA_DISPLAY_X - SMALL_LETTER_SIZE) { //go to a new line
           x = 0;
-          y = y + 5;
+          y = y + SMALL_LETTER_SIZE;
         }
-
-        x = x + 5;
+        x = x + SMALL_LETTER_SIZE;
       }
     }
   }
@@ -158,6 +156,22 @@ void ttextToVGA(text_struct textStruct)
     //TODO
   }
 }
+
+int letterToVGANEW(int x_lup, int y_lup, int color, const uint8_t *letter, int font_size)
+{
+    for (int y = 0; y < font_size; y++) // Loop door alle y coördinaten heen
+    {
+        for (int x = 0; x < 8; x++) // Loop door alle x coördinaten heen
+        {
+            if ((letter[y] << x) & 0x80) // Als een pixel hoog is
+            {
+                UB_VGA_SetPixel(x_lup + x, y_lup + y, color); // Pas de pixel aan naar de gegeven kleur
+            }
+        }
+    }
+    return 0;
+}
+
 
 int main(void)
 {
@@ -168,16 +182,21 @@ int main(void)
   USART2_Init();
 
   text_struct textStruct = {
-    .x_lup = 10,
-    .y_lup = 20,
-    .color = VGA_COL_WHITE,
-    .text = "hallo luuk en piotr",
+    .x_lup = 100,
+    .y_lup = 200,
+    .color = VGA_COL_BLACK,
+    .text = "abcdefghijklmnopqrstuvwxyz",
     .fontname = "arial",
     .fontsize = 1,
     .fontstyle = "normaal"
   };
 
-  ttextToVGA(textStruct);
+  //ttextToVGA(textStruct);
+
+  static const uint8_t letter[14] = {0x00, 0x7c, 0x82, 0xaa, 0x82, 0x82, 0xba, 0x92, 0x82, 0x7c, 0x00, 0x00, 0x00, 0x00};
+
+  letterToVGANEW(100, 100, textStruct.color, letter, SMALL_LETTER_SIZE);
+
 
   while(1)
   {

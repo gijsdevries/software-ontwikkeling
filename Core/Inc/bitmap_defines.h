@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "logic_layer.h"
 
-const char lc_a[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
+const char nor_arial_a[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 1, 1, 1, 0},
   {1, 0, 0, 1, 0},
   {1, 0, 0, 1, 0},
@@ -12,7 +12,7 @@ const char lc_a[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 1, 1, 1, 1}
 };
 
-const char lc_b[5][5] = {
+const char nor_arial_b[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 1, 0, 0, 0},
   {1, 0, 1, 0, 0},
   {1, 1, 0, 0, 0},
@@ -20,7 +20,7 @@ const char lc_b[5][5] = {
   {1, 1, 1, 0, 0}
 };
 
-const char lc_c[5][5] = {
+const char nor_arial_c[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 1, 1, 1, 0},
   {1, 0, 0, 0, 0},
   {1, 0, 0, 0, 0},
@@ -28,7 +28,7 @@ const char lc_c[5][5] = {
   {0, 1, 1, 1, 0}
 };
 
-const char lc_d[5][5] = {
+const char nor_arial_d[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 0, 1, 1, 0},
   {0, 1, 0, 0, 1},
   {0, 1, 0, 0, 1},
@@ -36,7 +36,7 @@ const char lc_d[5][5] = {
   {0, 0, 1, 1, 0}
 };
 
-const char lc_e[5][5] = {
+const char nor_arial_e[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 1, 1, 1, 0},
   {1, 0, 0, 0, 0},
   {1, 1, 1, 0, 0},
@@ -44,7 +44,7 @@ const char lc_e[5][5] = {
   {1, 1, 1, 1, 0}
 };
 
-const char lc_f[5][5] = {
+const char nor_arial_f[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 1, 1, 1, 0},
   {1, 0, 0, 0, 0},
   {1, 1, 1, 0, 0},
@@ -52,7 +52,7 @@ const char lc_f[5][5] = {
   {1, 0, 0, 0, 0}
 };
 
-const char lc_g[5][5] = {
+const char nor_arial_g[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 1, 1, 1, 0},
   {1, 0, 0, 0, 1},
   {1, 0, 0, 0, 1},
@@ -60,7 +60,7 @@ const char lc_g[5][5] = {
   {0, 0, 0, 1, 1}
 };
 
-const char lc_h[5][5] = {
+const char nor_arial_h[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 0, 0, 0, 0},
   {1, 0, 0, 0, 0},
   {1, 1, 1, 1, 0},
@@ -68,7 +68,7 @@ const char lc_h[5][5] = {
   {1, 0, 0, 1, 0}
 };
 
-const char lc_i[5][5] = {
+const char nor_arial_i[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 1, 1, 1, 0},
   {0, 0, 1, 0, 0},
   {0, 0, 1, 0, 0},
@@ -76,7 +76,7 @@ const char lc_i[5][5] = {
   {0, 1, 1, 1, 0}
 };
 
-const char lc_j[5][5] = {
+const char nor_arial_j[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 0, 0, 1, 0},
   {0, 0, 0, 1, 0},
   {0, 0, 0, 1, 0},
@@ -84,7 +84,7 @@ const char lc_j[5][5] = {
   {0, 1, 1, 0, 0}
 };
 
-const char lc_k[5][5] = {
+const char nor_arial_k[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 0, 0, 0, 0},
   {1, 0, 0, 1, 0},
   {1, 1, 1, 0, 0},
@@ -92,7 +92,7 @@ const char lc_k[5][5] = {
   {1, 0, 0, 0, 1}
 };
 
-const char lc_l[5][5] = {
+const char nor_arial_l[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 0, 0, 0, 0},
   {1, 0, 0, 0, 0},
   {1, 0, 0, 0, 0},
@@ -100,7 +100,7 @@ const char lc_l[5][5] = {
   {1, 1, 1, 1, 1}
 };
 
-const char lc_m[5][5] = {
+const char nor_arial_m[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 0, 0, 0, 1},
   {1, 1, 0, 1, 1},
   {1, 0, 1, 0, 1},
@@ -108,7 +108,7 @@ const char lc_m[5][5] = {
   {1, 0, 0, 0, 1}
 };
 
-const char lc_n[5][5] = {
+const char nor_arial_n[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 0, 0, 0, 0},
   {1, 1, 0, 0, 0},
   {1, 0, 1, 0, 0},
@@ -116,7 +116,7 @@ const char lc_n[5][5] = {
   {1, 0, 0, 0, 1}
 };
 
-const char lc_o[5][5] = {
+const char nor_arial_o[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 1, 1, 1, 0},
   {1, 0, 0, 0, 1},
   {1, 0, 0, 0, 1},
@@ -124,7 +124,7 @@ const char lc_o[5][5] = {
   {0, 1, 1, 1, 0}
 };
 
-const char lc_p[5][5] = {
+const char nor_arial_p[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 1, 1, 0, 0},
   {1, 0, 0, 1, 0},
   {1, 1, 1, 0, 0},
@@ -132,7 +132,7 @@ const char lc_p[5][5] = {
   {1, 0, 0, 0, 0}
 };
 
-const char lc_q[5][5] = {
+const char nor_arial_q[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 1, 1, 1, 0},
   {1, 0, 0, 0, 1},
   {1, 0, 0, 0, 1},
@@ -140,7 +140,7 @@ const char lc_q[5][5] = {
   {0, 0, 0, 0, 1}
 };
 
-const char lc_r[5][5] = {
+const char nor_arial_r[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 1, 1, 0, 0},
   {1, 0, 0, 1, 0},
   {1, 1, 0, 0, 0},
@@ -148,7 +148,7 @@ const char lc_r[5][5] = {
   {1, 0, 0, 0, 1}
 };
 
-const char lc_s[5][5] = {
+const char nor_arial_s[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 1, 1, 1, 1},
   {1, 0, 0, 0, 0},
   {0, 1, 1, 1, 0},
@@ -156,7 +156,7 @@ const char lc_s[5][5] = {
   {1, 1, 1, 1, 0}
 };
 
-const char lc_t[5][5] = {
+const char nor_arial_t[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 1, 1, 1, 1},
   {0, 0, 1, 0, 0},
   {0, 0, 1, 0, 0},
@@ -164,7 +164,7 @@ const char lc_t[5][5] = {
   {0, 0, 0, 1, 0}
 };
 
-const char lc_u[5][5] = {
+const char nor_arial_u[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 0, 0, 0, 1},
   {1, 0, 0, 0, 1},
   {1, 0, 0, 0, 1},
@@ -172,7 +172,7 @@ const char lc_u[5][5] = {
   {0, 1, 1, 1, 0}
 };
 
-const char lc_v[5][5] = {
+const char nor_arial_v[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 0, 0, 0, 1},
   {1, 0, 0, 0, 1},
   {0, 1, 0, 1, 0},
@@ -180,7 +180,7 @@ const char lc_v[5][5] = {
   {0, 0, 1, 0, 0}
 };
 
-const char lc_w[5][5] = {
+const char nor_arial_w[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 0, 0, 0, 1},
   {1, 0, 0, 0, 1},
   {1, 0, 1, 0, 1},
@@ -188,7 +188,7 @@ const char lc_w[5][5] = {
   {1, 0, 0, 0, 1}
 };
 
-const char lc_x[5][5] = {
+const char nor_arial_x[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 0, 0, 0, 1},
   {0, 1, 0, 1, 0},
   {0, 0, 1, 0, 0},
@@ -196,7 +196,7 @@ const char lc_x[5][5] = {
   {1, 0, 0, 0, 1}
 };
 
-const char lc_y[5][5] = {
+const char nor_arial_y[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 0, 0, 0, 1},
   {1, 0, 0, 0, 1},
   {0, 1, 0, 1, 0},
@@ -204,7 +204,7 @@ const char lc_y[5][5] = {
   {0, 0, 1, 0, 0}
 };
 
-const char lc_z[5][5] = {
+const char nor_arial_z[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {1, 1, 1, 1, 1},
   {0, 0, 0, 1, 0},
   {0, 0, 1, 0, 0},

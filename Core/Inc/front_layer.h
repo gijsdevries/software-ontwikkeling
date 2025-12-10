@@ -11,6 +11,7 @@ char Argument_counter();
 int take_int(uint8_t *take_index);
 char* take_word(uint8_t *take_index);
 int take_color(uint8_t *take_index);
+uint8_t take_bitmap(uint8_t *take_index);
 static uint8_t check_coord(int val, int max_val, const char* argument_name);
 
 // Prototypes voor UART
@@ -27,6 +28,16 @@ void USART2_SendString();
 #define TEKST_ARGS 7
 #define BITMAP_ARGS 3
 #define CLEARSCHERM_ARGS 1
+
+enum BITMAP_DEFINES{
+SMILEY_BOOS,
+SMILEY_BLIJ,
+PIJL_OMHOOG,
+PIJL_NAAR_BENEDEN,
+PIJL_LINKS,
+PIJL_RECHTS
+};
+
 
 //De functienaam koppelen aan de define code
 typedef struct {

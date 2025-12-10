@@ -154,7 +154,7 @@ void Buffer_to_struct(char cmd_val)
 
             bitmap.x_lup = take_int(&take_index);
             bitmap.y_lup = take_int(&take_index);
-            bitmap.bm_nr = take_int(&take_index);
+            bitmap.bm_nr = take_bitmap(&take_index);
 
                 //LOGIC LAYER FUNCTIE TODO
             bitmapToVGA(bitmap);
@@ -318,6 +318,28 @@ int take_color(uint8_t *take_index)
     USART2_SendString("De kleur die ingevuld is bestaat niet\n");
     return -1;
 }
+
+uint8_t take_bitmap(uint8_t *take_index)
+{
+	char* bitmap_arg = take_word(take_index);
+
+	if (strcmp(bitmap_arg, "smiley(boos)") == 0)
+		return SMILEY_BOOS;
+	if (strcmp(bitmap_arg, "smiley(blij)") == 0)
+		return SMILEY_BLIJ;
+	if (strcmp(bitmap_arg, "pijl(omhoog)") == 0)
+		return PIJL_OMHOOG;
+	if (strcmp(bitmap_arg, "pijl(naar beneden)") == 0)
+		return PIJL_NAAR_BENEDEN;
+	if (strcmp(bitmap_arg, "pijl(links)") == 0)
+		return PIJL_LINKS;
+	if (strcmp(bitmap_arg, "pijl(rechts)") == 0)
+		return PIJL_RECHTS;
+
+	USART2_SendString("De bitmap die ingevuld is bestaat niet\n");
+	return -1;
+}
+
 
 static uint8_t check_coord(int val, int max_val, const char* argument_name) {
     if (val < 0 || val > max_val) {

@@ -28,10 +28,7 @@ int main(void)
 
   while (1)
   {
-	      USART2_ProcessBuffer();   // verwerk characters uit interrupt ringbuffer
-	      USART2_ParseCommand();    // parse command als deze compleet is
-
+	  USART2_BUFFER();
 	      // hier kunnen andere VGA/logica taken vloeiend doorlopen
-
-}
+  }
 }

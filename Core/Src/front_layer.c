@@ -372,51 +372,43 @@ void USART2_IRQHandler(void)
     }
 }
 
-
 char USART2_ReceiveChar(void) {
     while (!(USART2->SR & USART_SR_RXNE));
     return USART2->DR;
 }
 
-void USART2_ProcessBuffer(void)
+void USART2_BUFFER(void)
 {
-    while(uart_tail != uart_head)
+    while(uart_tail != uart_head) // zolang er chars in de ringbuffer
     {
         char c = uart_buf[uart_tail];
         uart_tail = (uart_tail + 1) % UART_BUF_SIZE;
 
-        if(idx == 0 && buffer == NULL)
+        // Dynamische buffer aanmaken of vergroten
+        if(buffer == NULL)
+        {
             buffer = malloc(1);
+            idx = 0;
+        }
         else
-            buffer = realloc(buffer, idx + 1);
-
-        if(!buffer) continue;  // memory fail
+        {
+            char* tmp = realloc(buffer, idx + 1);
+            if(tmp == NULL) continue; // memory fail
+            buffer = tmp;
+        }
 
         buffer[idx++] = c;
 
         if(c == '\n')  // einde commando
         {
-            buffer[idx] = '\0';
-            command_ready = 1;  // signaleer dat command compleet is
+            buffer[idx] = '\0'; // sluit string
+            Buffer_Check();     // parse en teken meteen
+            free(buffer);       // opruimen
+            buffer = NULL;
+            idx = 0;
         }
     }
 }
-
-void USART2_ParseCommand(void)
-{
-    if(command_ready)
-    {
-        Buffer_Check();   // parse en teken via bestaande functies
-
-        // buffer opruimen
-        free(buffer);
-        buffer = NULL;
-        idx = 0;
-        command_ready = 0;
-    }
-}
-
-
 
 void USART2_SendChar(char c) {
     while (!(USART2->SR & USART_SR_TXE));

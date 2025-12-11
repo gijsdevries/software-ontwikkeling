@@ -1,8 +1,238 @@
 #include "logic_layer.h"
+#include "bitmap_defines.h"
 #include "stm32_ub_vga_screen.h"
 #include "front_layer.h"
 #include <stdio.h>
 
+textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
+
+  textInfo textInfo;
+
+  if (!strcmp(fontname, "arial"))
+    textInfo.FONTNAAM = ARIAL; 
+  else if (!strcmp(fontname, "consolas"))
+    textInfo.FONTNAAM = CONSOLAS;
+  else //struct is already error handled, so it should never be -1
+    textInfo.FONTNAAM = -1; 
+
+  if (!strcmp(fontstyle, "normaal"))
+    textInfo.FONTSTIJL = NORMAAL; 
+  else if (!strcmp(fontstyle, "vet"))
+    textInfo.FONTSTIJL = VET;
+  else if (!strcmp(fontstyle, "cursief"))
+    textInfo.FONTSTIJL = CURSIEF;
+  else //struct is already error handled, so it should never be -1
+    textInfo.FONTSTIJL= -1;
+
+  if (fontsize == 1)
+    textInfo.FONTGROOTTE = KLEIN;
+  else if (fontsize == 2)
+    textInfo.FONTGROOTTE = GROOT;
+  else
+    textInfo.FONTGROOTTE = -1;
+
+  return textInfo;
+}
+
+const char *getRawLetter(char letter, int size) {
+
+  if (size == KLEIN) {
+    switch (letter) {
+      // Special characters
+      case '!': return small_exclamation;
+      case '@': return small_at;
+      case '#': return small_hash;
+      case '$': return small_dollar;
+      case '%': return small_percent;
+      case '&': return small_ampersand;
+      case '^': return small_caret;
+      case '(': return small_left_paren;
+      case ')': return small_right_paren;
+      case '*': return small_asterisk;
+      case ' ': return small_space;
+
+      case '0': return small_zero;
+      case '1': return small_one;
+      case '2': return small_two;
+      case '3': return small_three;
+      case '4': return small_four;
+      case '5': return small_five;
+      case '6': return small_six;
+      case '7': return small_seven;
+      case '8': return small_eight;
+      case '9': return small_nine;
+
+      case 'a': return small_lc_a;
+      case 'b': return small_lc_b;
+      case 'c': return small_lc_c;
+      case 'd': return small_lc_d;
+      case 'e': return small_lc_e;
+      case 'f': return small_lc_f;
+      case 'g': return small_lc_g;
+      case 'h': return small_lc_h;
+      case 'i': return small_lc_i;
+      case 'j': return small_lc_j;
+      case 'k': return small_lc_k;
+      case 'l': return small_lc_l;
+      case 'm': return small_lc_m;
+      case 'n': return small_lc_n;
+      case 'o': return small_lc_o;
+      case 'p': return small_lc_p;
+      case 'q': return small_lc_q;
+      case 'r': return small_lc_r;
+      case 's': return small_lc_s;
+      case 't': return small_lc_t;
+      case 'u': return small_lc_u;
+      case 'v': return small_lc_v;
+      case 'w': return small_lc_w;
+      case 'x': return small_lc_x;
+      case 'y': return small_lc_y;
+      case 'z': return small_lc_z;
+
+      case 'A': return small_uc_a;
+      case 'B': return small_uc_b;
+      case 'C': return small_uc_c;
+      case 'D': return small_uc_d;
+      case 'E': return small_uc_e;
+      case 'F': return small_uc_f;
+      case 'G': return small_uc_g;
+      case 'H': return small_uc_h;
+      case 'I': return small_uc_i;
+      case 'J': return small_uc_j;
+      case 'K': return small_uc_k;
+      case 'L': return small_uc_l;
+      case 'M': return small_uc_m;
+      case 'N': return small_uc_n;
+      case 'O': return small_uc_o;
+      case 'P': return small_uc_p;
+      case 'Q': return small_uc_q;
+      case 'R': return small_uc_r;
+      case 'S': return small_uc_s;
+      case 'T': return small_uc_t;
+      case 'U': return small_uc_u;
+      case 'V': return small_uc_v;
+      case 'W': return small_uc_w;
+      case 'X': return small_uc_x;
+      case 'Y': return small_uc_y;
+      case 'Z': return small_uc_z;
+
+      default: return NULL;
+
+    }
+  }
+  else {
+    switch (letter) {// Special characters
+      case '!': return big_exclamation;
+      case '@': return big_at;
+      case '#': return big_hash;
+      case '$': return big_dollar;
+      case '%': return big_percent;
+      case '&': return big_ampersand;
+      case '^': return big_caret;
+      case '(': return big_left_paren;
+      case ')': return big_right_paren;
+      case '*': return big_asterisk;
+      case ' ': return big_space;
+
+      case '0': return big_zero;
+      case '1': return big_one;
+      case '2': return big_two;
+      case '3': return big_three;
+      case '4': return big_four;
+      case '5': return big_five;
+      case '6': return big_six;
+      case '7': return big_seven;
+      case '8': return big_eight;
+      case '9': return big_nine;
+
+      case 'a': return big_lc_a;
+      case 'b': return big_lc_b;
+      case 'c': return big_lc_c;
+      case 'd': return big_lc_d;
+      case 'e': return big_lc_e;
+      case 'f': return big_lc_f;
+      case 'g': return big_lc_g;
+      case 'h': return big_lc_h;
+      case 'i': return big_lc_i;
+      case 'j': return big_lc_j;
+      case 'k': return big_lc_k;
+      case 'l': return big_lc_l;
+      case 'm': return big_lc_m;
+      case 'n': return big_lc_n;
+      case 'o': return big_lc_o;
+      case 'p': return big_lc_p;
+      case 'q': return big_lc_q;
+      case 'r': return big_lc_r;
+      case 's': return big_lc_s;
+      case 't': return big_lc_t;
+      case 'u': return big_lc_u;
+      case 'v': return big_lc_v;
+      case 'w': return big_lc_w;
+      case 'x': return big_lc_x;
+      case 'y': return big_lc_y;
+      case 'z': return big_lc_z;
+
+      case 'A': return big_uc_a;
+      case 'B': return big_uc_b;
+      case 'C': return big_uc_c;
+      case 'D': return big_uc_d;
+      case 'E': return big_uc_e;
+      case 'F': return big_uc_f;
+      case 'G': return big_uc_g;
+      case 'H': return big_uc_h;
+      case 'I': return big_uc_i;
+      case 'J': return big_uc_j;
+      case 'K': return big_uc_k;
+      case 'L': return big_uc_l;
+      case 'M': return big_uc_m;
+      case 'N': return big_uc_n;
+      case 'O': return big_uc_o;
+      case 'P': return big_uc_p;
+      case 'Q': return big_uc_q;
+      case 'R': return big_uc_r;
+      case 'S': return big_uc_s;
+      case 'T': return big_uc_t;
+      case 'U': return big_uc_u;
+      case 'V': return big_uc_v;
+      case 'W': return big_uc_w;
+      case 'X': return big_uc_x;
+      case 'Y': return big_uc_y;
+      case 'Z': return big_uc_z;
+
+      default: return NULL;
+    }
+  }
+  return NULL;
+}
+
+int letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, int size)
+{
+  char y_max, x_max = 0;
+  if (size == GROOT) {
+    y_max = SIZE_BIG_LETTER_Y;
+    x_max = SIZE_BIG_LETTER_X;
+  } 
+  else {
+    y_max = SIZE_SMALL_LETTER_Y;
+    x_max = SIZE_SMALL_LETTER_X;
+  }
+  for (int y = 0; y < y_max; y++) // Loop door alle y coördinaten heen
+  {
+
+    for (int x = 0; x < x_max; x++) // Loop door alle x coördinaten heen
+    {
+      if ((letter[y] << x) & 0x80) // Als een pixel hoog is
+      {
+        UB_VGA_SetPixel(x_lup + x, y_lup + y, color); // Pas de pixel aan naar de gegeven kleur
+      }
+    }
+  }
+  return 0;
+}
+
+
+void clearScreenToVGA(clearscreen_struct CS_struct)
+{
 
 void clearScreenToVGA(clearscreen_struct CS_struct) {
   UB_VGA_FillScreen(CS_struct.color);
@@ -70,6 +300,43 @@ void lineToVGA(line_struct lineStruct) {
   }
 }
 
+void textToVGA(text_struct textStruct)
+{
+  size_t sizeOfText = strlen(textStruct.text);
+  textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
+
+  int x = textStruct.x_lup;
+  int y = textStruct.y_lup;
+
+  if (textInfo.FONTGROOTTE == GROOT) {
+    for (char i = 0; i < sizeOfText; i++) {
+      char *buf = getRawLetter(textStruct.text[i], textInfo.FONTGROOTTE);
+      letterToVGA(x, y, textStruct.color, buf, textInfo.FONTGROOTTE);
+
+      x = x + SIZE_BIG_LETTER_X;
+
+      if (x > VGA_DISPLAY_X - SIZE_BIG_LETTER_X) { //go to a new line
+        x = 0;
+        y = y + SIZE_BIG_LETTER_Y;
+      }
+    }
+
+  }
+  else {
+    for (char i = 0; i < sizeOfText; i++) {
+      char *buf = getRawLetter(textStruct.text[i], KLEIN);
+      letterToVGA(x, y, textStruct.color, buf, KLEIN);
+
+      x = x + SIZE_SMALL_LETTER_X;
+
+      if (x > VGA_DISPLAY_X - SIZE_SMALL_LETTER_X) { //go to a new line
+        x = 0;
+        y = y + SIZE_SMALL_LETTER_Y;
+      }
+    }
+
+
+  }
 
 uint8_t SMILEY_BLIJ_BITMAP[1024] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

@@ -1,7 +1,12 @@
+/** \file
+ * Logic layer of application. 
+ */ 
+
 #ifndef LOGIC_LAYER_H 
 #define LOGIC_LAYER_H
 
 #include <global.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 //structs per msg type
@@ -12,7 +17,7 @@ typedef struct {
   char *text;
   char *fontname;
   int fontsize;
-  int fontstyle;
+  char *fontstyle;
 } text_struct;
 
 typedef struct {
@@ -40,17 +45,49 @@ typedef struct {
 } bitmap_struct;
 
 typedef struct {
+  int FONTNAAM;
+  int FONTSTIJL;
+  int FONTGROOTTE;
+} textInfo;
+
+typedef struct {
   int color;
 } clearscreen_struct;
 
-//function prototypes
+
+enum FONTNAMES {
+  ARIAL,
+  CONSOLAS
+};
+
+enum FONTSTYLE {
+  NORMAAL,
+  VET,
+  CURSIEF
+};
+
+enum FONTGROOTTE {
+  GROOT,
+  KLEIN
+};
+
+
+/**
+ * @brief writes a color to VGA screen. 
+ *
+ * This functions writes a predefined color to the entire VGA screen. 
+ *
+ * @param a clearscreen_struct.
+ */
+
 void clearScreenToVGA(clearscreen_struct CS_struct);
+
 void rectangleToVGA(rectangle_struct rectangleStruct);
+
 void lineToVGA(line_struct lineStruct);
 
-void bitmapToVGA (bitmap_struct bitmapStruct);
+void textToVGA(text_struct textStruct);
 
-// Bitmap: 320 x 240 pixels (uint8_t grayscale)
-// Values: 0 (black) to 255 (white)
+void bitmapToVGA (bitmap_struct bitmapStruct);
 
 #endif

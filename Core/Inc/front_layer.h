@@ -1,27 +1,51 @@
-//Prototypes voor UART
-char USART2_ReceiveChar();
-void USART2_SendString();
-void USART2_SendChar(char c);
-void USART2_Init();
+#ifndef FRONT_LAYER_H
+#define FRONT_LAYER_H
 
-//Prototypes voor buffer
-void USART2_BUFFER();
+#include <global.h>
+
+// Toevoegen bovenaan bij de parsing/UART sectie
+#define UART_BUF_SIZE 128   // of groter, afhankelijk van maximale commando lengte
+extern volatile char uart_buf[UART_BUF_SIZE];
+extern volatile uint16_t uart_head;
+extern volatile uint16_t uart_tail;
+extern volatile uint8_t command_ready;   // flag om te weten dat er een compleet commando is
+extern char *buffer;     // dynamische buffer
+extern uint16_t idx;
+
+// Prototypes voor parsing en checking
 void Buffer_Check();
+void Buffer_to_struct(char cmd_var);
+char Argument_checker(char Argument_goal);
+char Argument_counter();
+int take_int(uint8_t *take_index);
+char* take_word(uint8_t *take_index);
+int take_color(uint8_t *take_index);
+static uint8_t check_coord(int val, int max_val, const char* argument_name);
 
-//Define waardes van de fucnties
-#define LIJN 0
-#define RECHTHOEK 1
-#define TEKST 2
-#define BITMAP 3
-#define CLEARSCHERM 4
+// Prototypes voor UART
+void USART2_Init();
+char USART2_ReceiveChar();
+void USART2_BUFFER();
+void USART2_SendChar(char c);
+void USART2_SendString();
 
-//De naam van het eerste woorde koppelen aan de define code
+// Argument defines
+#define MAX_ARG 7
+#define LIJN_ARGS 6
+#define RECHTHOEK_ARGS 6
+#define TEKST_ARGS 7
+#define BITMAP_ARGS 3
+#define CLEARSCHERM_ARGS 1
+#define BITMAP_AMOUNT 6
+#define MAX_BITMAP_ARRAY 32
+
+//De functienaam koppelen aan de define code
 typedef struct {
     const char *name;
     char code;
 } Eerste_woord;
 
-//Alle mogelijke eerste woorden in het commando
+// Aantal commando types
 static Eerste_woord commands[] = {
     {"lijn",        LIJN},
     {"rechthoek",   RECHTHOEK},
@@ -30,9 +54,8 @@ static Eerste_woord commands[] = {
     {"clearscherm", CLEARSCHERM}
 };
 
-//Berekend de waarde van het aantal commando's
+// Bereken aantal commando's
 #define NUM_COMMANDS (sizeof(commands)/sizeof(commands[0]))
-void Buffer_to_struct(char cmd_var);
-char* take_word(uint8_t *take_index);
-int take_int(uint8_t *take_index);
-int take_color(uint8_t *take_index);
+
+
+#endif

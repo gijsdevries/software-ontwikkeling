@@ -2,6 +2,7 @@
 #define LOGIC_LAYER_H
 
 #include <global.h>
+#include <stdint.h>
 
 //structs per msg type
 typedef struct {
@@ -46,5 +47,10 @@ typedef struct {
 void clearScreenToVGA(clearscreen_struct CS_struct);
 void rectangleToVGA(rectangle_struct rectangleStruct);
 void lineToVGA(line_struct lineStruct);
+
+void bitmapToVGA (bitmap_struct bitmapStruct);
+
+// Bitmap: 320 x 240 pixels (uint8_t grayscale)
+// Values: 0 (black) to 255 (white)
 
 #endif

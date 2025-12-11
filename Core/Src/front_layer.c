@@ -351,6 +351,7 @@ int take_color(uint8_t *take_index)
     return -1;
 }
 
+
 static uint8_t check_coord(int val, int max_val, const char* argument_name) {
     if (val < 0 || val > max_val) {
         USART2_SendString(argument_name);

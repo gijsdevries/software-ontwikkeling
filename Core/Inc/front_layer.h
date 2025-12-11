@@ -39,6 +39,7 @@ void USART2_SendString();
 #define BITMAP_AMOUNT 6
 #define MAX_BITMAP_ARRAY 32
 
+
 //De functienaam koppelen aan de define code
 typedef struct {
     const char *name;

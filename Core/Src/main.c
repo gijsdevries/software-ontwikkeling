@@ -18,6 +18,7 @@
 #include "logic_layer.h"
 #include "global.h"
 
+
 int main(void)
 {
   SystemCoreClockUpdate();
@@ -30,4 +31,5 @@ int main(void)
   {
 	  USART2_BUFFER();
   }
+
 }

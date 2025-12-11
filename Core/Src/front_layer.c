@@ -138,8 +138,8 @@ void Buffer_to_struct(char cmd_val)
 			if (arg_diff != 0)return;
 
             text.x_lup = take_int(&take_index);
-			//errors += check_coord(text.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
-			//errors += check_coord(text.x_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+			//errors += check_coord(bitmap.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
+			//errors += check_coord(bitmap.x_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
 
             text.y_lup = take_int(&take_index);
 
@@ -190,6 +190,7 @@ void Buffer_to_struct(char cmd_val)
 
                  return;
              }
+             bitmapToVGA(bitmap);
             }
             break;
 
@@ -350,7 +351,6 @@ int take_color(uint8_t *take_index)
     USART2_SendString("De kleur die ingevuld is bestaat niet\n");
     return -1;
 }
-
 
 static uint8_t check_coord(int val, int max_val, const char* argument_name) {
     if (val < 0 || val > max_val) {

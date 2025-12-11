@@ -9,213 +9,30 @@
 
 
 static const char letter_a[SIZE_BIG_LETTER_Y] = {0x00, 0x30, 0x78, 0xcc, 0xcc, 0xcc, 0xfc, 0xcc, 0xcc, 0xcc, 0xcc, 0x00, 0x00, 0x00};
-
-const char nor_arial_a[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {0, 1, 1, 1, 0},
-  {1, 0, 0, 1, 0},
-  {1, 0, 0, 1, 0},
-  {1, 0, 0, 1, 0},
-  {0, 1, 1, 1, 1}
-};
-
-const char nor_arial_b[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 1, 0, 0, 0},
-  {1, 0, 1, 0, 0},
-  {1, 1, 0, 0, 0},
-  {1, 0, 0, 1, 0},
-  {1, 1, 1, 0, 0}
-};
-
-const char nor_arial_c[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {0, 1, 1, 1, 0},
-  {1, 0, 0, 0, 0},
-  {1, 0, 0, 0, 0},
-  {1, 0, 0, 0, 0},
-  {0, 1, 1, 1, 0}
-};
-
-const char nor_arial_d[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {0, 0, 1, 1, 0},
-  {0, 1, 0, 0, 1},
-  {0, 1, 0, 0, 1},
-  {0, 1, 0, 0, 1},
-  {0, 0, 1, 1, 0}
-};
-
-const char nor_arial_e[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 1, 1, 1, 0},
-  {1, 0, 0, 0, 0},
-  {1, 1, 1, 0, 0},
-  {1, 0, 0, 0, 0},
-  {1, 1, 1, 1, 0}
-};
-
-const char nor_arial_f[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {0, 1, 1, 1, 0},
-  {1, 0, 0, 0, 0},
-  {1, 1, 1, 0, 0},
-  {1, 0, 0, 0, 0},
-  {1, 0, 0, 0, 0}
-};
-
-const char nor_arial_g[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {0, 1, 1, 1, 0},
-  {1, 0, 0, 0, 1},
-  {1, 0, 0, 0, 1},
-  {0, 1, 1, 1, 0},
-  {0, 0, 0, 1, 1}
-};
-
-const char nor_arial_h[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 0, 0, 0, 0},
-  {1, 0, 0, 0, 0},
-  {1, 1, 1, 1, 0},
-  {1, 0, 0, 1, 0},
-  {1, 0, 0, 1, 0}
-};
-
-const char nor_arial_i[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {0, 1, 1, 1, 0},
-  {0, 0, 1, 0, 0},
-  {0, 0, 1, 0, 0},
-  {0, 0, 1, 0, 0},
-  {0, 1, 1, 1, 0}
-};
-
-const char nor_arial_j[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {0, 0, 0, 1, 0},
-  {0, 0, 0, 1, 0},
-  {0, 0, 0, 1, 0},
-  {1, 0, 0, 1, 0},
-  {0, 1, 1, 0, 0}
-};
-
-const char nor_arial_k[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 0, 0, 0, 0},
-  {1, 0, 0, 1, 0},
-  {1, 1, 1, 0, 0},
-  {1, 0, 0, 1, 0},
-  {1, 0, 0, 0, 1}
-};
-
-const char nor_arial_l[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 0, 0, 0, 0},
-  {1, 0, 0, 0, 0},
-  {1, 0, 0, 0, 0},
-  {1, 0, 0, 0, 0},
-  {1, 1, 1, 1, 1}
-};
-
-const char nor_arial_m[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 0, 0, 0, 1},
-  {1, 1, 0, 1, 1},
-  {1, 0, 1, 0, 1},
-  {1, 0, 0, 0, 1},
-  {1, 0, 0, 0, 1}
-};
-
-const char nor_arial_n[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 0, 0, 0, 0},
-  {1, 1, 0, 0, 0},
-  {1, 0, 1, 0, 0},
-  {1, 0, 0, 1, 0},
-  {1, 0, 0, 0, 1}
-};
-
-const char nor_arial_o[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {0, 1, 1, 1, 0},
-  {1, 0, 0, 0, 1},
-  {1, 0, 0, 0, 1},
-  {1, 0, 0, 0, 1},
-  {0, 1, 1, 1, 0}
-};
-
-const char nor_arial_p[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 1, 1, 0, 0},
-  {1, 0, 0, 1, 0},
-  {1, 1, 1, 0, 0},
-  {1, 0, 0, 0, 0},
-  {1, 0, 0, 0, 0}
-};
-
-const char nor_arial_q[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {0, 1, 1, 1, 0},
-  {1, 0, 0, 0, 1},
-  {1, 0, 0, 0, 1},
-  {0, 1, 1, 1, 0},
-  {0, 0, 0, 0, 1}
-};
-
-const char nor_arial_r[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 1, 1, 0, 0},
-  {1, 0, 0, 1, 0},
-  {1, 1, 0, 0, 0},
-  {1, 0, 0, 1, 0},
-  {1, 0, 0, 0, 1}
-};
-
-const char nor_arial_s[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {0, 1, 1, 1, 1},
-  {1, 0, 0, 0, 0},
-  {0, 1, 1, 1, 0},
-  {0, 0, 0, 0, 1},
-  {1, 1, 1, 1, 0}
-};
-
-const char nor_arial_t[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 1, 1, 1, 1},
-  {0, 0, 1, 0, 0},
-  {0, 0, 1, 0, 0},
-  {0, 0, 1, 0, 0},
-  {0, 0, 0, 1, 0}
-};
-
-const char nor_arial_u[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 0, 0, 0, 1},
-  {1, 0, 0, 0, 1},
-  {1, 0, 0, 0, 1},
-  {1, 0, 0, 0, 1},
-  {0, 1, 1, 1, 0}
-};
-
-const char nor_arial_v[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 0, 0, 0, 1},
-  {1, 0, 0, 0, 1},
-  {0, 1, 0, 1, 0},
-  {0, 1, 0, 1, 0},
-  {0, 0, 1, 0, 0}
-};
-
-const char nor_arial_w[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 0, 0, 0, 1},
-  {1, 0, 0, 0, 1},
-  {1, 0, 1, 0, 1},
-  {1, 1, 0, 1, 1},
-  {1, 0, 0, 0, 1}
-};
-
-const char nor_arial_x[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 0, 0, 0, 1},
-  {0, 1, 0, 1, 0},
-  {0, 0, 1, 0, 0},
-  {0, 1, 0, 1, 0},
-  {1, 0, 0, 0, 1}
-};
-
-const char nor_arial_y[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 0, 0, 0, 1},
-  {1, 0, 0, 0, 1},
-  {0, 1, 0, 1, 0},
-  {0, 0, 1, 0, 0},
-  {0, 0, 1, 0, 0}
-};
-
-const char nor_arial_z[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
-  {1, 1, 1, 1, 1},
-  {0, 0, 0, 1, 0},
-  {0, 0, 1, 0, 0},
-  {0, 1, 0, 0, 0},
-  {1, 1, 1, 1, 1}
-};
+static const char letter_b[SIZE_BIG_LETTER_Y] = {0x00, 0xf8, 0x6c, 0x6c, 0x6c, 0x78, 0x6c, 0x6c, 0x6c, 0x6c, 0xf8, 0x00, 0x00, 0x00};
+static const char letter_c[SIZE_BIG_LETTER_Y] = {0x00, 0x38, 0x6c, 0xc4, 0xc0, 0xc0, 0xc0, 0xc0, 0xc4, 0x6c, 0x38, 0x00, 0x00, 0x00};
+static const char letter_d[SIZE_BIG_LETTER_Y] = {0x00, 0xf0, 0xd8, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xd8, 0xf0, 0x00, 0x00, 0x00};
+static const char letter_e[SIZE_BIG_LETTER_Y] = {0x00, 0x7c, 0x6c, 0x64, 0x68, 0x78, 0x68, 0x60, 0x64, 0x6c, 0x7c, 0x00, 0x00, 0x00};
+static const char letter_f[SIZE_BIG_LETTER_Y] = {0x00, 0x7c, 0x64, 0x60, 0x68, 0x78, 0x68, 0x60, 0x60, 0x60, 0x70, 0x00, 0x00, 0x00};
+static const char letter_g[SIZE_BIG_LETTER_Y] = {0x00, 0x38, 0x6c, 0xc4, 0xc0, 0xc0, 0xdc, 0xcc, 0xcc, 0x6c, 0x34, 0x00, 0x00, 0x00};
+static const char letter_h[SIZE_BIG_LETTER_Y] = {0x00, 0xcc, 0xcc, 0xcc, 0xcc, 0xfc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0x00, 0x00, 0x00};
+static const char letter_i[SIZE_BIG_LETTER_Y] = {0x00, 0x3c, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x3c, 0x00, 0x00, 0x00};
+static const char letter_j[SIZE_BIG_LETTER_Y] = {0x00, 0x1c, 0x0c, 0x0c, 0x0c, 0x0c, 0x0c, 0xcc, 0xcc, 0xcc, 0x78, 0x00, 0x00, 0x00};
+static const char letter_k[SIZE_BIG_LETTER_Y] = {0x00, 0xcc, 0xcc, 0xcc, 0xd8, 0xf0, 0xf0, 0xd8, 0xcc, 0xcc, 0xcc, 0x00, 0x00, 0x00};
+static const char letter_l[SIZE_BIG_LETTER_Y] = {0x00, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0xc4, 0xcc, 0xfc, 0x00, 0x00, 0x00};
+static const char letter_m[SIZE_BIG_LETTER_Y] = {0x00, 0xc6, 0xee, 0xfe, 0xfe, 0xd6, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0x00, 0x00, 0x00};
+static const char letter_n[SIZE_BIG_LETTER_Y] = {0x00, 0xcc, 0xec, 0xec, 0xfc, 0xdc, 0xdc, 0xcc, 0xcc, 0xcc, 0xcc, 0x00, 0x00, 0x00};
+static const char letter_o[SIZE_BIG_LETTER_Y] = {0x00, 0x78, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0x78, 0x00, 0x00, 0x00};
+static const char letter_p[SIZE_BIG_LETTER_Y] = {0x00, 0xf8, 0xcc, 0xcc, 0xcc, 0xf8, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0x00, 0x00, 0x00};
+static const char letter_q[SIZE_BIG_LETTER_Y] = {0x00, 0x78, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xdc, 0x78, 0x18, 0x1c, 0x00};
+static const char letter_r[SIZE_BIG_LETTER_Y] = {0x00, 0xf8, 0xcc, 0xcc, 0xcc, 0xf8, 0xd8, 0xcc, 0xcc, 0xcc, 0xcc, 0x00, 0x00, 0x00};
+static const char letter_s[SIZE_BIG_LETTER_Y] = {0x00, 0x7c, 0xc4, 0xc0, 0xc0, 0x60, 0x38, 0x0c, 0x0c, 0x8c, 0xf8, 0x00, 0x00, 0x00};
+static const char letter_t[SIZE_BIG_LETTER_Y] = {0x00, 0xfc, 0xfc, 0xb4, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x78, 0x00, 0x00, 0x00};
+static const char letter_u[SIZE_BIG_LETTER_Y] = {0x00, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0x78, 0x00, 0x00, 0x00};
+static const char letter_v[SIZE_BIG_LETTER_Y] = {0x00, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0x78, 0x78, 0x30, 0x00, 0x00, 0x00};
+static const char letter_w[SIZE_BIG_LETTER_Y] = {0x00, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xfc, 0xfc, 0x48, 0x00, 0x00, 0x00};
+static const char letter_x[SIZE_BIG_LETTER_Y] = {0x00, 0xcc, 0xcc, 0x78, 0x78, 0x30, 0x30, 0x78, 0x78, 0xcc, 0xcc, 0x00, 0x00, 0x00};
+static const char letter_y[SIZE_BIG_LETTER_Y] = {0x00, 0xcc, 0xcc, 0xcc, 0xcc, 0x78, 0x30, 0x30, 0x30, 0x30, 0x30, 0x00, 0x00, 0x00};
+static const char letter_z[SIZE_BIG_LETTER_Y] = {0x00, 0xfc, 0xcc, 0x8c, 0x18, 0x18, 0x30, 0x60, 0xc4, 0xcc, 0xfc, 0x00, 0x00, 0x00};
 
 #endif

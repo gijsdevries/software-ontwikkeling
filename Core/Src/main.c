@@ -61,43 +61,36 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
   return textInfo;
 }
 
-//fontnaam arial, fontstijl normaal
-const char (*getSmallBitmapLetter(char letter))[SMALL_LETTER_SIZE] {
-  switch (letter) {
-    case 'a': return nor_arial_a;
-    case 'b': return nor_arial_b;
-    case 'c': return nor_arial_c;
-    case 'd': return nor_arial_d;
-    case 'e': return nor_arial_e;
-    case 'f': return nor_arial_f;
-    case 'g': return nor_arial_g;
-    case 'h': return nor_arial_h;
-    case 'i': return nor_arial_i;
-    case 'j': return nor_arial_j;
-    case 'k': return nor_arial_k;
-    case 'l': return nor_arial_l;
-    case 'm': return nor_arial_m;
-    case 'n': return nor_arial_n;
-    case 'o': return nor_arial_o;
-    case 'p': return nor_arial_p;
-    case 'q': return nor_arial_q;
-    case 'r': return nor_arial_r;
-    case 's': return nor_arial_s;
-    case 't': return nor_arial_t;
-    case 'u': return nor_arial_u;
-    case 'v': return nor_arial_v;
-    case 'w': return nor_arial_w;
-    case 'x': return nor_arial_x;
-    case 'y': return nor_arial_y;
-    case 'z': return nor_arial_z;
-  }
-}
-
 const char *bitmapLinus(char letter) {
 
   switch (letter) {
     case 'a': return letter_a;
-    default: return NULL;
+    case 'b': return letter_b;
+    case 'c': return letter_c;
+    case 'd': return letter_d;
+    case 'e': return letter_e;
+    case 'f': return letter_f;
+    case 'g': return letter_g;
+    case 'h': return letter_h;
+    case 'i': return letter_i;
+    case 'j': return letter_j;
+    case 'k': return letter_k;
+    case 'l': return letter_l;
+    case 'm': return letter_m;
+    case 'n': return letter_n;
+    case 'o': return letter_o;
+    case 'p': return letter_p;
+    case 'q': return letter_q;
+    case 'r': return letter_r;
+    case 's': return letter_s;
+    case 't': return letter_t;
+    case 'u': return letter_u;
+    case 'v': return letter_v;
+    case 'w': return letter_w;
+    case 'x': return letter_x;
+    case 'y': return letter_y;
+    case 'z': return letter_z;
+   default: return NULL;
   }
 }
 
@@ -141,25 +134,21 @@ void ttextToVGA(text_struct textStruct)
   size_t sizeOfText = strlen(textStruct.text);
   textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
 
-  printf("size of string: %zu\n", sizeOfText);
-
   int x = textStruct.x_lup;
   int y = textStruct.y_lup;
 
   if (textInfo.FONTGROOTTE == GROOT) {
 
-    char *letter_buf = bitmapLinus(textStruct.text[0]);
-    letterToVGANEW(x, y, textStruct.color, letter_buf, GROOT);
     for (char i = 0; i < sizeOfText; i++) {
-      if (letter_buf != NULL) {
+      char *letter_buf = bitmapLinus(textStruct.text[i]);
+      letterToVGANEW(x, y, textStruct.color, letter_buf, GROOT);
 
-        //letterToVGANEW(x, y, textStruct.color, letter_buf, GROOT);
-        if (x > VGA_DISPLAY_X - SMALL_LETTER_SIZE) { //go to a new line
-          x = 0;
-          y = y + SMALL_LETTER_SIZE;
-        }
-        x = x + SMALL_LETTER_SIZE;
+      //letterToVGANEW(x, y, textStruct.color, letter_buf, GROOT);
+      if (x > VGA_DISPLAY_X - SMALL_LETTER_SIZE) { //go to a new line
+        x = 0;
+        y = y + SIZE_BIG_LETTER_Y;
       }
+      x = x + SIZE_BIG_LETTER_X;
     }
   }
   else {
@@ -197,20 +186,20 @@ int main(void)
   USART2_Init();
 
   text_struct textStruct = {
-    .x_lup = 100,
-    .y_lup = 200,
+    .x_lup = 10,
+    .y_lup = 10,
     .color = VGA_COL_BLACK,
-    .text = "a",
+    .text = "abcdefghijklmnopqrstuvwxyz",
     .fontname = "arial",
     .fontsize = 2,
     .fontstyle = "normaal"
   };
 
-  //ttextToVGA(textStruct);
+  ttextToVGA(textStruct);
 
 
-  char* letter_buf = bitmapLinus('a');
-  letterToVGANEW(200, 100, textStruct.color, letter_buf, GROOT);
+  //char* letter_buf = bitmapLinus('a');
+  //letterToVGANEW(200, 100, textStruct.color, letter_buf, GROOT);
 
   while(1)
   {

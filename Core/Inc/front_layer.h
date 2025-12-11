@@ -3,6 +3,15 @@
 
 #include <global.h>
 
+// Toevoegen bovenaan bij de parsing/UART sectie
+#define UART_BUF_SIZE 128   // of groter, afhankelijk van maximale commando lengte
+extern volatile char uart_buf[UART_BUF_SIZE];
+extern volatile uint16_t uart_head;
+extern volatile uint16_t uart_tail;
+extern volatile uint8_t command_ready;   // flag om te weten dat er een compleet commando is
+extern char *buffer;     // dynamische buffer
+extern uint16_t idx;
+
 // Prototypes voor parsing en checking
 void Buffer_Check();
 void Buffer_to_struct(char cmd_var);
@@ -27,6 +36,8 @@ void USART2_SendString();
 #define TEKST_ARGS 7
 #define BITMAP_ARGS 3
 #define CLEARSCHERM_ARGS 1
+#define BITMAP_AMOUNT 6
+#define MAX_BITMAP_ARRAY 32
 
 
 //De functienaam koppelen aan de define code

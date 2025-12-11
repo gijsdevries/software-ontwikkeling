@@ -27,7 +27,7 @@ int main(void)
   UB_VGA_FillScreen(VGA_COL_RED);
   USART2_Init();
 
-  while(1)
+  while (1)
   {
 	  USART2_BUFFER();
   }

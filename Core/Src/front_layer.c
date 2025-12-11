@@ -4,8 +4,16 @@
 #include "stm32_ub_vga_screen.h"
 #include <string.h>
 
-char *buffer = NULL;   // Dynamische buffer
-uint8_t idx = 0;
+#include <stdlib.h>
+
+
+volatile char uart_buf[UART_BUF_SIZE];
+volatile uint16_t uart_head = 0;
+volatile uint16_t uart_tail = 0;
+volatile uint8_t command_ready = 0;
+
+char *buffer = NULL;    // dynamische buffer
+uint16_t idx = 0;
 
 // Parsing en checking functies
 void Buffer_Check()
@@ -83,11 +91,11 @@ void Buffer_to_struct(char cmd_val)
             {
                 rectangle_struct rechthoek;
 
-            arg_diff = Argument_checker(RECHTHOEK_ARGS);
-			if (arg_diff != 0)return;
+				arg_diff = Argument_checker(RECHTHOEK_ARGS);
+				if (arg_diff != 0)return;
 
-            rechthoek.x = take_int(&take_index);
-            errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
+				rechthoek.x = take_int(&take_index);
+				errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
 
                 rechthoek.y = take_int(&take_index);
                 errors += check_coord(rechthoek.y, VGA_DISPLAY_Y, "Y");
@@ -130,7 +138,12 @@ void Buffer_to_struct(char cmd_val)
 			if (arg_diff != 0)return;
 
             text.x_lup = take_int(&take_index);
+			//errors += check_coord(text.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
+			//errors += check_coord(text.x_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+
             text.y_lup = take_int(&take_index);
+
+
             text.color = take_color(&take_index);
             text.text = take_word(&take_index); // Bij het pakken van een string gebruik primaire commando, deze moet na alle logica weer vrij gegeven worden
             text.fontname = take_word(&take_index); // Zelfde hier
@@ -153,12 +166,30 @@ void Buffer_to_struct(char cmd_val)
 			if (arg_diff != 0)return;
 
 			bitmap.bm_nr = take_int(&take_index);
+			errors += check_coord(bitmap.bm_nr, BITMAP_AMOUNT, "bitmap.bm_nr");
+
             bitmap.x_lup = take_int(&take_index);
-            bitmap.y_lup = take_int(&take_index);
+			errors += check_coord(bitmap.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
+			errors += check_coord(bitmap.x_lup + MAX_BITMAP_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
 
+			bitmap.y_lup = take_int(&take_index);
+			errors += check_coord(bitmap.y_lup, VGA_DISPLAY_Y, "bitmap.y_lup");
+			errors += check_coord(bitmap.y_lup + MAX_BITMAP_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
 
-                //LOGIC LAYER FUNCTIE TODO
-            bitmapToVGA(bitmap);
+			if (bitmap.bm_nr < 0 || bitmap.bm_nr > BITMAP_AMOUNT)
+			{
+			    USART2_SendString("De Bitmap functie die is ingevuld bestaat niet\n");
+			    errors++;
+			}
+
+             if(errors > 0)
+             {
+                 USART2_SendString("Totaal aantal errors: ");
+                 USART2_SendChar(errors);
+                 USART2_SendString("\n");
+
+                 return;
+             }
             }
             break;
 
@@ -341,11 +372,29 @@ void USART2_Init(void) {
     GPIOA->MODER |= (2 << (2*2)) | (2 << (3*2));
     GPIOA->AFR[0] |= (7 << (2*4)) | (7 << (3*4));
 
-    // Baudrate 115200
-    uint32_t pclk1 = SystemCoreClock / 4; // APB1
+    // Baudrate 115200 (check APB1 klok)
+    uint32_t pclk1 = SystemCoreClock / 4;
     USART2->BRR = pclk1 / 115200;
 
-    USART2->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
+    // Transmit enable, Receive enable, USART enable, Interrupt aanzetten bij ontvangen character
+    USART2->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE | USART_CR1_RXNEIE;
+
+    // Enable NVIC (Nested Vector Interrupt Controller)
+    NVIC_EnableIRQ(USART2_IRQn);
+}
+
+void USART2_IRQHandler(void)
+{
+    if (USART2->SR & USART_SR_RXNE)
+    {
+        char c = USART2->DR;
+        uint16_t next = (uart_head + 1) % UART_BUF_SIZE;
+        if(next != uart_tail)
+        {
+            uart_buf[uart_head] = c;
+            uart_head = next;
+        }
+    }
 }
 
 char USART2_ReceiveChar(void) {
@@ -353,30 +402,36 @@ char USART2_ReceiveChar(void) {
     return USART2->DR;
 }
 
-void USART2_BUFFER()
+void USART2_BUFFER(void)
 {
-    char UART_karakter = USART2_ReceiveChar(); // Ontvang karakter vanaf USART2
+    while(uart_tail != uart_head) // zolang er chars in de ringbuffer
+    {
+        char c = uart_buf[uart_tail];
+        uart_tail = (uart_tail + 1) % UART_BUF_SIZE;
 
-    char *new_buffer = realloc(buffer, idx + 2); // Pas buffer dynamisch aan
-                                                 // Als er geen karakter is ingevuld doe niks
-    if (new_buffer == NULL) {
-        return;
-    }
-    // Pas buffer aan
-    buffer = new_buffer;
-    buffer[idx++] = UART_karakter;
-    // Als enter is ingevuld sluit string af en start parsing
-    if (UART_karakter == '\n') {
-        buffer[idx] = '\0';
+        // Dynamische buffer aanmaken of vergroten
+        if(buffer == NULL)
+        {
+            buffer = malloc(1);
+            idx = 0;
+        }
+        else
+        {
+            char* tmp = realloc(buffer, idx + 1);
+            if(tmp == NULL) continue; // memory fail
+            buffer = tmp;
+        }
 
-        Buffer_Check();
+        buffer[idx++] = c;
 
-        idx = 0;
-
-        free(buffer);
-        buffer = NULL;
-
-        //parse
+        if(c == '\n')  // einde commando
+        {
+            buffer[idx] = '\0'; // sluit string
+            Buffer_Check();     // parse en teken meteen
+            free(buffer);       // opruimen
+            buffer = NULL;
+            idx = 0;
+        }
     }
 }
 
@@ -386,7 +441,7 @@ void USART2_SendChar(char c) {
 }
 
 void USART2_SendString(char *str) {
+
+
     while (*str) USART2_SendChar(*str++);
 }
-
-

@@ -138,7 +138,12 @@ void Buffer_to_struct(char cmd_val)
 			if (arg_diff != 0)return;
 
             text.x_lup = take_int(&take_index);
+			errors += check_coord(bitmap.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
+			errors += check_coord(bitmap.x_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+
             text.y_lup = take_int(&take_index);
+
+
             text.color = take_color(&take_index);
             text.text = take_word(&take_index); // Bij het pakken van een string gebruik primaire commando, deze moet na alle logica weer vrij gegeven worden
             text.fontname = take_word(&take_index); // Zelfde hier
@@ -171,7 +176,7 @@ void Buffer_to_struct(char cmd_val)
 			errors += check_coord(bitmap.y_lup, VGA_DISPLAY_Y, "bitmap.y_lup");
 			errors += check_coord(bitmap.y_lup + MAX_BITMAP_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
 
-			if (bitmap.bm_nr < 0 || bitmap.bm_nr > 5)
+			if (bitmap.bm_nr < 0 || bitmap.bm_nr > BITMAP_AMOUNT)
 			{
 			    USART2_SendString("De Bitmap functie die is ingevuld bestaat niet\n");
 			    errors++;

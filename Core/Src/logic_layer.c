@@ -48,7 +48,7 @@ const char *getRawLetter(char letter, int size) {
       case '(': return small_left_paren;
       case ')': return small_right_paren;
       case '*': return small_asterisk;
-      case ' ': return space;
+      case ' ': return small_space;
 
       case '0': return small_zero;
       case '1': return small_one;
@@ -131,7 +131,7 @@ const char *getRawLetter(char letter, int size) {
       case '(': return big_left_paren;
       case ')': return big_right_paren;
       case '*': return big_asterisk;
-      case ' ': return space;
+      case ' ': return big_space;
 
       case '0': return big_zero;
       case '1': return big_one;

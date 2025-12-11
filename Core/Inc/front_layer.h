@@ -12,11 +12,6 @@ extern volatile uint8_t command_ready;   // flag om te weten dat er een compleet
 extern char *buffer;     // dynamische buffer
 extern uint16_t idx;
 
-
-// Toevoegen prototypes
-void USART2_ProcessBuffer(void);   // verwerk characters uit ringbuffer
-void USART2_ParseCommand(void);    // parse als command_ready == 1
-
 // Prototypes voor parsing en checking
 void Buffer_Check();
 void Buffer_to_struct(char cmd_var);

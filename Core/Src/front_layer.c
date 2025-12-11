@@ -15,7 +15,6 @@ volatile uint8_t command_ready = 0;
 char *buffer = NULL;    // dynamische buffer
 uint16_t idx = 0;
 
-
 // Parsing en checking functies
 void Buffer_Check()
 {
@@ -348,13 +347,13 @@ void USART2_Init(void) {
     GPIOA->AFR[0] |= (7 << (2*4)) | (7 << (3*4));
 
     // Baudrate 115200 (check APB1 klok)
-    uint32_t pclk1 = SystemCoreClock / 4; // APB1
+    uint32_t pclk1 = SystemCoreClock / 4;
     USART2->BRR = pclk1 / 115200;
 
-    // Enable USART, TX, RX en RX interrupt
+    // Transmit enable, Receive enable, USART enable, Interrupt aanzetten bij ontvangen character
     USART2->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE | USART_CR1_RXNEIE;
 
-    // Enable NVIC interrupt
+    // Enable NVIC (Nested Vector Interrupt Controller)
     NVIC_EnableIRQ(USART2_IRQn);
 }
 

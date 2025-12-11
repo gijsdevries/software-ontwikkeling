@@ -29,6 +29,5 @@ int main(void)
   while (1)
   {
 	  USART2_BUFFER();
-	      // hier kunnen andere VGA/logica taken vloeiend doorlopen
   }
 }

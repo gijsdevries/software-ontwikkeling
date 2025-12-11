@@ -31,6 +31,18 @@ int main(void)
 
   textToVGA(textStruct);
 
+  text_struct textStruct2 = {
+    .x_lup = 1, 
+    .y_lup = 100,
+    .color = VGA_COL_BLACK,
+    .text = "!@#$%^&*() 123456789 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    .fontname = "arial",
+    .fontsize = 1, 
+    .fontstyle = "normaal"
+  };
+
+  textToVGA(textStruct2);
+
   while(1)
   {
     USART2_BUFFER();

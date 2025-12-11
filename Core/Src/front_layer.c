@@ -91,11 +91,11 @@ void Buffer_to_struct(char cmd_val)
             {
                 rectangle_struct rechthoek;
 
-            arg_diff = Argument_checker(RECHTHOEK_ARGS);
-			if (arg_diff != 0)return;
+				arg_diff = Argument_checker(RECHTHOEK_ARGS);
+				if (arg_diff != 0)return;
 
-            rechthoek.x = take_int(&take_index);
-            errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
+				rechthoek.x = take_int(&take_index);
+				errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
 
                 rechthoek.y = take_int(&take_index);
                 errors += check_coord(rechthoek.y, VGA_DISPLAY_Y, "Y");
@@ -138,7 +138,12 @@ void Buffer_to_struct(char cmd_val)
 			if (arg_diff != 0)return;
 
             text.x_lup = take_int(&take_index);
+			//errors += check_coord(bitmap.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
+			//errors += check_coord(bitmap.x_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+
             text.y_lup = take_int(&take_index);
+
+
             text.color = take_color(&take_index);
             text.text = take_word(&take_index); // Bij het pakken van een string gebruik primaire commando, deze moet na alle logica weer vrij gegeven worden
             text.fontname = take_word(&take_index); // Zelfde hier
@@ -160,11 +165,32 @@ void Buffer_to_struct(char cmd_val)
             arg_diff = Argument_checker(BITMAP_ARGS);
 			if (arg_diff != 0)return;
 
-            bitmap.x_lup = take_int(&take_index);
-            bitmap.y_lup = take_int(&take_index);
-            bitmap.bm_nr = take_int(&take_index);
+			bitmap.bm_nr = take_int(&take_index);
+			errors += check_coord(bitmap.bm_nr, BITMAP_AMOUNT, "bitmap.bm_nr");
 
-                //LOGIC LAYER FUNCTIE TODO
+            bitmap.x_lup = take_int(&take_index);
+			errors += check_coord(bitmap.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
+			errors += check_coord(bitmap.x_lup + MAX_BITMAP_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+
+			bitmap.y_lup = take_int(&take_index);
+			errors += check_coord(bitmap.y_lup, VGA_DISPLAY_Y, "bitmap.y_lup");
+			errors += check_coord(bitmap.y_lup + MAX_BITMAP_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+
+			if (bitmap.bm_nr < 0 || bitmap.bm_nr > BITMAP_AMOUNT)
+			{
+			    USART2_SendString("De Bitmap functie die is ingevuld bestaat niet\n");
+			    errors++;
+			}
+
+             if(errors > 0)
+             {
+                 USART2_SendString("Totaal aantal errors: ");
+                 USART2_SendChar(errors);
+                 USART2_SendString("\n");
+
+                 return;
+             }
+             bitmapToVGA(bitmap);
             }
             break;
 
@@ -185,6 +211,104 @@ void Buffer_to_struct(char cmd_val)
             }
             break;
     }
+}
+
+char Argument_checker(char Argument_goal)
+{
+	char argAmount = Argument_counter();
+	char arg_diff = 0;
+
+	if(argAmount > Argument_goal)
+	{
+		arg_diff = argAmount - Argument_goal;
+		USART2_SendChar(arg_diff);
+		USART2_SendString(" argument(en) te veel. \n");
+	}
+ 	if(argAmount < Argument_goal)
+	{
+		arg_diff = Argument_goal - argAmount;
+		USART2_SendChar(arg_diff);
+		USART2_SendString(" argument(en) te weinig. \n");
+	}
+
+ 	return arg_diff;
+}
+
+char Argument_counter()
+{
+    int8_t idx_check = 0;
+    char argAmount = 0;
+
+    // 1. Skip het commando woord ("lijn")
+    take_int(&idx_check);
+    // 2. Parse parameters op basis van buffer
+    char *arg[MAX_ARG];
+
+    for (char argCounter = 0; argCounter < MAX_ARG; argCounter++)
+        arg[argCounter] = take_word(&idx_check);
+
+    // Doe nu checks
+    for(char argNum = 0; argNum < MAX_ARG; argNum++)
+    {
+        if (arg[argNum] != NULL)
+        {
+            argAmount++;
+        }
+        free(arg[argNum]);
+    }
+
+    return argAmount;
+}
+
+int take_int(uint8_t *take_index)
+{
+    char* argument = take_word(take_index); // Pak het woord uit de buffer
+    int int_argument = atoi(argument); // Converteer woord naar int
+    free(argument); // Geef geheugen vrij
+
+    return int_argument; // Geef int terug
+}
+
+char* take_word(uint8_t *take_index)
+{
+    if (*take_index >= idx) return NULL; // Alles al gelezen
+
+    // Skip spaties voor het woord
+    while (*take_index < idx && buffer[*take_index] == ' ')
+        (*take_index)++;
+
+    uint8_t start = *take_index;
+    uint8_t len = 0;
+
+    // Zoek het einde van het woord (komma of einde buffer)
+    while (*take_index < idx && buffer[*take_index] != ',')
+    {
+        (*take_index)++;
+        len++;
+    }
+
+    // Trim spaties, newline (\n) en carriage return (\r) van het einde
+    while (len > 0 &&
+            (buffer[start + len - 1] == ' ' ||
+             buffer[start + len - 1] == '\n' ||
+             buffer[start + len - 1] == '\r'))
+    {
+        len--;
+    }
+
+    // Allocate geheugen voor het woord
+    char* word = malloc(len + 1);
+    if (!word) return NULL;
+
+    for (uint8_t j = 0; j < len; j++)
+        word[j] = buffer[start + j];
+
+    word[len] = '\0'; // Sluit af
+
+    // Skip de komma als die er is
+    if (*take_index < idx && buffer[*take_index] == ',') (*take_index)++;
+
+    return word;
 }
 
 char Argument_checker(char Argument_goal)

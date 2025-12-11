@@ -36,6 +36,8 @@ void USART2_SendString();
 #define TEKST_ARGS 7
 #define BITMAP_ARGS 3
 #define CLEARSCHERM_ARGS 1
+#define BITMAP_AMOUNT 6
+#define MAX_BITMAP_ARRAY 32
 
 //De functienaam koppelen aan de define code
 typedef struct {
@@ -57,4 +59,3 @@ static Eerste_woord commands[] = {
 
 
 #endif
-

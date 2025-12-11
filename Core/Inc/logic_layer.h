@@ -88,4 +88,6 @@ void lineToVGA(line_struct lineStruct);
 
 void textToVGA(text_struct textStruct);
 
+void bitmapToVGA (bitmap_struct bitmapStruct);
+
 #endif

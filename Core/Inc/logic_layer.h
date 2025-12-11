@@ -45,8 +45,32 @@ typedef struct {
 } bitmap_struct;
 
 typedef struct {
+  int FONTNAAM;
+  int FONTSTIJL;
+  int FONTGROOTTE;
+} textInfo;
+
+typedef struct {
   int color;
 } clearscreen_struct;
+
+
+enum FONTNAMES {
+  ARIAL,
+  CONSOLAS
+};
+
+enum FONTSTYLE {
+  NORMAAL,
+  VET,
+  CURSIEF
+};
+
+enum FONTGROOTTE {
+  GROOT,
+  KLEIN
+};
+
 
 /**
  * @brief writes a color to VGA screen. 
@@ -61,6 +85,7 @@ void clearScreenToVGA(clearscreen_struct CS_struct);
 void rectangleToVGA(rectangle_struct rectangleStruct);
 
 void lineToVGA(line_struct lineStruct);
+
 void textToVGA(text_struct textStruct);
 
 #endif

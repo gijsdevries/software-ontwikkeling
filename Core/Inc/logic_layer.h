@@ -5,6 +5,7 @@
 #ifndef LOGIC_LAYER_H 
 #define LOGIC_LAYER_H
 
+#include <global.h>
 #include <stdbool.h>
 #include <stdint.h>
 

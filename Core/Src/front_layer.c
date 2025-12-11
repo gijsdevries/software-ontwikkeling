@@ -138,8 +138,8 @@ void Buffer_to_struct(char cmd_val)
 			if (arg_diff != 0)return;
 
             text.x_lup = take_int(&take_index);
-			errors += check_coord(bitmap.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
-			errors += check_coord(bitmap.x_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+			//errors += check_coord(text.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
+			//errors += check_coord(text.x_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
 
             text.y_lup = take_int(&take_index);
 

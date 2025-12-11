@@ -91,11 +91,11 @@ void Buffer_to_struct(char cmd_val)
             {
                 rectangle_struct rechthoek;
 
-            arg_diff = Argument_checker(RECHTHOEK_ARGS);
-			if (arg_diff != 0)return;
+				arg_diff = Argument_checker(RECHTHOEK_ARGS);
+				if (arg_diff != 0)return;
 
-            rechthoek.x = take_int(&take_index);
-            errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
+				rechthoek.x = take_int(&take_index);
+				errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
 
                 rechthoek.y = take_int(&take_index);
                 errors += check_coord(rechthoek.y, VGA_DISPLAY_Y, "Y");
@@ -160,11 +160,31 @@ void Buffer_to_struct(char cmd_val)
             arg_diff = Argument_checker(BITMAP_ARGS);
 			if (arg_diff != 0)return;
 
-            bitmap.x_lup = take_int(&take_index);
-            bitmap.y_lup = take_int(&take_index);
-            bitmap.bm_nr = take_int(&take_index);
+			bitmap.bm_nr = take_int(&take_index);
+			errors += check_coord(bitmap.bm_nr, BITMAP_AMOUNT, "bitmap.bm_nr");
 
-                //LOGIC LAYER FUNCTIE TODO
+            bitmap.x_lup = take_int(&take_index);
+			errors += check_coord(bitmap.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
+			errors += check_coord(bitmap.x_lup + MAX_BITMAP_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+
+			bitmap.y_lup = take_int(&take_index);
+			errors += check_coord(bitmap.y_lup, VGA_DISPLAY_Y, "bitmap.y_lup");
+			errors += check_coord(bitmap.y_lup + MAX_BITMAP_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+
+			if (bitmap.bm_nr < 0 || bitmap.bm_nr > 5)
+			{
+			    USART2_SendString("De Bitmap functie die is ingevuld bestaat niet\n");
+			    errors++;
+			}
+
+             if(errors > 0)
+             {
+                 USART2_SendString("Totaal aantal errors: ");
+                 USART2_SendChar(errors);
+                 USART2_SendString("\n");
+
+                 return;
+             }
             }
             break;
 

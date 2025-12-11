@@ -231,9 +231,6 @@ int letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, int size
 }
 
 
-void clearScreenToVGA(clearscreen_struct CS_struct)
-{
-
 void clearScreenToVGA(clearscreen_struct CS_struct) {
   UB_VGA_FillScreen(CS_struct.color);
 }
@@ -337,6 +334,7 @@ void textToVGA(text_struct textStruct)
 
 
   }
+}
 
 uint8_t SMILEY_BLIJ_BITMAP[1024] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

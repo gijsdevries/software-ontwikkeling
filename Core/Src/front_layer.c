@@ -150,7 +150,8 @@ void Buffer_to_struct(char cmd_val)
             text.fontsize = take_int(&take_index);
             text.fontstyle = take_int(&take_index);
 
-                //LOGIC LAYER FUNCTIE TODO
+            textToVGA(text);
+
 
                 // Geef geheugen vrij
                 free(text.text);

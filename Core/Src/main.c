@@ -93,6 +93,15 @@ const char (*getSmallBitmapLetter(char letter))[SMALL_LETTER_SIZE] {
   }
 }
 
+const char *bitmapLinus(char letter) {
+  static const char letter_a[14] = {0x00, 0x30, 0x78, 0xcc, 0xcc, 0xcc, 0xfc, 0xcc, 0xcc, 0xcc, 0xcc, 0x00, 0x00, 0x00};
+
+  switch (letter) {
+    case 'a': return letter_a;
+    default: return NULL;
+  }
+}
+
 const char (*getSmallBitmap(textInfo textInfo, char letter))[SMALL_LETTER_SIZE] {
 
   switch (textInfo.FONTSTIJL) {
@@ -193,9 +202,10 @@ int main(void)
 
   //ttextToVGA(textStruct);
 
-  static const uint8_t letter[14] = {0x00, 0x7c, 0x82, 0xaa, 0x82, 0x82, 0xba, 0x92, 0x82, 0x7c, 0x00, 0x00, 0x00, 0x00};
+  static const char letter[14] = {0x00, 0x7c, 0x82, 0xaa, 0x82, 0x82, 0xba, 0x92, 0x82, 0x7c, 0x00, 0x00, 0x00, 0x00};
 
-  letterToVGANEW(100, 100, textStruct.color, letter, SMALL_LETTER_SIZE);
+  char* letter_buf = bitmapLinus('a');
+  letterToVGANEW(100, 100, textStruct.color, letter_buf, 14);
 
 
   while(1)

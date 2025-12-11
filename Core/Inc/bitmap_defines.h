@@ -4,6 +4,12 @@
 #include <stdint.h>
 #include "logic_layer.h"
 
+#define SIZE_BIG_LETTER_Y 14
+#define SIZE_BIG_LETTER_X 8
+
+
+static const char letter_a[SIZE_BIG_LETTER_Y] = {0x00, 0x30, 0x78, 0xcc, 0xcc, 0xcc, 0xfc, 0xcc, 0xcc, 0xcc, 0xcc, 0x00, 0x00, 0x00};
+
 const char nor_arial_a[SMALL_LETTER_SIZE][SMALL_LETTER_SIZE] = {
   {0, 1, 1, 1, 0},
   {1, 0, 0, 1, 0},

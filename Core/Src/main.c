@@ -94,7 +94,6 @@ const char (*getSmallBitmapLetter(char letter))[SMALL_LETTER_SIZE] {
 }
 
 const char *bitmapLinus(char letter) {
-  static const char letter_a[14] = {0x00, 0x30, 0x78, 0xcc, 0xcc, 0xcc, 0xfc, 0xcc, 0xcc, 0xcc, 0xcc, 0x00, 0x00, 0x00};
 
   switch (letter) {
     case 'a': return letter_a;
@@ -147,12 +146,14 @@ void ttextToVGA(text_struct textStruct)
   int x = textStruct.x_lup;
   int y = textStruct.y_lup;
 
-  if (textInfo.FONTGROOTTE == KLEIN) {
+  if (textInfo.FONTGROOTTE == GROOT) {
+
+    char *letter_buf = bitmapLinus(textStruct.text[0]);
+    letterToVGANEW(x, y, textStruct.color, letter_buf, GROOT);
     for (char i = 0; i < sizeOfText; i++) {
-      const char (*psmall_bitmap)[SMALL_LETTER_SIZE] = getSmallBitmapLetter(textStruct.text[i]);
-      if (psmall_bitmap != NULL) {
-        printf("drawing bitmap now....\n");
-        letterToVGA(x, y, textStruct.color, (uint8_t(*)[SMALL_LETTER_SIZE])psmall_bitmap, SMALL_LETTER_SIZE);
+      if (letter_buf != NULL) {
+
+        //letterToVGANEW(x, y, textStruct.color, letter_buf, GROOT);
         if (x > VGA_DISPLAY_X - SMALL_LETTER_SIZE) { //go to a new line
           x = 0;
           y = y + SMALL_LETTER_SIZE;
@@ -166,19 +167,24 @@ void ttextToVGA(text_struct textStruct)
   }
 }
 
-int letterToVGANEW(int x_lup, int y_lup, int color, const uint8_t *letter, int font_size)
+int letterToVGANEW(int x_lup, int y_lup, int color, const uint8_t *letter, int size)
 {
-    for (int y = 0; y < font_size; y++) // Loop door alle y coördinaten heen
+  char y_max, x_max = 0;
+  if (size == GROOT) {
+    y_max = SIZE_BIG_LETTER_Y;
+    x_max = SIZE_BIG_LETTER_X;
+  }
+  for (int y = 0; y < y_max; y++) // Loop door alle y coördinaten heen
+  {
+    for (int x = 0; x < x_max; x++) // Loop door alle x coördinaten heen
     {
-        for (int x = 0; x < 8; x++) // Loop door alle x coördinaten heen
-        {
-            if ((letter[y] << x) & 0x80) // Als een pixel hoog is
-            {
-                UB_VGA_SetPixel(x_lup + x, y_lup + y, color); // Pas de pixel aan naar de gegeven kleur
-            }
-        }
+      if ((letter[y] << x) & 0x80) // Als een pixel hoog is
+      {
+        UB_VGA_SetPixel(x_lup + x, y_lup + y, color); // Pas de pixel aan naar de gegeven kleur
+      }
     }
-    return 0;
+  }
+  return 0;
 }
 
 
@@ -194,19 +200,17 @@ int main(void)
     .x_lup = 100,
     .y_lup = 200,
     .color = VGA_COL_BLACK,
-    .text = "abcdefghijklmnopqrstuvwxyz",
+    .text = "a",
     .fontname = "arial",
-    .fontsize = 1,
+    .fontsize = 2,
     .fontstyle = "normaal"
   };
 
   //ttextToVGA(textStruct);
 
-  static const char letter[14] = {0x00, 0x7c, 0x82, 0xaa, 0x82, 0x82, 0xba, 0x92, 0x82, 0x7c, 0x00, 0x00, 0x00, 0x00};
 
   char* letter_buf = bitmapLinus('a');
-  letterToVGANEW(100, 100, textStruct.color, letter_buf, 14);
-
+  letterToVGANEW(200, 100, textStruct.color, letter_buf, GROOT);
 
   while(1)
   {

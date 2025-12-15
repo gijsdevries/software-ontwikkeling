@@ -4,12 +4,6 @@
 #include <stdint.h>
 #include "logic_layer.h"
 
-#define SIZE_BIG_LETTER_X 8
-#define SIZE_BIG_LETTER_Y 14
-
-#define SIZE_SMALL_LETTER_X 7
-#define SIZE_SMALL_LETTER_Y 8
-
 #define SIZES 2
 
 /*

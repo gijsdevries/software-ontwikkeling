@@ -2,6 +2,7 @@
 #include "front_layer.h"
 #include "logic_layer.h"
 #include "stm32_ub_vga_screen.h"
+#include "bitmap_defines.h"
 #include <string.h>
 
 #include <stdlib.h>
@@ -26,8 +27,6 @@ void Buffer_Check()
         if (strncmp(buffer, commands[i].name, strlen(commands[i].name)) == 0)
         {
             cmd_var = commands[i].code;
-            //USART2_SendChar(cmd_var);
-            //USART2_SendChar('\n');
             Buffer_to_struct(cmd_var);
 
             return;
@@ -54,11 +53,11 @@ void Buffer_to_struct(char cmd_val)
             {
                 line_struct lijn;
 
-            arg_diff = Argument_checker(LIJN_ARGS);
-            if (arg_diff != 0)return;
+				arg_diff = Argument_checker(LIJN_ARGS);
+				if (arg_diff != 0)return;
 
-            lijn.x_1 = take_int(&take_index);
-            errors += check_coord(lijn.x_1, VGA_DISPLAY_X, "X_1");
+				lijn.x_1 = take_int(&take_index);
+				errors += check_coord(lijn.x_1, VGA_DISPLAY_X, "X_1");
 
                 lijn.y_1 = take_int(&take_index);
                 errors += check_coord(lijn.y_1, VGA_DISPLAY_Y, "Y_1");
@@ -132,30 +131,80 @@ void Buffer_to_struct(char cmd_val)
 
         case TEKST: // Vul text struct en roep text functie aan
             {
-                text_struct text;
+			text_struct text;
+			int letter_w, letter_h;
 
             arg_diff = Argument_checker(TEKST_ARGS);
 			if (arg_diff != 0)return;
 
             text.x_lup = take_int(&take_index);
-			//errors += check_coord(bitmap.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
-			//errors += check_coord(bitmap.x_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+			errors += check_coord(text.x_lup, VGA_DISPLAY_X, "text.x_lup");
+			//errors += check_coord(text.x_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_X, "text.x_lup");
 
             text.y_lup = take_int(&take_index);
-
+			errors += check_coord(text.y_lup, VGA_DISPLAY_Y, "text.y_lup");
+			//errors += check_coord(text.y_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_Y, "text.y_lup");
 
             text.color = take_color(&take_index);
+            if (text.color == -1) errors++;
+
             text.text = take_word(&take_index); // Bij het pakken van een string gebruik primaire commando, deze moet na alle logica weer vrij gegeven worden
-            text.fontname = take_word(&take_index); // Zelfde hier
+            if (text.text == NULL || strlen(text.text) == 0)
+			{
+				USART2_SendString("Tekst mag niet leeg zijn\n");
+				errors++;
+			}
+
+            text.fontname = take_word(&take_index);
+            if (text.fontname == NULL ||(strcmp(text.fontname, "arial") != 0 && strcmp(text.fontname, "consolas") != 0))
+			{
+				USART2_SendString("Ongeldige fontnaam (arial/consolas)\n");
+				errors++;
+			}
+
             text.fontsize = take_int(&take_index);
-            text.fontstyle = take_int(&take_index);
+            if (text.fontsize != 1 && text.fontsize != 2)
+            {
+                USART2_SendString("Fontgrootte moet 1 (klein) of 2 (groot) zijn\n");
+                errors++;
+            }
+
+            text.fontstyle = take_word(&take_index);
+            if (text.fontstyle == NULL || (strcmp(text.fontstyle, "normaal") != 0 && strcmp(text.fontstyle, "vet") != 0 && strcmp(text.fontstyle, "cursief") != 0))
+		    {
+			   USART2_SendString("Fontstijl moet normaal, vet of cursief zijn\n");
+			   errors++;
+		    }
+
+            if (errors == 0)
+            {
+                if (text.fontsize == 2) {
+                    letter_w = SIZE_BIG_LETTER_X;
+                    letter_h = SIZE_BIG_LETTER_Y;
+                } else {
+                    letter_w = SIZE_SMALL_LETTER_X;
+                    letter_h = SIZE_SMALL_LETTER_Y;
+                }
+
+                errors += check_coord( text.x_lup + strlen(text.text) * letter_w, VGA_DISPLAY_X,"tekst breedte");
+
+                errors += check_coord(text.y_lup + letter_h, VGA_DISPLAY_Y,"tekst hoogte");
+            }
+
+            if (errors > 0)
+            {
+                USART2_SendString("Totaal aantal errors: ");
+                USART2_SendChar(errors + '0');
+                USART2_SendString("\n");
+                return;
+            }
 
             textToVGA(text);
 
 
                 // Geef geheugen vrij
-                free(text.text);
-                free(text.fontname);
+                //free(text.text);
+                //free(text.fontname);
             }
             break;
 

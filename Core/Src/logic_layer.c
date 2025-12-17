@@ -36,6 +36,7 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
 
 const char *getRawLetter(char letter, int size) {
 
+  return big_lc_a;
   char index = 0;
 
   if (size == KLEIN)

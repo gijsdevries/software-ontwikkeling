@@ -6,12 +6,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-volatile char uart_buf[UART_BUF_SIZE];
-volatile uint16_t uart_head = 0;
-volatile uint16_t uart_tail = 0;
+volatile char uart_buf[UART_BUF_SIZE]; // USART2 Buffer
+volatile uint16_t uart_head = 0;       // Schrijfpointer
+volatile uint16_t uart_tail = 0;       // Leespointer
 
 char *buffer = NULL;    // dynamische buffer
-uint16_t idx = 0;
+uint16_t idx = 0;       // Lees variabele voor buffer
 
 // Parsing en checking functies
 void Buffer_Check()
@@ -42,7 +42,7 @@ void Buffer_to_struct(char cmd_val)
   take_int(&take_index); // Skip het eerste woord
 
 
-  switch (cmd_val) // Vul juiste struct en start juiste functie op basis van de in X functie (Piotr) gevonden commando
+  switch (cmd_val) // Vul juiste struct, start juiste functie en error handling
   {
     case LIJN: // Vul lijn struct en roep lijn functie aan
       {
@@ -67,8 +67,10 @@ void Buffer_to_struct(char cmd_val)
         lijn.color = take_color(&take_index);
         if (lijn.color == -1) errors++;
 
-        lijn.weight = take_int(&take_index); // ERROR HANDLING IN LOGIC LAYER
+        lijn.weight = take_int(&take_index);
+        // ERROR HANDLING IN LOGIC LAYER
 
+        // Error report
         if(errors > 0)
         {
           USART2_SendString("Totaal aantal errors: ");
@@ -78,6 +80,7 @@ void Buffer_to_struct(char cmd_val)
           return;
         }
 
+        //LOGIC LAYER FUNCTIE
         lineToVGA(lijn);
       }
       break;
@@ -112,6 +115,7 @@ void Buffer_to_struct(char cmd_val)
           USART2_SendString("Opvulling kan alleen 0 of 1 zijn \n");
         }
 
+        // Error report
         if(errors > 0)
         {
           USART2_SendString("Totaal aantal errors: ");
@@ -129,7 +133,7 @@ void Buffer_to_struct(char cmd_val)
     case TEKST: // Vul text struct en roep text functie aan
       {
         text_struct text;
-        int letter_w, letter_h;
+        int letter_w, letter_h; // Letter weight en letter height
 
         arg_diff = Argument_checker(TEKST_ARGS);
         if (arg_diff != 0)
@@ -187,6 +191,7 @@ void Buffer_to_struct(char cmd_val)
           errors += check_coord(text.y_lup + letter_h, VGA_DISPLAY_Y,"tekst hoogte");
         }
 
+        // Error report
         if (errors > 0)
         {
           USART2_SendString("Totaal aantal errors: ");
@@ -195,6 +200,7 @@ void Buffer_to_struct(char cmd_val)
           return;
         }
 
+        //LOGIC LAYER FUNCTIE
         textToVGA(text);
 
 
@@ -202,7 +208,7 @@ void Buffer_to_struct(char cmd_val)
         free(text.text);
         free(text.fontname);
       }
-      return;
+      break;
 
     case BITMAP: // Vul bitmap struct en roep bitmap functie aan
       {
@@ -229,6 +235,7 @@ void Buffer_to_struct(char cmd_val)
           errors++;
         }
 
+        // Error report
         if(errors > 0)
         {
           USART2_SendString("Totaal aantal errors: ");
@@ -237,9 +244,11 @@ void Buffer_to_struct(char cmd_val)
 
           return;
         }
+
+        //LOGIC LAYER FUNCTIE
         bitmapToVGA(bitmap);
       }
-      return;
+      break;
 
     case CLEARSCHERM: // Vul clearscherm struct en roep clearscherm functie aan
       {
@@ -251,13 +260,22 @@ void Buffer_to_struct(char cmd_val)
 
         clearscherm.color = take_color(&take_index);
 
-        if (clearscherm.color == -1)
+        if (clearscherm.color == -1) errors++;
+
+        // Error report
+        if(errors > 0)
+        {
+          USART2_SendString("Totaal aantal errors: ");
+          USART2_SendChar(errors);
+          USART2_SendString("\n");
+
           return;
+        }
 
         //LOGIC LAYER FUNCTIE
         clearScreenToVGA(clearscherm);
       }
-      return;
+      break;
   }
   return;
 }
@@ -288,15 +306,14 @@ char Argument_counter()
   int8_t idx_check = 0;
   char argAmount = 0;
 
-  // 1. Skip het commando woord ("lijn")
+  // Skip het commando woord
   take_int(&idx_check);
-  // 2. Parse parameters op basis van buffer
+  // Parse parameters op basis van buffer
   char *arg[MAX_ARG];
 
   for (char argCounter = 0; argCounter < MAX_ARG; argCounter++)
     arg[argCounter] = take_word(&idx_check);
 
-  // Doe nu checks
   for(char argNum = 0; argNum < MAX_ARG; argNum++)
   {
     if (arg[argNum] != NULL)
@@ -411,8 +428,10 @@ static uint8_t check_coord(int val, int max_val, const char* argument_name) {
 }
 
 
-// UART ontvang en zend functies
-void USART2_Init(void) {
+//Gemaakt op basis van AI-gegenereerde code
+//============================================================================= Start
+void USART2_Init(void)
+{
   // Enable clocks
   RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
   RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
@@ -446,10 +465,12 @@ void USART2_IRQHandler(void)
   }
 }
 
-char USART2_ReceiveChar(void) {
+char USART2_ReceiveChar(void)
+{
   while (!(USART2->SR & USART_SR_RXNE));
   return USART2->DR;
 }
+//============================================================================= Einde
 
 void USART2_BUFFER(void)
 {
@@ -495,13 +516,16 @@ void USART2_BUFFER(void)
   }
 }
 
-void USART2_SendChar(char c) {
+//Gemaakt op basis van AI-gegenereerde code
+//============================================================================= Start
+void USART2_SendChar(char c)
+{
   while (!(USART2->SR & USART_SR_TXE));
   USART2->DR = c;
 }
 
-void USART2_SendString(char *str) {
-
-
+void USART2_SendString(char *str)
+{
   while (*str) USART2_SendChar(*str++);
 }
+//============================================================================= Einde

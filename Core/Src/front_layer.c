@@ -155,15 +155,15 @@ void Buffer_to_struct(char cmd_val)
 				errors++;
 			}
 
-            text.fontname = take_word(&take_index);
-			if (text.fontname < ARIAL || CONSOLAS)
+            text.fontname = take_int(&take_index);
+			if (text.fontname < ARIAL || text.fontname > CONSOLAS)
             {
 				USART2_SendString("Ongeldige fontnaam (arial/consolas)\n");
 				errors++;
 			}
 
             text.fontsize = take_int(&take_index);
-            if (text.fontsize != KLEIN && text.fontsize != GROOT)
+            if (text.fontsize < KLEIN || text.fontsize > GROOT)
             {
                 USART2_SendString("Fontgrootte moet 1 (klein) of 2 (groot) zijn\n");
                 errors++;

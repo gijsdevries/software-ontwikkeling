@@ -35,6 +35,9 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
 }
 
 const char *getRawLetter(char letter, int size) {
+
+  return big_lc_a;
+  char index = 0;
   if (size == KLEIN) {
     switch (letter) {
       // Special characters
@@ -117,89 +120,89 @@ const char *getRawLetter(char letter, int size) {
 
       default: return NULL;
 
-    }
-  }
-  else {
-    switch (letter) {// Special characters
-      case '!': return big_exclamation;
-      case '@': return big_at;
-      case '#': return big_hash;
-      case '$': return big_dollar;
-      case '%': return big_percent;
-      case '&': return big_ampersand;
-      case '^': return big_caret;
-      case '(': return big_left_paren;
-      case ')': return big_right_paren;
-      case '*': return big_asterisk;
-      case ' ': return big_space;
+  if (size == KLEIN)
+    index = 0;
+  else
+    index = 1;
 
-      case '0': return big_zero;
-      case '1': return big_one;
-      case '2': return big_two;
-      case '3': return big_three;
-      case '4': return big_four;
-      case '5': return big_five;
-      case '6': return big_six;
-      case '7': return big_seven;
-      case '8': return big_eight;
-      case '9': return big_nine;
+  switch (letter) {
+    case '!': return exclamation[index];
+    case '@': return at[index];
+    case '#': return hash[index];
+    case '$': return dollar[index];
+    case '%': return percent[index];
+    case '&': return ampersand[index];
+    case '^': return caret[index];
+    case '(': return left_paren[index];
+    case ')': return right_paren[index];
+    case '*': return asterisk[index];
+    case ' ': return space[index];
 
-      case 'a': return big_lc_a;
-      case 'b': return big_lc_b;
-      case 'c': return big_lc_c;
-      case 'd': return big_lc_d;
-      case 'e': return big_lc_e;
-      case 'f': return big_lc_f;
-      case 'g': return big_lc_g;
-      case 'h': return big_lc_h;
-      case 'i': return big_lc_i;
-      case 'j': return big_lc_j;
-      case 'k': return big_lc_k;
-      case 'l': return big_lc_l;
-      case 'm': return big_lc_m;
-      case 'n': return big_lc_n;
-      case 'o': return big_lc_o;
-      case 'p': return big_lc_p;
-      case 'q': return big_lc_q;
-      case 'r': return big_lc_r;
-      case 's': return big_lc_s;
-      case 't': return big_lc_t;
-      case 'u': return big_lc_u;
-      case 'v': return big_lc_v;
-      case 'w': return big_lc_w;
-      case 'x': return big_lc_x;
-      case 'y': return big_lc_y;
-      case 'z': return big_lc_z;
+    case '0': return zero[index];
+    case '1': return one[index];
+    case '2': return two[index];
+    case '3': return three[index];
+    case '4': return four[index];
+    case '5': return five[index];
+    case '6': return six[index];
+    case '7': return seven[index];
+    case '8': return eight[index];
+    case '9': return nine[index];
 
-      case 'A': return big_uc_a;
-      case 'B': return big_uc_b;
-      case 'C': return big_uc_c;
-      case 'D': return big_uc_d;
-      case 'E': return big_uc_e;
-      case 'F': return big_uc_f;
-      case 'G': return big_uc_g;
-      case 'H': return big_uc_h;
-      case 'I': return big_uc_i;
-      case 'J': return big_uc_j;
-      case 'K': return big_uc_k;
-      case 'L': return big_uc_l;
-      case 'M': return big_uc_m;
-      case 'N': return big_uc_n;
-      case 'O': return big_uc_o;
-      case 'P': return big_uc_p;
-      case 'Q': return big_uc_q;
-      case 'R': return big_uc_r;
-      case 'S': return big_uc_s;
-      case 'T': return big_uc_t;
-      case 'U': return big_uc_u;
-      case 'V': return big_uc_v;
-      case 'W': return big_uc_w;
-      case 'X': return big_uc_x;
-      case 'Y': return big_uc_y;
-      case 'Z': return big_uc_z;
+    case 'a': return lc_a[index];
+    case 'b': return lc_b[index];
+    case 'c': return lc_c[index];
+    case 'd': return lc_d[index];
+    case 'e': return lc_e[index];
+    case 'f': return lc_f[index];
+    case 'g': return lc_g[index];
+    case 'h': return lc_h[index];
+    case 'i': return lc_i[index];
+    case 'j': return lc_j[index];
+    case 'k': return lc_k[index];
+    case 'l': return lc_l[index];
+    case 'm': return lc_m[index];
+    case 'n': return lc_n[index];
+    case 'o': return lc_o[index];
+    case 'p': return lc_p[index];
+    case 'q': return lc_q[index];
+    case 'r': return lc_r[index];
+    case 's': return lc_s[index];
+    case 't': return lc_t[index];
+    case 'u': return lc_u[index];
+    case 'v': return lc_v[index];
+    case 'w': return lc_w[index];
+    case 'x': return lc_x[index];
+    case 'y': return lc_y[index];
+    case 'z': return lc_z[index];
 
-      default: return NULL;
-    }
+    case 'A': return uc_a[index];
+    case 'B': return uc_b[index];
+    case 'C': return uc_c[index];
+    case 'D': return uc_d[index];
+    case 'E': return uc_e[index];
+    case 'F': return uc_f[index];
+    case 'G': return uc_g[index];
+    case 'H': return uc_h[index];
+    case 'I': return uc_i[index];
+    case 'J': return uc_j[index];
+    case 'K': return uc_k[index];
+    case 'L': return uc_l[index];
+    case 'M': return uc_m[index];
+    case 'N': return uc_n[index];
+    case 'O': return uc_o[index];
+    case 'P': return uc_p[index];
+    case 'Q': return uc_q[index];
+    case 'R': return uc_r[index];
+    case 'S': return uc_s[index];
+    case 'T': return uc_t[index];
+    case 'U': return uc_u[index];
+    case 'V': return uc_v[index];
+    case 'W': return uc_w[index];
+    case 'X': return uc_x[index];
+    case 'Y': return uc_y[index];
+    case 'Z': return uc_z[index];
+    default: return NULL;
   }
   return NULL;
 }

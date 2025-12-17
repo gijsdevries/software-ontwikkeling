@@ -457,6 +457,8 @@ char USART2_ReceiveChar(void) {
 
 void USART2_BUFFER(void)
 {
+	static char UART_Flag = 1;
+
 	if (UART_Flag == 1)
 	{
 		//UART_Flag = 0;

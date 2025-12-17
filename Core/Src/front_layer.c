@@ -38,6 +38,12 @@ void Buffer_to_struct(char cmd_val)
   uint8_t take_index = 0; // Take_index zodat de plek in de buffer makkelijk gereset kan worden
   char errors = 0;
   char arg_diff;
+  int dx = abs(x2 - x1);
+  int dy = abs(y2 - y1);
+  int sx = (x1 < x2) ? 1 : -1;
+  int sy = (y1 < y2) ? 1 : -1;
+  int err = dx - dy;
+  char weightError = 0;
 
   take_int(&take_index); // Skip het eerste woord
 
@@ -68,8 +74,33 @@ void Buffer_to_struct(char cmd_val)
         if (lijn.color == -1) errors++;
 
         lijn.weight = take_int(&take_index);
-        // ERROR HANDLING IN LOGIC LAYER
 
+        while (1) {
+          for (int i = 0; i < lijn.weight; i++)
+          {
+        	  if (weightError > 0)
+        		  break;
+			  if (dx > dy)
+				  weightError += check_coord(lijn.y_1 + (i + 1), VGA_DISPLAY_Y, "Weight out of range");
+			  else
+				  weightError += check_coord(lijn.x_1 + (i + 1), VGA_DISPLAY_X, "Weight out of range");
+          }
+          if (lijn.x_1 == lijn.x_2 && lijn.y_1 == lijn.y_2)
+            break;
+
+          int e2 = err * 2;
+
+          if (e2 > -dy) {
+            err -= dy;
+            x1 += sx;
+          }
+          if (e2 < dx) {
+            err += dx;
+            y1 += sy;
+          }
+        }
+
+        errors += weightError;
         // Error report
         if(errors > 0)
         {

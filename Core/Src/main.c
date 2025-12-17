@@ -34,7 +34,7 @@ int main(void)
     .text = "!@#$%^&*() 123456789 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     .fontname = "arial",
     .fontsize = 1,
-    .fontstyle = "normaal"
+    .fontstyle = "cursief"
   };
 
   textToVGA(textStruct);

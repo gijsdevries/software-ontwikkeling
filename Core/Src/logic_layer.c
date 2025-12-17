@@ -230,6 +230,10 @@ char addVet(char byte) {
     return byte;
 }
 
+char addCursive(char byte, int row) {
+    return byte >> (row / 3);
+}
+
 void textToVGA(text_struct textStruct) {
   size_t sizeOfText = strlen(textStruct.text);
   textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
@@ -258,6 +262,9 @@ void textToVGA(text_struct textStruct) {
     if (textInfo.FONTSTIJL == VET)
       for (char j = 0; j < dy; j++)
         buff[j] = addVet(buff[j]);
+    else if (textInfo.FONTSTIJL == CURSIEF)
+      for (char j = 0; j < dy; j++)
+        buff[j] = addCursive(buff[j], j);
 
     letterToVGA(x, y, textStruct.color, buff, textInfo.FONTGROOTTE);
 

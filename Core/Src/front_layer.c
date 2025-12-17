@@ -7,7 +7,6 @@
 
 #include <stdlib.h>
 
-
 volatile char uart_buf[UART_BUF_SIZE];
 volatile uint16_t uart_head = 0;
 volatile uint16_t uart_tail = 0;
@@ -15,6 +14,7 @@ volatile uint8_t command_ready = 0;
 
 char *buffer = NULL;    // dynamische buffer
 uint16_t idx = 0;
+char UART_Flag = 1;
 
 // Parsing en checking functies
 void Buffer_Check()
@@ -28,7 +28,6 @@ void Buffer_Check()
         {
             cmd_var = commands[i].code;
             Buffer_to_struct(cmd_var);
-
             return;
         }
     }
@@ -54,7 +53,8 @@ void Buffer_to_struct(char cmd_val)
                 line_struct lijn;
 
 				arg_diff = Argument_checker(LIJN_ARGS);
-				if (arg_diff != 0)return;
+				if (arg_diff != 0)
+					return;
 
 				lijn.x_1 = take_int(&take_index);
 				errors += check_coord(lijn.x_1, VGA_DISPLAY_X, "X_1");
@@ -91,7 +91,8 @@ void Buffer_to_struct(char cmd_val)
                 rectangle_struct rechthoek;
 
 				arg_diff = Argument_checker(RECHTHOEK_ARGS);
-				if (arg_diff != 0)return;
+				if (arg_diff != 0)
+					return;
 
 				rechthoek.x = take_int(&take_index);
 				errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
@@ -135,7 +136,8 @@ void Buffer_to_struct(char cmd_val)
 			int letter_w, letter_h;
 
             arg_diff = Argument_checker(TEKST_ARGS);
-			if (arg_diff != 0)return;
+			if (arg_diff != 0)
+				return;
 
             text.x_lup = take_int(&take_index);
 			errors += check_coord(text.x_lup, VGA_DISPLAY_X, "text.x_lup");
@@ -204,14 +206,15 @@ void Buffer_to_struct(char cmd_val)
                 free(text.text);
                 free(text.fontname);
             }
-            break;
+            return;
 
         case BITMAP: // Vul bitmap struct en roep bitmap functie aan
             {
                 bitmap_struct bitmap;
 
             arg_diff = Argument_checker(BITMAP_ARGS);
-			if (arg_diff != 0)return;
+			if (arg_diff != 0)
+				return;
 
 			bitmap.bm_nr = take_int(&take_index);
 			errors += check_coord(bitmap.bm_nr, BITMAP_AMOUNT, "bitmap.bm_nr");
@@ -240,14 +243,15 @@ void Buffer_to_struct(char cmd_val)
              }
              bitmapToVGA(bitmap);
             }
-            break;
+            return;
 
         case CLEARSCHERM: // Vul clearscherm struct en roep clearscherm functie aan
         {
             clearscreen_struct clearscherm;
 
             arg_diff = Argument_checker(CLEARSCHERM_ARGS);
-			if (arg_diff != 0)return;
+			if (arg_diff != 0)
+					return;
 
             clearscherm.color = take_color(&take_index);
 
@@ -257,8 +261,9 @@ void Buffer_to_struct(char cmd_val)
                 //LOGIC LAYER FUNCTIE
                 clearScreenToVGA(clearscherm);
             }
-            break;
+            return;
     }
+    return;
 }
 
 char Argument_checker(char Argument_goal)
@@ -452,35 +457,44 @@ char USART2_ReceiveChar(void) {
 
 void USART2_BUFFER(void)
 {
-    while(uart_tail != uart_head) // zolang er chars in de ringbuffer
-    {
-        char c = uart_buf[uart_tail];
-        uart_tail = (uart_tail + 1) % UART_BUF_SIZE;
+	if (UART_Flag == 1)
+	{
+		//UART_Flag = 0;
+		while(uart_tail != uart_head) // zolang er chars in de ringbuffer
+		{
+			char c = uart_buf[uart_tail];
+			uart_tail = (uart_tail + 1) % UART_BUF_SIZE;
 
-        // Dynamische buffer aanmaken of vergroten
-        if(buffer == NULL)
-        {
-            buffer = malloc(1);
-            idx = 0;
-        }
-        else
-        {
-            char* tmp = realloc(buffer, idx + 1);
-            if(tmp == NULL) continue; // memory fail
-            buffer = tmp;
-        }
+			// Dynamische buffer aanmaken of vergroten
+			if(buffer == NULL)
+			{
+				buffer = malloc(1);
+				idx = 0;
+			}
+			else
+			{
+				char* tmp = realloc(buffer, idx + 1);
+				if(tmp == NULL) continue; // memory fail
+				buffer = tmp;
+			}
 
-        buffer[idx++] = c;
+			buffer[idx++] = c;
 
-        if(c == '\n')  // einde commando
-        {
-            buffer[idx] = '\0'; // sluit string
-            Buffer_Check();     // parse en teken meteen
-            free(buffer);       // opruimen
-            buffer = NULL;
-            idx = 0;
-        }
-    }
+			if((c == '\n') && (UART_Flag == 1))  // einde commando
+			{
+				UART_Flag = 0;
+
+				buffer[idx] = '\0'; // sluit string
+				Buffer_Check();     // parse en teken meteen
+				free(buffer);       // opruimen
+				buffer = NULL;
+				idx = 0;
+
+				UART_Flag = 1;
+				USART2_SendString("UART Ready!!!\n");
+			}
+		}
+	}
 }
 
 void USART2_SendChar(char c) {

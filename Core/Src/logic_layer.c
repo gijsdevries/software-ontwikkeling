@@ -35,7 +35,6 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
 }
 
 const char *getRawLetter(char letter, int size) {
-
   if (size == KLEIN) {
     switch (letter) {
       // Special characters
@@ -337,39 +336,39 @@ void textToVGA(text_struct textStruct)
 }
 
 void bitmapToVGA(bitmap_struct bitmapStruct) {
-    uint8_t* bitmap = NULL;
+  uint8_t* bitmap = NULL;
 
-    switch (bitmapStruct.bm_nr) { //Kies bitmap op basis van ingevoerd getal
-            case 0:
-                bitmap = SMILEY_BOOS_BITMAP;
-                break;
-            case 1:
-            	bitmap = SMILEY_BLIJ_BITMAP;
-				break;
-            case 2:
-            	bitmap = PIJL_OMHOOG_BITMAP;
-				break;
-            case 3:
-            	bitmap = PIJL_NAAR_BENEDEN_BITMAP;
-            	break;
-            case 4:
-            	bitmap = PIJL_NAAR_RECHTS_BITMAP;
-            	break;
-            case 5:
-            	bitmap = PIJL_NAAR_LINKS_BITMAP;
-            	break;
-            case 6:
-            	bitmap = INKTVIS_BITMAP;
-            	break;
-        }
+  switch (bitmapStruct.bm_nr) { //Kies bitmap op basis van ingevoerd getal
+    case 0:
+      bitmap = SMILEY_BOOS_BITMAP;
+      break;
+    case 1:
+      bitmap = SMILEY_BLIJ_BITMAP;
+      break;
+    case 2:
+      bitmap = PIJL_OMHOOG_BITMAP;
+      break;
+    case 3:
+      bitmap = PIJL_NAAR_BENEDEN_BITMAP;
+      break;
+    case 4:
+      bitmap = PIJL_NAAR_RECHTS_BITMAP;
+      break;
+    case 5:
+      bitmap = PIJL_NAAR_LINKS_BITMAP;
+      break;
+    case 6:
+      bitmap = INKTVIS_BITMAP;
+      break;
+  }
 
-    //Zet witte pixels van bitmap op het scherm, negeer de rest
-    for (int yy = 0; yy < MAX_BITMAP_ARRAY; yy++) {
-        for (int xx = 0; xx < MAX_BITMAP_ARRAY; xx++)
-        {
-            uint8_t pixelColor = bitmap[yy * MAX_BITMAP_ARRAY + xx];
-            if (pixelColor == 255)
-                UB_VGA_SetPixel(bitmapStruct.x_lup + xx, bitmapStruct.y_lup + yy, pixelColor);
-        }
+  //Zet witte pixels van bitmap op het scherm, negeer de rest
+  for (int yy = 0; yy < MAX_BITMAP_ARRAY; yy++) {
+    for (int xx = 0; xx < MAX_BITMAP_ARRAY; xx++)
+    {
+      uint8_t pixelColor = bitmap[yy * MAX_BITMAP_ARRAY + xx];
+      if (pixelColor == 255)
+        UB_VGA_SetPixel(bitmapStruct.x_lup + xx, bitmapStruct.y_lup + yy, pixelColor);
     }
+  }
 }

@@ -31,6 +31,6 @@ int main(void)
 
   while (1)
   {
-	  USART2_BUFFER();
+    USART2_BUFFER();
   }
 }

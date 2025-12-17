@@ -136,9 +136,9 @@ int letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, int size
     y_max = SIZE_SMALL_LETTER_Y;
     x_max = SIZE_SMALL_LETTER_X;
   }
+
   for (int y = 0; y < y_max; y++) // Loop door alle y coördinaten heen
   {
-
     for (int x = 0; x < x_max; x++) // Loop door alle x coördinaten heen
     {
       if ((letter[y] << x) & 0x80) // Als een pixel hoog is
@@ -218,8 +218,19 @@ void lineToVGA(line_struct lineStruct) {
   }
 }
 
-void textToVGA(text_struct textStruct)
-{
+char addVet(char byte) {
+    if (byte & 0x01)
+        return byte;
+
+    for (int i = 1; i < 8; i++) {
+        if (byte & (1 << i)) {
+            return byte | (1 << (i - 1));
+        }
+    }
+    return byte;
+}
+
+void textToVGA(text_struct textStruct) {
   size_t sizeOfText = strlen(textStruct.text);
   textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
 
@@ -237,9 +248,18 @@ void textToVGA(text_struct textStruct)
     dy = SIZE_SMALL_LETTER_Y;
   }
 
+  char buff[dy];
+
   for (char i = 0; i < sizeOfText; i++) {
     char *buf = getRawLetter(textStruct.text[i], textInfo.FONTGROOTTE);
-    letterToVGA(x, y, textStruct.color, buf, textInfo.FONTGROOTTE);
+
+    memcpy(buff, buf, dy);
+
+    if (textInfo.FONTSTIJL == VET)
+      for (char j = 0; j < dy; j++)
+        buff[j] = addVet(buff[j]);
+
+    letterToVGA(x, y, textStruct.color, buff, textInfo.FONTGROOTTE);
 
     x += dx;
 

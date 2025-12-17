@@ -139,11 +139,9 @@ void Buffer_to_struct(char cmd_val)
 
             text.x_lup = take_int(&take_index);
 			errors += check_coord(text.x_lup, VGA_DISPLAY_X, "text.x_lup");
-			//errors += check_coord(text.x_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_X, "text.x_lup");
 
             text.y_lup = take_int(&take_index);
 			errors += check_coord(text.y_lup, VGA_DISPLAY_Y, "text.y_lup");
-			//errors += check_coord(text.y_lup + MAX_TEXT_ARRAY, VGA_DISPLAY_Y, "text.y_lup");
 
             text.color = take_color(&take_index);
             if (text.color == -1) errors++;
@@ -163,7 +161,7 @@ void Buffer_to_struct(char cmd_val)
 			}
 
             text.fontsize = take_int(&take_index);
-            if (text.fontsize != 1 && text.fontsize != 2)
+            if (text.fontsize != KLEIN && text.fontsize != GROOT)
             {
                 USART2_SendString("Fontgrootte moet 1 (klein) of 2 (groot) zijn\n");
                 errors++;
@@ -176,9 +174,9 @@ void Buffer_to_struct(char cmd_val)
 			   errors++;
 		    }
 
-            if (errors == 0)
+            if (!errors)
             {
-                if (text.fontsize == 2) {
+                if (text.fontsize == GROOT) {
                     letter_w = SIZE_BIG_LETTER_X;
                     letter_h = SIZE_BIG_LETTER_Y;
                 } else {
@@ -203,8 +201,8 @@ void Buffer_to_struct(char cmd_val)
 
 
                 // Geef geheugen vrij
-                //free(text.text);
-                //free(text.fontname);
+                free(text.text);
+                free(text.fontname);
             }
             break;
 

@@ -36,8 +36,9 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
 
 const char *getRawLetter(char letter, int size) {
 
-  return big_lc_a;
+  return exclamation[1];
   char index = 0;
+  /*
   if (size == KLEIN) {
     switch (letter) {
       // Special characters
@@ -204,6 +205,7 @@ const char *getRawLetter(char letter, int size) {
     case 'Z': return uc_z[index];
     default: return NULL;
   }
+  */
   return NULL;
 }
 

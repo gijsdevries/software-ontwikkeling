@@ -66,10 +66,10 @@ enum FONTSTYLE {
   CURSIEF
 };
 
-enum FONTGROOTTE {
-  GROOT,
-  KLEIN
-};
+
+#define GROOT 2
+#define KLEIN 1
+
 
 
 /**

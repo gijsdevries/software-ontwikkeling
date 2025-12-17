@@ -17,8 +17,6 @@
 #include "io_layer.h"
 #include "logic_layer.h"
 #include "global.h"
-#include "bitmap_defines.h"
-#include "string.h"
 
 
 int main(void)

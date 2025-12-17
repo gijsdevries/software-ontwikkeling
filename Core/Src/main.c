@@ -33,5 +33,4 @@ int main(void)
   {
 	  USART2_BUFFER();
   }
-
 }

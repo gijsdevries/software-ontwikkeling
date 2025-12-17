@@ -14,7 +14,6 @@ volatile uint8_t command_ready = 0;
 
 char *buffer = NULL;    // dynamische buffer
 uint16_t idx = 0;
-char UART_Flag = 1;
 
 // Parsing en checking functies
 void Buffer_Check()

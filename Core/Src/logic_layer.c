@@ -36,96 +36,12 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
 
 const char *getRawLetter(char letter, int size) {
 
-  return exclamation[1];
   char index = 0;
-  /*
-  if (size == KLEIN) {
-    switch (letter) {
-      // Special characters
-      case '!': return small_exclamation;
-      case '@': return small_at;
-      case '#': return small_hash;
-      case '$': return small_dollar;
-      case '%': return small_percent;
-      case '&': return small_ampersand;
-      case '^': return small_caret;
-      case '(': return small_left_paren;
-      case ')': return small_right_paren;
-      case '*': return small_asterisk;
-      case ' ': return small_space;
-
-      case '0': return small_zero;
-      case '1': return small_one;
-      case '2': return small_two;
-      case '3': return small_three;
-      case '4': return small_four;
-      case '5': return small_five;
-      case '6': return small_six;
-      case '7': return small_seven;
-      case '8': return small_eight;
-      case '9': return small_nine;
-
-      case 'a': return small_lc_a;
-      case 'b': return small_lc_b;
-      case 'c': return small_lc_c;
-      case 'd': return small_lc_d;
-      case 'e': return small_lc_e;
-      case 'f': return small_lc_f;
-      case 'g': return small_lc_g;
-      case 'h': return small_lc_h;
-      case 'i': return small_lc_i;
-      case 'j': return small_lc_j;
-      case 'k': return small_lc_k;
-      case 'l': return small_lc_l;
-      case 'm': return small_lc_m;
-      case 'n': return small_lc_n;
-      case 'o': return small_lc_o;
-      case 'p': return small_lc_p;
-      case 'q': return small_lc_q;
-      case 'r': return small_lc_r;
-      case 's': return small_lc_s;
-      case 't': return small_lc_t;
-      case 'u': return small_lc_u;
-      case 'v': return small_lc_v;
-      case 'w': return small_lc_w;
-      case 'x': return small_lc_x;
-      case 'y': return small_lc_y;
-      case 'z': return small_lc_z;
-
-      case 'A': return small_uc_a;
-      case 'B': return small_uc_b;
-      case 'C': return small_uc_c;
-      case 'D': return small_uc_d;
-      case 'E': return small_uc_e;
-      case 'F': return small_uc_f;
-      case 'G': return small_uc_g;
-      case 'H': return small_uc_h;
-      case 'I': return small_uc_i;
-      case 'J': return small_uc_j;
-      case 'K': return small_uc_k;
-      case 'L': return small_uc_l;
-      case 'M': return small_uc_m;
-      case 'N': return small_uc_n;
-      case 'O': return small_uc_o;
-      case 'P': return small_uc_p;
-      case 'Q': return small_uc_q;
-      case 'R': return small_uc_r;
-      case 'S': return small_uc_s;
-      case 'T': return small_uc_t;
-      case 'U': return small_uc_u;
-      case 'V': return small_uc_v;
-      case 'W': return small_uc_w;
-      case 'X': return small_uc_x;
-      case 'Y': return small_uc_y;
-      case 'Z': return small_uc_z;
-
-      default: return NULL;
 
   if (size == KLEIN)
     index = 0;
   else
     index = 1;
-
   switch (letter) {
     case '!': return exclamation[index];
     case '@': return at[index];
@@ -205,7 +121,6 @@ const char *getRawLetter(char letter, int size) {
     case 'Z': return uc_z[index];
     default: return NULL;
   }
-  */
   return NULL;
 }
 

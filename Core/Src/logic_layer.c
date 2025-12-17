@@ -42,6 +42,7 @@ const char *getRawLetter(char letter, int size) {
     index = 0;
   else
     index = 1;
+
   switch (letter) {
     case '!': return exclamation[index];
     case '@': return at[index];
@@ -164,7 +165,8 @@ void rectangleToVGA(rectangle_struct rectangleStruct) {
         UB_VGA_SetPixel(xx, yy, rectangleStruct.color);
       }
     }
-  } else {
+  }
+  else {
     // Top edge
     for (int xx = x; xx < x + w; xx++)
       UB_VGA_SetPixel(xx, y, rectangleStruct.color);
@@ -221,37 +223,30 @@ void textToVGA(text_struct textStruct)
   size_t sizeOfText = strlen(textStruct.text);
   textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
 
+  int dx, dy = 0;
+
   int x = textStruct.x_lup;
   int y = textStruct.y_lup;
 
   if (textInfo.FONTGROOTTE == GROOT) {
-    for (char i = 0; i < sizeOfText; i++) {
-      char *buf = getRawLetter(textStruct.text[i], textInfo.FONTGROOTTE);
-      letterToVGA(x, y, textStruct.color, buf, textInfo.FONTGROOTTE);
-
-      x = x + SIZE_BIG_LETTER_X;
-
-      if (x > VGA_DISPLAY_X - SIZE_BIG_LETTER_X) { //go to a new line
-        x = 0;
-        y = y + SIZE_BIG_LETTER_Y;
-      }
-    }
-
+    dx = SIZE_BIG_LETTER_X;
+    dy = SIZE_BIG_LETTER_Y;
   }
   else {
-    for (char i = 0; i < sizeOfText; i++) {
-      char *buf = getRawLetter(textStruct.text[i], KLEIN);
-      letterToVGA(x, y, textStruct.color, buf, KLEIN);
+    dx = SIZE_SMALL_LETTER_X;
+    dy = SIZE_SMALL_LETTER_Y;
+  }
 
-      x = x + SIZE_SMALL_LETTER_X;
+  for (char i = 0; i < sizeOfText; i++) {
+    char *buf = getRawLetter(textStruct.text[i], textInfo.FONTGROOTTE);
+    letterToVGA(x, y, textStruct.color, buf, textInfo.FONTGROOTTE);
 
-      if (x > VGA_DISPLAY_X - SIZE_SMALL_LETTER_X) { //go to a new line
-        x = 0;
-        y = y + SIZE_SMALL_LETTER_Y;
-      }
+    x += dx;
+
+    if (x > VGA_DISPLAY_X - dx) { //go to a new line
+      x = 0;
+      y += dy;
     }
-
-
   }
 }
 

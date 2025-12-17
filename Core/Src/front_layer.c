@@ -148,7 +148,7 @@ void Buffer_to_struct(char cmd_val)
             text.color = take_color(&take_index);
             if (text.color == -1) errors++;
 
-            text.text = take_word(&take_index); // Bij het pakken van een string gebruik primaire commando, deze moet na alle logica weer vrij gegeven worden
+            text.text = take_word(&take_index);
             if (text.text == NULL || strlen(text.text) == 0)
 			{
 				USART2_SendString("Tekst mag niet leeg zijn\n");
@@ -156,8 +156,8 @@ void Buffer_to_struct(char cmd_val)
 			}
 
             text.fontname = take_word(&take_index);
-            if (text.fontname == NULL ||(strcmp(text.fontname, "arial") != 0 && strcmp(text.fontname, "consolas") != 0))
-			{
+			if (text.fontname < ARIAL || CONSOLAS)
+            {
 				USART2_SendString("Ongeldige fontnaam (arial/consolas)\n");
 				errors++;
 			}
@@ -169,9 +169,9 @@ void Buffer_to_struct(char cmd_val)
                 errors++;
             }
 
-            text.fontstyle = take_word(&take_index);
-            if (text.fontstyle == NULL || (strcmp(text.fontstyle, "normaal") != 0 && strcmp(text.fontstyle, "vet") != 0 && strcmp(text.fontstyle, "cursief") != 0))
-		    {
+            text.fontstyle = take_int(&take_index);
+            if (text.fontstyle < NORMAAL || text.fontstyle > CURSIEF)
+            {
 			   USART2_SendString("Fontstijl moet normaal, vet of cursief zijn\n");
 			   errors++;
 		    }

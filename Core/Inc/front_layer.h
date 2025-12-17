@@ -41,17 +41,17 @@ void USART2_SendString();
 
 //De functienaam koppelen aan de define code
 typedef struct {
-    const char *name;
-    char code;
+  const char *name;
+  char code;
 } Eerste_woord;
 
 // Aantal commando types
 static Eerste_woord commands[] = {
-    {"lijn",        LIJN},
-    {"rechthoek",   RECHTHOEK},
-    {"tekst",       TEKST},
-    {"bitmap",      BITMAP},
-    {"clearscherm", CLEARSCHERM}
+  {"lijn",        LIJN},
+  {"rechthoek",   RECHTHOEK},
+  {"tekst",       TEKST},
+  {"bitmap",      BITMAP},
+  {"clearscherm", CLEARSCHERM}
 };
 
 // Bereken aantal commando's

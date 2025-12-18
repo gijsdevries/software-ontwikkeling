@@ -34,14 +34,18 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
   return textInfo;
 }
 
-const char *getRawLetter(char letter, int size) {
+const char *getRawLetter(char letter, int size, int style) {
 
   char index = 0;
 
-  if (size == KLEIN)
+  if (size == KLEIN && style == ARIAL)
     index = 0;
-  else
+  if (size == GROOT && style == ARIAL)
     index = 1;
+  if (size == KLEIN && style == CONSOLAS)
+    index = 2;
+  if (size == GROOT && style == CONSOLAS)
+    index = 3;
 
   switch (letter) {
     case '!': return exclamation[index];
@@ -125,7 +129,7 @@ const char *getRawLetter(char letter, int size) {
   return NULL;
 }
 
-int letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, int size)
+int letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char y_max, char x_max)
 {
   char y_max, x_max = 0;
   if (size == GROOT) {
@@ -243,19 +247,22 @@ void textToVGA(text_struct textStruct) {
   int x = textStruct.x_lup;
   int y = textStruct.y_lup;
 
-  if (textInfo.FONTGROOTTE == GROOT) {
+  if (textInfo.FONTGROOTTE == GROOT && textInfo.FONTSTIJL == ARIAL) {
     dx = SIZE_BIG_LETTER_X;
     dy = SIZE_BIG_LETTER_Y;
   }
-  else {
+  else if (textInfo.FONTGROOTTE == KLEIN && textInfo.FONTSTIJL == ARIAL) {
     dx = SIZE_SMALL_LETTER_X;
     dy = SIZE_SMALL_LETTER_Y;
   }
-
+  else if (textInfo.FONTGROOTTE == KLEIN && textInfo.FONTSTIJL == CONSOLAS) {
+    dx = 6;
+    dy = 10;
+  }
   char buff[dy];
 
   for (char i = 0; i < sizeOfText; i++) {
-    char *buf = getRawLetter(textStruct.text[i], textInfo.FONTGROOTTE);
+    char *buf = getRawLetter(textStruct.text[i], textInfo.FONTGROOTTE, textInfo.FONTNAAM);
 
     memcpy(buff, buf, dy);
 
@@ -266,7 +273,7 @@ void textToVGA(text_struct textStruct) {
       for (char j = 0; j < dy; j++)
         buff[j] = addCursive(buff[j], j);
 
-    letterToVGA(x, y, textStruct.color, buff, textInfo.FONTGROOTTE);
+    letterToVGA(x, y, textStruct.color, buff, dy, dx);
 
     x += dx;
 

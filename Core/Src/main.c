@@ -31,25 +31,50 @@ int main(void)
     .x_lup = 1,
     .y_lup = 1,
     .color = VGA_COL_BLACK,
-    .text = "!@#$%^&*() 123456789 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    .text = "abcde",
     .fontname = "arial",
     .fontsize = 1,
-    .fontstyle = "cursief"
+    .fontstyle = "normaal"
   };
 
   textToVGA(textStruct);
 
   text_struct textStruct2 = {
     .x_lup = 1, 
-    .y_lup = 100,
+    .y_lup = 20,
     .color = VGA_COL_BLACK,
-    .text = "!@#$%^&*() 123456789 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    .text = "abcde",
     .fontname = "arial",
-    .fontsize = 1, 
-    .fontstyle = "vet"
+    .fontsize = 2, 
+    .fontstyle = "normaal"
   };
 
   textToVGA(textStruct2);
+
+  text_struct textStruct3 = {
+    .x_lup = 1,
+    .y_lup = 40,
+    .color = VGA_COL_BLACK,
+    .text = "abcde",
+    .fontname = "consolas",
+    .fontsize = 1,
+    .fontstyle = "normaal"
+  };
+
+  textToVGA(textStruct3);
+
+  text_struct textStruct4 = {
+    .x_lup = 1, 
+    .y_lup = 60,
+    .color = VGA_COL_BLACK,
+    .text = "abcde",
+    .fontname = "consolas",
+    .fontsize = 2, 
+    .fontstyle = "normaal"
+  };
+
+  textToVGA(textStruct4);
+
 
   while (1)
   {

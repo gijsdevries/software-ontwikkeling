@@ -54,7 +54,6 @@ typedef struct {
   int color;
 } clearscreen_struct;
 
-
 enum FONTNAMES {
   ARIAL,
   CONSOLAS

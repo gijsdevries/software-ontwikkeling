@@ -63,19 +63,6 @@ int main(void)
 
   textToVGA(textStruct3);
 
-  text_struct textStruct4 = {
-    .x_lup = 1, 
-    .y_lup = 60,
-    .color = VGA_COL_BLACK,
-    .text = "abcde",
-    .fontname = "consolas",
-    .fontsize = 2, 
-    .fontstyle = "normaal"
-  };
-
-  textToVGA(textStruct4);
-
-
   while (1)
   {
     USART2_BUFFER();

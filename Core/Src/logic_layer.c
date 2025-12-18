@@ -42,10 +42,8 @@ const char *getRawLetter(char letter, int size, int style) {
     index = 0;
   if (size == GROOT && style == ARIAL)
     index = 1;
-  if (size == KLEIN && style == CONSOLAS)
+  if (style == CONSOLAS)
     index = 2;
-  if (size == GROOT && style == CONSOLAS)
-    index = 3;
 
   switch (letter) {
     case '!': return exclamation[index];
@@ -129,18 +127,8 @@ const char *getRawLetter(char letter, int size, int style) {
   return NULL;
 }
 
-int letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char y_max, char x_max)
+int letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_max, char y_max)
 {
-  char y_max, x_max = 0;
-  if (size == GROOT) {
-    y_max = SIZE_BIG_LETTER_Y;
-    x_max = SIZE_BIG_LETTER_X;
-  } 
-  else {
-    y_max = SIZE_SMALL_LETTER_Y;
-    x_max = SIZE_SMALL_LETTER_X;
-  }
-
   for (int y = 0; y < y_max; y++) // Loop door alle y coördinaten heen
   {
     for (int x = 0; x < x_max; x++) // Loop door alle x coördinaten heen
@@ -223,42 +211,45 @@ void lineToVGA(line_struct lineStruct) {
 }
 
 char addVet(char byte) {
-    if (byte & 0x01)
-        return byte;
-
-    for (int i = 1; i < 8; i++) {
-        if (byte & (1 << i)) {
-            return byte | (1 << (i - 1));
-        }
-    }
+  if (byte & 0x01)
     return byte;
+
+  for (int i = 1; i < 8; i++) {
+    if (byte & (1 << i)) {
+      return byte | (1 << (i - 1));
+    }
+  }
+  return byte;
 }
 
 char addCursive(char byte, int row) {
-    return byte >> (row / 3);
+  return byte >> (row / 3);
 }
 
 void textToVGA(text_struct textStruct) {
   size_t sizeOfText = strlen(textStruct.text);
   textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
 
-  int dx, dy = 0;
+  char dx, dy = 0;
 
   int x = textStruct.x_lup;
   int y = textStruct.y_lup;
 
-  if (textInfo.FONTGROOTTE == GROOT && textInfo.FONTSTIJL == ARIAL) {
-    dx = SIZE_BIG_LETTER_X;
-    dy = SIZE_BIG_LETTER_Y;
-  }
-  else if (textInfo.FONTGROOTTE == KLEIN && textInfo.FONTSTIJL == ARIAL) {
+  textInfo.FONTNAAM == CONSOLAS;
+
+  if (textInfo.FONTGROOTTE == KLEIN && textInfo.FONTNAAM == ARIAL) {
     dx = SIZE_SMALL_LETTER_X;
     dy = SIZE_SMALL_LETTER_Y;
   }
-  else if (textInfo.FONTGROOTTE == KLEIN && textInfo.FONTSTIJL == CONSOLAS) {
+  else if (textInfo.FONTGROOTTE == GROOT && textInfo.FONTNAAM == ARIAL) {
+    dx = 8;
+    dy = 14;
+  }
+  else if (textInfo.FONTNAAM == CONSOLAS) {
     dx = 6;
     dy = 10;
   }
+
   char buff[dy];
 
   for (char i = 0; i < sizeOfText; i++) {
@@ -273,7 +264,7 @@ void textToVGA(text_struct textStruct) {
       for (char j = 0; j < dy; j++)
         buff[j] = addCursive(buff[j], j);
 
-    letterToVGA(x, y, textStruct.color, buff, dy, dx);
+    letterToVGA(x, y, textStruct.color, buf, dx, dy);
 
     x += dx;
 

@@ -54,7 +54,6 @@ typedef struct {
   int color;
 } clearscreen_struct;
 
-
 enum FONTNAMES {
   ARIAL,
   CONSOLAS
@@ -89,5 +88,12 @@ void lineToVGA(line_struct lineStruct);
 void textToVGA(text_struct textStruct);
 
 void bitmapToVGA (bitmap_struct bitmapStruct);
+
+#define SIZE_BIG_LETTER_X 8
+#define SIZE_BIG_LETTER_Y 14
+
+#define SIZE_SMALL_LETTER_X 7
+#define SIZE_SMALL_LETTER_Y 8
+
 
 #endif

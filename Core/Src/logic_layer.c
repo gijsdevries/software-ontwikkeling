@@ -34,201 +34,133 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
   return textInfo;
 }
 
-const char *getRawLetter(char letter, int size) {
-  if (size == KLEIN) {
-    switch (letter) {
-      // Special characters
-      case '!': return small_exclamation;
-      case '@': return small_at;
-      case '#': return small_hash;
-      case '$': return small_dollar;
-      case '%': return small_percent;
-      case '&': return small_ampersand;
-      case '^': return small_caret;
-      case '(': return small_left_paren;
-      case ')': return small_right_paren;
-      case '*': return small_asterisk;
-      case ' ': return small_space;
+const char *getRawLetter(char letter, int style) {
 
-      case '0': return small_zero;
-      case '1': return small_one;
-      case '2': return small_two;
-      case '3': return small_three;
-      case '4': return small_four;
-      case '5': return small_five;
-      case '6': return small_six;
-      case '7': return small_seven;
-      case '8': return small_eight;
-      case '9': return small_nine;
+  char index = 0;
 
-      case 'a': return small_lc_a;
-      case 'b': return small_lc_b;
-      case 'c': return small_lc_c;
-      case 'd': return small_lc_d;
-      case 'e': return small_lc_e;
-      case 'f': return small_lc_f;
-      case 'g': return small_lc_g;
-      case 'h': return small_lc_h;
-      case 'i': return small_lc_i;
-      case 'j': return small_lc_j;
-      case 'k': return small_lc_k;
-      case 'l': return small_lc_l;
-      case 'm': return small_lc_m;
-      case 'n': return small_lc_n;
-      case 'o': return small_lc_o;
-      case 'p': return small_lc_p;
-      case 'q': return small_lc_q;
-      case 'r': return small_lc_r;
-      case 's': return small_lc_s;
-      case 't': return small_lc_t;
-      case 'u': return small_lc_u;
-      case 'v': return small_lc_v;
-      case 'w': return small_lc_w;
-      case 'x': return small_lc_x;
-      case 'y': return small_lc_y;
-      case 'z': return small_lc_z;
+  if (style == ARIAL)
+    index = 0;
+  else if (style == CONSOLAS)
+    index = 1;
 
-      case 'A': return small_uc_a;
-      case 'B': return small_uc_b;
-      case 'C': return small_uc_c;
-      case 'D': return small_uc_d;
-      case 'E': return small_uc_e;
-      case 'F': return small_uc_f;
-      case 'G': return small_uc_g;
-      case 'H': return small_uc_h;
-      case 'I': return small_uc_i;
-      case 'J': return small_uc_j;
-      case 'K': return small_uc_k;
-      case 'L': return small_uc_l;
-      case 'M': return small_uc_m;
-      case 'N': return small_uc_n;
-      case 'O': return small_uc_o;
-      case 'P': return small_uc_p;
-      case 'Q': return small_uc_q;
-      case 'R': return small_uc_r;
-      case 'S': return small_uc_s;
-      case 'T': return small_uc_t;
-      case 'U': return small_uc_u;
-      case 'V': return small_uc_v;
-      case 'W': return small_uc_w;
-      case 'X': return small_uc_x;
-      case 'Y': return small_uc_y;
-      case 'Z': return small_uc_z;
+  switch (letter) {
+    case '!': return exclamation[index];
+    case '@': return at[index];
+    case '#': return hash[index];
+    case '$': return dollar[index];
+    case '%': return percent[index];
+    case '&': return ampersand[index];
+    case '^': return caret[index];
+    case '(': return left_paren[index];
+    case ')': return right_paren[index];
+    case '*': return asterisk[index];
+    case ' ': return space[index];
 
-      default: return NULL;
+    case '0': return zero[index];
+    case '1': return one[index];
+    case '2': return two[index];
+    case '3': return three[index];
+    case '4': return four[index];
+    case '5': return five[index];
+    case '6': return six[index];
+    case '7': return seven[index];
+    case '8': return eight[index];
+    case '9': return nine[index];
 
-    }
-  }
-  else {
-    switch (letter) {// Special characters
-      case '!': return big_exclamation;
-      case '@': return big_at;
-      case '#': return big_hash;
-      case '$': return big_dollar;
-      case '%': return big_percent;
-      case '&': return big_ampersand;
-      case '^': return big_caret;
-      case '(': return big_left_paren;
-      case ')': return big_right_paren;
-      case '*': return big_asterisk;
-      case ' ': return big_space;
+    case 'a': return lc_a[index];
+    case 'b': return lc_b[index];
+    case 'c': return lc_c[index];
+    case 'd': return lc_d[index];
+    case 'e': return lc_e[index];
+    case 'f': return lc_f[index];
+    case 'g': return lc_g[index];
+    case 'h': return lc_h[index];
+    case 'i': return lc_i[index];
+    case 'j': return lc_j[index];
+    case 'k': return lc_k[index];
+    case 'l': return lc_l[index];
+    case 'm': return lc_m[index];
+    case 'n': return lc_n[index];
+    case 'o': return lc_o[index];
+    case 'p': return lc_p[index];
+    case 'q': return lc_q[index];
+    case 'r': return lc_r[index];
+    case 's': return lc_s[index];
+    case 't': return lc_t[index];
+    case 'u': return lc_u[index];
+    case 'v': return lc_v[index];
+    case 'w': return lc_w[index];
+    case 'x': return lc_x[index];
+    case 'y': return lc_y[index];
+    case 'z': return lc_z[index];
 
-      case '0': return big_zero;
-      case '1': return big_one;
-      case '2': return big_two;
-      case '3': return big_three;
-      case '4': return big_four;
-      case '5': return big_five;
-      case '6': return big_six;
-      case '7': return big_seven;
-      case '8': return big_eight;
-      case '9': return big_nine;
-
-      case 'a': return big_lc_a;
-      case 'b': return big_lc_b;
-      case 'c': return big_lc_c;
-      case 'd': return big_lc_d;
-      case 'e': return big_lc_e;
-      case 'f': return big_lc_f;
-      case 'g': return big_lc_g;
-      case 'h': return big_lc_h;
-      case 'i': return big_lc_i;
-      case 'j': return big_lc_j;
-      case 'k': return big_lc_k;
-      case 'l': return big_lc_l;
-      case 'm': return big_lc_m;
-      case 'n': return big_lc_n;
-      case 'o': return big_lc_o;
-      case 'p': return big_lc_p;
-      case 'q': return big_lc_q;
-      case 'r': return big_lc_r;
-      case 's': return big_lc_s;
-      case 't': return big_lc_t;
-      case 'u': return big_lc_u;
-      case 'v': return big_lc_v;
-      case 'w': return big_lc_w;
-      case 'x': return big_lc_x;
-      case 'y': return big_lc_y;
-      case 'z': return big_lc_z;
-
-      case 'A': return big_uc_a;
-      case 'B': return big_uc_b;
-      case 'C': return big_uc_c;
-      case 'D': return big_uc_d;
-      case 'E': return big_uc_e;
-      case 'F': return big_uc_f;
-      case 'G': return big_uc_g;
-      case 'H': return big_uc_h;
-      case 'I': return big_uc_i;
-      case 'J': return big_uc_j;
-      case 'K': return big_uc_k;
-      case 'L': return big_uc_l;
-      case 'M': return big_uc_m;
-      case 'N': return big_uc_n;
-      case 'O': return big_uc_o;
-      case 'P': return big_uc_p;
-      case 'Q': return big_uc_q;
-      case 'R': return big_uc_r;
-      case 'S': return big_uc_s;
-      case 'T': return big_uc_t;
-      case 'U': return big_uc_u;
-      case 'V': return big_uc_v;
-      case 'W': return big_uc_w;
-      case 'X': return big_uc_x;
-      case 'Y': return big_uc_y;
-      case 'Z': return big_uc_z;
-
-      default: return NULL;
-    }
+    case 'A': return uc_a[index];
+    case 'B': return uc_b[index];
+    case 'C': return uc_c[index];
+    case 'D': return uc_d[index];
+    case 'E': return uc_e[index];
+    case 'F': return uc_f[index];
+    case 'G': return uc_g[index];
+    case 'H': return uc_h[index];
+    case 'I': return uc_i[index];
+    case 'J': return uc_j[index];
+    case 'K': return uc_k[index];
+    case 'L': return uc_l[index];
+    case 'M': return uc_m[index];
+    case 'N': return uc_n[index];
+    case 'O': return uc_o[index];
+    case 'P': return uc_p[index];
+    case 'Q': return uc_q[index];
+    case 'R': return uc_r[index];
+    case 'S': return uc_s[index];
+    case 'T': return uc_t[index];
+    case 'U': return uc_u[index];
+    case 'V': return uc_v[index];
+    case 'W': return uc_w[index];
+    case 'X': return uc_x[index];
+    case 'Y': return uc_y[index];
+    case 'Z': return uc_z[index];
+    default: return NULL;
   }
   return NULL;
 }
 
-int letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, int size)
+void letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_max, char y_max, int size)
 {
-  char y_max, x_max = 0;
-  if (size == GROOT) {
-    y_max = SIZE_BIG_LETTER_Y;
-    x_max = SIZE_BIG_LETTER_X;
-  } 
-  else {
-    y_max = SIZE_SMALL_LETTER_Y;
-    x_max = SIZE_SMALL_LETTER_X;
-  }
-  for (int y = 0; y < y_max; y++) // Loop door alle y coördinaten heen
+  if (size == KLEIN)
   {
-
-    for (int x = 0; x < x_max; x++) // Loop door alle x coördinaten heen
+    for (int y = 0; y < y_max; y++) // Loop door alle y coördinaten heen
     {
-      if ((letter[y] << x) & 0x80) // Als een pixel hoog is
+      for (int x = 0; x < x_max; x++) // Loop door alle x coördinaten heen
       {
-        UB_VGA_SetPixel(x_lup + x, y_lup + y, color); // Pas de pixel aan naar de gegeven kleur
+        if ((letter[y] << x) & 0x80) // Als een pixel hoog is
+        {
+          UB_VGA_SetPixel(x_lup + x, y_lup + y, color); // Pas de pixel aan naar de gegeven kleur
+        }
       }
     }
   }
-  return 0;
-}
+  else { // GROOT
+    const char (*doubled_bitmap)[2] = (const char (*)[2])letter; // Cast to correct type
+    for (int y = 0; y < y_max; y++) { // Loop through 16 rows, was y_max + 2
+      uint8_t high_byte = doubled_bitmap[y][0];
+      uint8_t low_byte  = doubled_bitmap[y][1];
 
+      // Process high byte (left 8 pixels)
+      for (int x = 0; x < 8; x++) {
+        if ((high_byte << x) & 0x80) {
+          UB_VGA_SetPixel(x_lup + x, y_lup + y, color);
+        }
+      }
+      // Process low byte (right 8 pixels)
+      for (int x = 0; x < 8; x++) {
+        if ((low_byte << x) & 0x80) {
+          UB_VGA_SetPixel(x_lup + 8 + x, y_lup + y, color); // Offset by 8 for the right half
+        }
+      }
+    }
+  }
+}
 
 void clearScreenToVGA(clearscreen_struct CS_struct) {
   UB_VGA_FillScreen(CS_struct.color);
@@ -244,7 +176,8 @@ void rectangleToVGA(rectangle_struct rectangleStruct) {
         UB_VGA_SetPixel(xx, yy, rectangleStruct.color);
       }
     }
-  } else {
+  }
+  else {
     // Top edge
     for (int xx = x; xx < x + w; xx++)
       UB_VGA_SetPixel(xx, y, rectangleStruct.color);
@@ -296,42 +229,107 @@ void lineToVGA(line_struct lineStruct) {
   }
 }
 
-void textToVGA(text_struct textStruct)
-{
+char addVet(char byte) {
+  if (byte & 0x01)
+    return byte;
+
+  for (int i = 1; i < 8; i++) {
+    if (byte & (1 << i)) {
+      return byte | (1 << (i - 1));
+    }
+  }
+  return byte;
+}
+
+char addCursive(char byte, int row, int style) {
+
+  char cursiveFactor;
+
+  if (style == ARIAL)
+    cursiveFactor = 5;
+  else
+    cursiveFactor = 3;
+
+  return byte >> (row / cursiveFactor);
+}
+
+void double_bitmap(const char src[8], char dst[16][2]) {
+  for (int y = 0; y < 8; y++) {
+    uint8_t row = src[y];
+    uint16_t doubled_row = 0;
+
+    // Double each bit horizontally
+    for (int x = 0; x < 8; x++) {
+      int bit = (row >> (7 - x)) & 1;
+      // Place two bits for doubling
+      doubled_row |= (bit << (15 - 2*x));
+      doubled_row |= (bit << (15 - 2*x - 1));
+    }
+
+    // Split 16-bit row into two bytes
+    uint8_t high_byte = (doubled_row >> 8) & 0xFF;
+    uint8_t low_byte  = doubled_row & 0xFF;
+
+    // Double each row vertically
+    dst[2*y][0]   = high_byte;
+    dst[2*y][1]   = low_byte;
+    dst[2*y+1][0] = high_byte;
+    dst[2*y+1][1] = low_byte;
+  }
+}
+
+void textToVGA(text_struct textStruct) {
   size_t sizeOfText = strlen(textStruct.text);
   textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
 
+  char dx, dy = 0;
   int x = textStruct.x_lup;
   int y = textStruct.y_lup;
 
-  if (textInfo.FONTGROOTTE == GROOT) {
-    for (char i = 0; i < sizeOfText; i++) {
-      char *buf = getRawLetter(textStruct.text[i], textInfo.FONTGROOTTE);
-      letterToVGA(x, y, textStruct.color, buf, textInfo.FONTGROOTTE);
 
-      x = x + SIZE_BIG_LETTER_X;
-
-      if (x > VGA_DISPLAY_X - SIZE_BIG_LETTER_X) { //go to a new line
-        x = 0;
-        y = y + SIZE_BIG_LETTER_Y;
-      }
-    }
-
+  if (textInfo.FONTGROOTTE == KLEIN) {
+    dx = 8;
+    dy = 8;
   }
   else {
-    for (char i = 0; i < sizeOfText; i++) {
-      char *buf = getRawLetter(textStruct.text[i], KLEIN);
-      letterToVGA(x, y, textStruct.color, buf, KLEIN);
+    dx = 16;
+    dy = 16;
+  }
 
-      x = x + SIZE_SMALL_LETTER_X;
+  uint8_t buff[8]; // font data is always 8x8
 
-      if (x > VGA_DISPLAY_X - SIZE_SMALL_LETTER_X) { //go to a new line
-        x = 0;
-        y = y + SIZE_SMALL_LETTER_Y;
+  for (char i = 0; i < sizeOfText; i++) {
+    const char *buf = getRawLetter(textStruct.text[i], textInfo.FONTNAAM);
+    memcpy(buff, buf, 8);
+
+    if (textInfo.FONTSTIJL == VET) {
+      for (char j = 0; j < 8; j++) {
+        buff[j] = addVet(buff[j]);
+      }
+    } else if (textInfo.FONTSTIJL == CURSIEF) {
+      for (char j = 0; j < 8; j++) {
+        buff[j] = addCursive(buff[j], j, textInfo.FONTNAAM);
       }
     }
 
+    if (textInfo.FONTGROOTTE == GROOT) {
+      uint8_t dest[16][2];
 
+      // The memcpy from NULL was causing a crash. It's removed.
+      // Zeroing the buffer is not necessary as double_bitmap fills it completely.
+      double_bitmap((const char*)buff, (char (*)[2])dest);
+      letterToVGA(x, y, textStruct.color, (const uint8_t*)dest, dx, dy, textInfo.FONTGROOTTE);
+    }
+    else {
+      letterToVGA(x, y, textStruct.color, buff, dx, dy, textInfo.FONTGROOTTE);
+    }
+
+    x += dx;
+
+    if (x > VGA_DISPLAY_X - dx) { //go to a new line
+      x = 0;
+      y += dy;
+    }
   }
 }
 

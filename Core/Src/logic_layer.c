@@ -41,7 +41,7 @@ const char *getRawLetter(char letter, int style) {
   if (style == ARIAL)
     index = 0;
   else if (style == CONSOLAS)
-    index = 2;
+    index = 1;
 
   switch (letter) {
     case '!': return exclamation[index];

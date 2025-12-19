@@ -32,36 +32,61 @@ int main(void)
     .y_lup = 1,
     .color = VGA_COL_BLACK,
     .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
-    .fontname = "arial",
+    .fontname = "consolas",
     .fontsize = 1,
     .fontstyle = "normaal"
   };
 
   textToVGA(textStruct);
-
-  text_struct textStruct = {
+  
+  text_struct textStruct2 = {
     .x_lup = 1,
-    .y_lup = 1,
+    .y_lup = 20,
     .color = VGA_COL_BLACK,
-    .text = "abcdefghijklmnopqrstuvwxyz",
-    .fontname = "arial",
+    .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
+    .fontname = "consolas",
     .fontsize = 1,
-    .fontstyle = "normaal"
+    .fontstyle = "vet"
   };
 
-  textToVGA(textStruct);
+  textToVGA(textStruct2);
 
-  text_struct textStruct = {
+  
+  text_struct textStruct3 = {
     .x_lup = 1,
-    .y_lup = 1,
+    .y_lup = 40,
     .color = VGA_COL_BLACK,
-    .text = "abcdefghijklmnopqrstuvwxyz",
-    .fontname = "arial",
+    .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
+    .fontname = "consolas",
     .fontsize = 1,
+    .fontstyle = "cursief"
+  };
+
+  textToVGA(textStruct3);
+
+  text_struct textStruct4 = {
+    .x_lup = 1,
+    .y_lup = 80,
+    .color = VGA_COL_BLACK,
+    .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
+    .fontname = "consolas",
+    .fontsize = 2,
     .fontstyle = "normaal"
   };
 
-  textToVGA(textStruct);
+  textToVGA(textStruct4);
+  
+  text_struct textStruct5 = {
+    .x_lup = 1,
+    .y_lup = 150,
+    .color = VGA_COL_BLACK,
+    .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
+    .fontname = "consolas",
+    .fontsize = 2,
+    .fontstyle = "cursief"
+  };
+
+  textToVGA(textStruct5);
 
   while (1)
   {

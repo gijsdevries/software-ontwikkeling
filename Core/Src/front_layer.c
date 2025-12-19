@@ -38,12 +38,7 @@ void Buffer_to_struct(char cmd_val)
   uint8_t take_index = 0; // Take_index zodat de plek in de buffer makkelijk gereset kan worden
   char errors = 0;
   char arg_diff;
-  int dx = abs(x2 - x1);
-  int dy = abs(y2 - y1);
-  int sx = (x1 < x2) ? 1 : -1;
-  int sy = (y1 < y2) ? 1 : -1;
-  int err = dx - dy;
-  char weightError = 0;
+
 
   take_int(&take_index); // Skip het eerste woord
 
@@ -53,6 +48,13 @@ void Buffer_to_struct(char cmd_val)
     case LIJN: // Vul lijn struct en roep lijn functie aan
       {
         line_struct lijn;
+
+        int dx = abs(lijn.x_2 - lijn.x_1);
+        int dy = abs(lijn.y_2 - lijn.y_1);
+        int sx = (lijn.x_1 < lijn.x_2) ? 1 : -1;
+        int sy = (lijn.y_1 < lijn.y_2) ? 1 : -1;
+        int err = dx - dy;
+        char weightError = 0;
 
         arg_diff = Argument_checker(LIJN_ARGS);
         if (arg_diff != 0)
@@ -92,11 +94,11 @@ void Buffer_to_struct(char cmd_val)
 
           if (e2 > -dy) {
             err -= dy;
-            x1 += sx;
+            lijn.x_1 += sx;
           }
           if (e2 < dx) {
             err += dx;
-            y1 += sy;
+            lijn.y_1 += sy;
           }
         }
 

@@ -34,15 +34,13 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
   return textInfo;
 }
 
-const char *getRawLetter(char letter, int size, int style) {
+const char *getRawLetter(char letter, int style) {
 
   char index = 0;
 
-  if (size == KLEIN && style == ARIAL)
+  if (style == ARIAL)
     index = 0;
-  if (size == GROOT && style == ARIAL)
-    index = 1;
-  if (style == CONSOLAS)
+  else if (style == CONSOLAS)
     index = 2;
 
   switch (letter) {
@@ -127,21 +125,42 @@ const char *getRawLetter(char letter, int size, int style) {
   return NULL;
 }
 
-int letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_max, char y_max)
+void letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_max, char y_max, int size)
 {
-  for (int y = 0; y < y_max; y++) // Loop door alle y coördinaten heen
+  if (size == KLEIN)
   {
-    for (int x = 0; x < x_max; x++) // Loop door alle x coördinaten heen
+    for (int y = 0; y < y_max; y++) // Loop door alle y coördinaten heen
     {
-      if ((letter[y] << x) & 0x80) // Als een pixel hoog is
+      for (int x = 0; x < x_max; x++) // Loop door alle x coördinaten heen
       {
-        UB_VGA_SetPixel(x_lup + x, y_lup + y, color); // Pas de pixel aan naar de gegeven kleur
+        if ((letter[y] << x) & 0x80) // Als een pixel hoog is
+        {
+          UB_VGA_SetPixel(x_lup + x, y_lup + y, color); // Pas de pixel aan naar de gegeven kleur
+        }
       }
     }
   }
-  return 0;
-}
+  else { // GROOT
+    const char (*doubled_bitmap)[2] = (const char (*)[2])letter; // Cast to correct type
+    for (int y = 0; y < y_max + 2; y++) { // Loop through 16 rows
+      uint8_t high_byte = doubled_bitmap[y][0];
+      uint8_t low_byte  = doubled_bitmap[y][1];
 
+      // Process high byte (left 8 pixels)
+      for (int x = 0; x < 8; x++) {
+        if ((high_byte << x) & 0x80) {
+          UB_VGA_SetPixel(x_lup + x, y_lup + y, color);
+        }
+      }
+      // Process low byte (right 8 pixels)
+      for (int x = 0; x < 8; x++) {
+        if ((low_byte << x) & 0x80) {
+          UB_VGA_SetPixel(x_lup + 8 + x, y_lup + y, color); // Offset by 8 for the right half
+        }
+      }
+    }
+  }
+}
 
 void clearScreenToVGA(clearscreen_struct CS_struct) {
   UB_VGA_FillScreen(CS_struct.color);
@@ -226,45 +245,73 @@ char addCursive(char byte, int row) {
   return byte >> (row / 3);
 }
 
+void double_bitmap(const char src[8], char dst[16][2]) {
+  for (int y = 0; y < 8; y++) {
+    uint8_t row = src[y];
+    uint16_t doubled_row = 0;
+
+    // Double each bit horizontally
+    for (int x = 0; x < 8; x++) {
+      int bit = (row >> (7 - x)) & 1;
+      // Place two bits for doubling
+      doubled_row |= (bit << (15 - 2*x));
+      doubled_row |= (bit << (15 - 2*x - 1));
+    }
+
+    // Split 16-bit row into two bytes
+    uint8_t high_byte = (doubled_row >> 8) & 0xFF;
+    uint8_t low_byte  = doubled_row & 0xFF;
+
+    // Double each row vertically
+    dst[2*y][0]   = high_byte;
+    dst[2*y][1]   = low_byte;
+    dst[2*y+1][0] = high_byte;
+    dst[2*y+1][1] = low_byte;
+  }
+}
+
 void textToVGA(text_struct textStruct) {
   size_t sizeOfText = strlen(textStruct.text);
   textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
 
   char dx, dy = 0;
-
   int x = textStruct.x_lup;
   int y = textStruct.y_lup;
 
-  textInfo.FONTNAAM == CONSOLAS;
 
-  if (textInfo.FONTGROOTTE == KLEIN && textInfo.FONTNAAM == ARIAL) {
-    dx = SIZE_SMALL_LETTER_X;
-    dy = SIZE_SMALL_LETTER_Y;
-  }
-  else if (textInfo.FONTGROOTTE == GROOT && textInfo.FONTNAAM == ARIAL) {
+  if (textInfo.FONTGROOTTE == KLEIN) {
     dx = 8;
-    dy = 14;
+    dy = 8;
   }
-  else if (textInfo.FONTNAAM == CONSOLAS) {
-    dx = 6;
-    dy = 10;
+  else {
+    dx = 16;
+    dy = 16;
   }
 
-  char buff[dy];
+  uint8_t buff[dy];
 
   for (char i = 0; i < sizeOfText; i++) {
-    char *buf = getRawLetter(textStruct.text[i], textInfo.FONTGROOTTE, textInfo.FONTNAAM);
-
+    const char *buf = getRawLetter(textStruct.text[i], textInfo.FONTNAAM);
     memcpy(buff, buf, dy);
 
-    if (textInfo.FONTSTIJL == VET)
-      for (char j = 0; j < dy; j++)
+    if (textInfo.FONTSTIJL == VET) {
+      for (char j = 0; j < dy; j++) {
         buff[j] = addVet(buff[j]);
-    else if (textInfo.FONTSTIJL == CURSIEF)
-      for (char j = 0; j < dy; j++)
+      }
+    } else if (textInfo.FONTSTIJL == CURSIEF) {
+      for (char j = 0; j < dy; j++) {
         buff[j] = addCursive(buff[j], j);
+      }
+    }
 
-    letterToVGA(x, y, textStruct.color, buf, dx, dy);
+    if (textInfo.FONTGROOTTE == GROOT) {
+      uint8_t dest[16][2];
+      double_bitmap(buff, dest);
+       letterToVGA(x, y, textStruct.color, (const uint8_t*)dest, dx, dy, textInfo.FONTGROOTTE);
+
+    } else { // KLEIN
+      letterToVGA(x, y, textStruct.color, buff, dx, dy, textInfo.FONTGROOTTE);
+    }
 
     x += dx;
 

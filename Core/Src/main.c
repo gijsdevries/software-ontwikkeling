@@ -31,7 +31,7 @@ int main(void)
     .x_lup = 1,
     .y_lup = 1,
     .color = VGA_COL_BLACK,
-    .text = "abcde",
+    .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
     .fontname = "arial",
     .fontsize = 1,
     .fontstyle = "normaal"
@@ -39,29 +39,29 @@ int main(void)
 
   textToVGA(textStruct);
 
-  text_struct textStruct2 = {
-    .x_lup = 1, 
-    .y_lup = 20,
-    .color = VGA_COL_BLACK,
-    .text = "abcde",
-    .fontname = "arial",
-    .fontsize = 2, 
-    .fontstyle = "normaal"
-  };
-
-  textToVGA(textStruct2);
-
-  text_struct textStruct3 = {
+  text_struct textStruct = {
     .x_lup = 1,
-    .y_lup = 40,
+    .y_lup = 1,
     .color = VGA_COL_BLACK,
-    .text = "abcde",
-    .fontname = "consolas",
+    .text = "abcdefghijklmnopqrstuvwxyz",
+    .fontname = "arial",
     .fontsize = 1,
     .fontstyle = "normaal"
   };
 
-  textToVGA(textStruct3);
+  textToVGA(textStruct);
+
+  text_struct textStruct = {
+    .x_lup = 1,
+    .y_lup = 1,
+    .color = VGA_COL_BLACK,
+    .text = "abcdefghijklmnopqrstuvwxyz",
+    .fontname = "arial",
+    .fontsize = 1,
+    .fontstyle = "normaal"
+  };
+
+  textToVGA(textStruct);
 
   while (1)
   {

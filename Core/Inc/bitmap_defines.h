@@ -10,8 +10,8 @@
  * Opbouw van letter bitmap
  *
  * static const char *GETAL[VARIATIES] = {
- * {KLEINE ARIAL} // https://github.com/torvalds/linux/blob/master/lib/fonts/font_6x8.c
- * {GROTE ARIAL} // https://github.com/torvalds/linux/blob/master/lib/fonts/font_7x14.c
+ * ARIAL // https://github.com/torvalds/linux/blob/master/lib/fonts/font_6x8.c
+ * CONSOLAS // https://github.com/torvalds/linux/blob/master/lib/fonts/font_acorn_8x8.c 
  * };
 */
 

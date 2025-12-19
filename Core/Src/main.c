@@ -26,67 +26,6 @@ int main(void)
   UB_VGA_Screen_Init(); // Init VGA-Screen
   UB_VGA_FillScreen(VGA_COL_RED);
   USART2_Init();
-  
-  text_struct textStruct = {
-    .x_lup = 1,
-    .y_lup = 1,
-    .color = VGA_COL_BLACK,
-    .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
-    .fontname = "consolas",
-    .fontsize = 1,
-    .fontstyle = "normaal"
-  };
-
-  textToVGA(textStruct);
-  
-  text_struct textStruct2 = {
-    .x_lup = 1,
-    .y_lup = 20,
-    .color = VGA_COL_BLACK,
-    .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
-    .fontname = "consolas",
-    .fontsize = 1,
-    .fontstyle = "vet"
-  };
-
-  textToVGA(textStruct2);
-
-  
-  text_struct textStruct3 = {
-    .x_lup = 1,
-    .y_lup = 40,
-    .color = VGA_COL_BLACK,
-    .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
-    .fontname = "consolas",
-    .fontsize = 1,
-    .fontstyle = "cursief"
-  };
-
-  textToVGA(textStruct3);
-
-  text_struct textStruct4 = {
-    .x_lup = 1,
-    .y_lup = 80,
-    .color = VGA_COL_BLACK,
-    .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
-    .fontname = "consolas",
-    .fontsize = 2,
-    .fontstyle = "normaal"
-  };
-
-  textToVGA(textStruct4);
-  
-  text_struct textStruct5 = {
-    .x_lup = 1,
-    .y_lup = 150,
-    .color = VGA_COL_BLACK,
-    .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
-    .fontname = "consolas",
-    .fontsize = 2,
-    .fontstyle = "vet"
-  };
-
-  textToVGA(textStruct5);
 
   while (1)
   {

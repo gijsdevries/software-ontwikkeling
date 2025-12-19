@@ -142,7 +142,7 @@ void letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_
   }
   else { // GROOT
     const char (*doubled_bitmap)[2] = (const char (*)[2])letter; // Cast to correct type
-    for (int y = 0; y < y_max + 2; y++) { // Loop through 16 rows
+    for (int y = 0; y < y_max; y++) { // Loop through 16 rows, was y_max + 2
       uint8_t high_byte = doubled_bitmap[y][0];
       uint8_t low_byte  = doubled_bitmap[y][1];
 
@@ -241,8 +241,16 @@ char addVet(char byte) {
   return byte;
 }
 
-char addCursive(char byte, int row) {
-  return byte >> (row / 3);
+char addCursive(char byte, int row, int style) {
+
+  char cursiveFactor;
+
+  if (style == ARIAL)
+    cursiveFactor = 5;
+  else
+    cursiveFactor = 3;
+
+  return byte >> (row / cursiveFactor);
 }
 
 void double_bitmap(const char src[8], char dst[16][2]) {
@@ -288,28 +296,31 @@ void textToVGA(text_struct textStruct) {
     dy = 16;
   }
 
-  uint8_t buff[dy];
+  uint8_t buff[8]; // font data is always 8x8
 
   for (char i = 0; i < sizeOfText; i++) {
     const char *buf = getRawLetter(textStruct.text[i], textInfo.FONTNAAM);
-    memcpy(buff, buf, dy);
+    memcpy(buff, buf, 8);
 
     if (textInfo.FONTSTIJL == VET) {
-      for (char j = 0; j < dy; j++) {
+      for (char j = 0; j < 8; j++) {
         buff[j] = addVet(buff[j]);
       }
     } else if (textInfo.FONTSTIJL == CURSIEF) {
-      for (char j = 0; j < dy; j++) {
-        buff[j] = addCursive(buff[j], j);
+      for (char j = 0; j < 8; j++) {
+        buff[j] = addCursive(buff[j], j, textInfo.FONTNAAM);
       }
     }
 
     if (textInfo.FONTGROOTTE == GROOT) {
       uint8_t dest[16][2];
-      double_bitmap(buff, dest);
-       letterToVGA(x, y, textStruct.color, (const uint8_t*)dest, dx, dy, textInfo.FONTGROOTTE);
 
-    } else { // KLEIN
+      // The memcpy from NULL was causing a crash. It's removed.
+      // Zeroing the buffer is not necessary as double_bitmap fills it completely.
+      double_bitmap((const char*)buff, (char (*)[2])dest);
+      letterToVGA(x, y, textStruct.color, (const uint8_t*)dest, dx, dy, textInfo.FONTGROOTTE);
+    }
+    else {
       letterToVGA(x, y, textStruct.color, buff, dx, dy, textInfo.FONTGROOTTE);
     }
 

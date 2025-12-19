@@ -83,7 +83,7 @@ int main(void)
     .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYXZ 0123456789 !@#$%^&*()",
     .fontname = "consolas",
     .fontsize = 2,
-    .fontstyle = "cursief"
+    .fontstyle = "vet"
   };
 
   textToVGA(textStruct5);

@@ -22,7 +22,7 @@ static const char *exclamation[SIZES] = {
 
 static const char *at[SIZES] = {
   {"\x38\x44\x5C\x54\x5C\x40\x38\x00"},
-  {"\x00\x00\x00\x00\x00\x00\x00\x00"}
+  {"\x3C\x66\x6E\x6A\x6E\x60\x3C\x00"}
 };
 
 static const char *hash[SIZES] = {

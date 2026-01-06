@@ -27,6 +27,29 @@ int main(void)
   UB_VGA_FillScreen(VGA_COL_RED);
   USART2_Init();
 
+  text_struct textStruct = {
+    .x_lup = 1,
+    .y_lup = 1,
+    .color = VGA_COL_BLACK,
+    .text = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 !@#$%^&*()",
+    .fontname = "consolas",
+    .fontsize = 1,
+    .fontstyle = "normaal"
+  };
+
+  textToVGA(textStruct);
+
+  line_struct lineStruct = {
+    .x_1 = 10,
+    .x_2 = 100,
+    .y_1 = 10,
+    .y_2 = 100,
+    .color = VGA_COL_WHITE,
+    .weight = 4,
+  };
+
+  lineToVGA(lineStruct);
+
   while (1)
   {
     USART2_BUFFER();

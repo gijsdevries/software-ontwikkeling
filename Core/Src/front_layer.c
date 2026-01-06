@@ -167,6 +167,9 @@ void Buffer_to_struct(char cmd_val)
       {
         text_struct text;
         int letter_w, letter_h; // Letter weight en letter height
+        text.text = NULL;
+        text.fontname = NULL;
+        text.fontstyle = NULL;
 
         arg_diff = Argument_checker(TEKST_ARGS);
         if (arg_diff != 0)
@@ -188,8 +191,8 @@ void Buffer_to_struct(char cmd_val)
           errors++;
         }
 
-        text.fontname = take_int(&take_index);
-        if (text.fontname < ARIAL || text.fontname > CONSOLAS)
+        text.fontname = take_word(&take_index);
+        if (text.fontname == NULL || (strcmp(text.fontname, "arial") != 0 && strcmp(text.fontname, "consolas") != 0))
         {
           USART2_SendString("Ongeldige fontnaam (arial/consolas)\n");
           errors++;
@@ -202,8 +205,8 @@ void Buffer_to_struct(char cmd_val)
           errors++;
         }
 
-        text.fontstyle = take_int(&take_index);
-        if (text.fontstyle < NORMAAL || text.fontstyle > CURSIEF)
+        text.fontstyle = take_word(&take_index);
+        if (text.fontstyle == NULL || (strcmp(text.fontstyle, "normaal") != 0 && strcmp(text.fontstyle, "vet") != 0 && strcmp(text.fontstyle, "cursief") != 0))
         {
           USART2_SendString("Fontstijl moet normaal, vet of cursief zijn\n");
           errors++;
@@ -230,6 +233,11 @@ void Buffer_to_struct(char cmd_val)
           USART2_SendString("Totaal aantal errors: ");
           USART2_SendChar(errors + '0');
           USART2_SendString("\n");
+          
+          // Free memory if it was allocated before returning
+          free(text.text);
+          free(text.fontname);
+          free(text.fontstyle);
           return;
         }
 
@@ -240,6 +248,7 @@ void Buffer_to_struct(char cmd_val)
         // Geef geheugen vrij
         free(text.text);
         free(text.fontname);
+        free(text.fontstyle);
       }
       break;
 
@@ -543,7 +552,6 @@ void USART2_BUFFER(void)
         idx = 0;
 
         UART_Flag = 1;
-        USART2_SendString("UART Ready!!!\n");
       }
     }
   }

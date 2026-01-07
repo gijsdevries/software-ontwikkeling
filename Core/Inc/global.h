@@ -1,5 +1,6 @@
 /** \file
- * global h 
+ * global.h
+ * @brief bestand met globale defines
  */
 
 #ifndef GLOBAL_H 

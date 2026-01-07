@@ -1,5 +1,6 @@
 /** \file
- * io layer h
+ * io_layer.h
+ * @brief Dit bestand bevat de declaraties voor de i/o laag.
 */
 
 #ifndef IO_LAYER_H

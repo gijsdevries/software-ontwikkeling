@@ -1,5 +1,6 @@
 /** \file
  * Defines voor alle letters en bitmaps
+ * @brief Dit bestand bevat alle defines van letters en bitmaps
  */
 
 #ifndef BITMAP_DEFINES 

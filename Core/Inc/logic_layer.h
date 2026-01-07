@@ -1,5 +1,6 @@
 /** \file
  * Logic layer of application. 
+ * @brief Dit bestand bevat de declaraties voor de logic laag.
  */
 
 #ifndef LOGIC_LAYER_H 

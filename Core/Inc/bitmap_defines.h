@@ -1,5 +1,5 @@
 /** \file
- * bitmap defines
+ * Defines voor alle letters en bitmaps
  */
 
 #ifndef BITMAP_DEFINES 
@@ -8,16 +8,15 @@
 #include <stdint.h>
 #include "logic_layer.h"
 
-#define SIZES 2
 
-/*
- * Opbouw van letter bitmap
- *
- * static const char *GETAL[VARIATIES] = {
- * ARIAL // https://github.com/torvalds/linux/blob/master/lib/fonts/font_6x8.c
- * CONSOLAS // https://github.com/torvalds/linux/blob/master/lib/fonts/font_acorn_8x8.c 
- * };
-*/
+/**
+ * @brief aantal letter types (arial and consolas)
+ * @brief Opbouw van letter bitmap
+ * @brief ARIAL https://github.com/torvalds/linux/blob/master/lib/fonts/font_6x8.c
+ * @brief CONSOLAS https://github.com/torvalds/linux/blob/master/lib/fonts/font_acorn_8x8.c 
+ */
+
+#define SIZES 2 
 
 static const char *exclamation[SIZES] = { 
   {"\x10\x10\x10\x10\x10\x00\x10\x00"},
@@ -74,7 +73,6 @@ static const char *space[SIZES] = {
   {"\x00\x00\x00\x00\x00\x00\x00\x00"}
 };
 
-// all numbers
 static const char *zero[SIZES] = {
   {"\x38\x44\x4C\x54\x64\x44\x38\x00"},
   {"\x3C\x66\x6E\x7E\x76\x66\x3C\x00"}
@@ -258,6 +256,7 @@ static const char *lc_z[SIZES] = {
   {"\x00\x00\x7E\x0C\x18\x30\x7E\x00"}
 };
 
+//upper case
 static const char *uc_a[SIZES] = {
   {"\x10\x28\x44\x44\x7C\x44\x44\x00"},
   {"\x3C\x66\x66\x7E\x66\x66\x66\x00"}
@@ -389,6 +388,7 @@ static const char *uc_z[SIZES] = {
   {"\x7E\x06\x0C\x18\x30\x60\x7E\x00"}
 };
 
+//defines for bitmaps
 static const char SMILEY_BLIJ_BITMAP[1024] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

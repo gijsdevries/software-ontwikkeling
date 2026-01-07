@@ -5,6 +5,8 @@
  *          zoals het instellen van een individuele pixelkleur.
  */
 
+#include "io_layer.h"
+
 /**
  * @brief Stelt één pixel in op het scherm met een specifieke kleur.
  * Belangrijk: De pixel na de laatste pixel van elke lijn moet zwart zijn.

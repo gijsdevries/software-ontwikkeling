@@ -2,7 +2,7 @@
  * @file front_layer.c
  * @brief Behandelt de communicatie via UART en het parsen van commando's.
  *
- * Deze laag ontvangt commando's via UART, parseert deze, en roept de
+ * Deze laag ontvangt commando's via UART, Parsed deze, en roept de
  * corresponderende functies in de logic_layer aan om te tekenen op het VGA-scherm.
  */
 
@@ -71,13 +71,13 @@ void Buffer_Check()
 }
 
 /**
- * @brief Parseert de argumenten uit de buffer en vult de juiste datastructuur.
+ * @brief Parsed de argumenten uit de buffer en vult de juiste datastructuur.
  *
  * @param cmd_val De code van het commando dat verwerkt moet worden.
  *
  * Afhankelijk van het commando worden de argumenten uit de buffer gehaald,
  * geconverteerd naar de juiste datatypes, en opgeslagen in een struct.
- * Na validatie wordt de corresponderende tekenfunctie in de logic_layer aangeroepen.
+ * Na validatie wordt de bijbehorende tekenfunctie in de logic_layer aangeroepen.
  */
 void Buffer_to_struct(char cmd_val)
 {
@@ -85,9 +85,7 @@ void Buffer_to_struct(char cmd_val)
   char errors = 0;
   char arg_diff;
 
-
   take_int(&take_index); // Skip het eerste woord
-
 
   switch (cmd_val) // Vul juiste struct, start juiste functie en error handling
   {
@@ -354,7 +352,7 @@ void Buffer_to_struct(char cmd_val)
 /**
  * @brief Controleert of het aantal argumenten correct is.
  *
- * @param Argument_goal Het verwachte aantal argumenten voor het commando.
+ * @param Argument_goal is verwachte aantal argumenten voor het commando.
  * @return Het verschil tussen het gevonden en verwachte aantal argumenten.
  *         Retourneert 0 als het aantal correct is.
  *
@@ -387,7 +385,7 @@ char Argument_checker(char Argument_goal)
  *
  * @return Het aantal gevonden argumenten.
  *
- * De functie parseert de buffer en telt het aantal door komma's gescheiden
+ * De functie parsed de buffer en telt het aantal door komma's gescheiden
  * waarden na het commando-woord.
  */
 char Argument_counter()
@@ -612,22 +610,6 @@ void USART2_IRQHandler(void)
     }
   }
 }
-
-/**
- * @brief Ontvangt een enkel karakter via USART2 (blocking).
- *
- * @return Het ontvangen karakter.
- *
- * Wacht tot een karakter beschikbaar is in de receive buffer en retourneert dit.
- * @note Deze functie wordt momenteel niet gebruikt; de verwerking gebeurt
- *       via de interrupt-gebaseerde `USART2_BUFFER`.
- */
-char USART2_ReceiveChar(void)
-{
-  while (!(USART2->SR & USART_SR_RXNE));
-  return USART2->DR;
-}
-//============================================================================= Einde
 
 /**
  * @brief Verwerkt de data in de UART-ringbuffer.

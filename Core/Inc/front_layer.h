@@ -51,7 +51,7 @@ extern uint16_t idx;
 void Buffer_Check();
 
 /**
- * @brief Parseert het commando uit de buffer en converteert het naar een gestructureerd formaat.
+ * @brief Parsed het commando uit de buffer en converteert het naar een gestructureerd formaat.
  * @param cmd_var De te verwerken commando-variabele.
  */
 void Buffer_to_struct(char cmd_var);
@@ -72,21 +72,21 @@ char Argument_counter();
 /**
  * @brief Extraheert een integerwaarde uit de commandobuffer.
  * @param take_index Pointer naar de huidige index in de buffer.
- * @return De geëxtraheerde integerwaarde.
+ * @return De integerwaarde.
  */
 int take_int(uint8_t *take_index);
 
 /**
  * @brief Extraheert een woord (string) uit de commandobuffer.
  * @param take_index Pointer naar de huidige index in de buffer.
- * @return Pointer naar het geëxtraheerde woord.
+ * @return Pointer naar het woord.
  */
 char* take_word(uint8_t *take_index);
 
 /**
  * @brief Extraheert een kleurwaarde uit de commandobuffer.
  * @param take_index Pointer naar de huidige index in de buffer.
- * @return De geëxtraheerde kleurwaarde.
+ * @return De kleurwaarde.
  */
 int take_color(uint8_t *take_index);
 
@@ -106,19 +106,13 @@ static uint8_t check_coord(int val, int max_val, const char* argument_name);
 void USART2_Init();
 
 /**
- * @brief Ontvangt een enkel teken van USART2.
- * @return Het ontvangen teken.
- */
-char USART2_ReceiveChar();
-
-/**
  * @brief Verwerkt de USART2 ontvangstbuffer.
  */
 void USART2_BUFFER();
 
 /**
  * @brief Verstuurt een enkel teken via USART2.
- * @param c Het te versturen teken.
+ * @param char c Het te versturen teken.
  */
 void USART2_SendChar(char c);
 

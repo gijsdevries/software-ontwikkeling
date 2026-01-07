@@ -8,7 +8,7 @@
 
 /**
  * @enum COMMANDS
- * @brief Enumeratie voor de verschillende commando's.
+ * @brief Enums voor de verschillende commando's.
  */
 enum COMMANDS {
   LIJN,       ///< Lijn commando.

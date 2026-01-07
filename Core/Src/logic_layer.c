@@ -1,5 +1,5 @@
 /** \file
- * logiclayerc
+ * logic_layer.c
  * @brief Doet berekeningen om de gewenste commands op het VGA scherm te krijgen
 */
 
@@ -191,7 +191,7 @@ void letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_
 }
 
 /**
- * @brief Vult het scherm met een bepaalde kleur.
+ * @brief Vult het scherm met de gekozen kleur.
  * @param CS_struct Struct met de kleur.
  */
 void clearScreenToVGA(clearscreen_struct CS_struct) {
@@ -336,7 +336,7 @@ void double_bitmap(const char src[8], char dst[16][2]) {
 }
 
 /**
- * @brief Tekent een volledige tekst op het VGA-scherm.
+ * @brief Tekent gegeven tekst op het VGA-scherm.
  * @param textStruct Struct met de eigenschappen van de tekst.
  */
 void textToVGA(text_struct textStruct) {
@@ -376,8 +376,6 @@ void textToVGA(text_struct textStruct) {
     if (textInfo.FONTGROOTTE == GROOT) {
       uint8_t dest[16][2];
 
-      // The memcpy from NULL was causing a crash. It's removed.
-      // Zeroing the buffer is not necessary as double_bitmap fills it completely.
       double_bitmap((const char*)buff, (char (*)[2])dest);
       letterToVGA(x, y, textStruct.color, (const uint8_t*)dest, dx, dy, textInfo.FONTGROOTTE);
     }

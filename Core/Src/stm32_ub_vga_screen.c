@@ -82,10 +82,6 @@ void UB_VGA_FillScreen(uint8_t color)
   }
 }
 
-
-
-
-
 //--------------------------------------------------------------
 // interne Funktionen
 // init aller IO-Pins

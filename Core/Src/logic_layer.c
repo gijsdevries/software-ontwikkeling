@@ -1,22 +1,34 @@
+/** \file
+ * logic_layer.c
+ * @brief Doet berekeningen om de gewenste commands op het VGA scherm te krijgen
+*/
+
 #include "logic_layer.h"
 #include "bitmap_defines.h"
 #include "stm32_ub_vga_screen.h"
 #include "front_layer.h"
 #include <stdio.h>
 
+/**
+ * @brief Converteert tekstinformatie van strings naar integers.
+ * @param fontname De naam van het lettertype als string.
+ * @param fontstyle De stijl van het lettertype als string.
+ * @param fontsize De grootte van het lettertype.
+ * @return Een textInfo struct met de geconverteerde waarden.
+ */
 textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
 
   textInfo textInfo;
 
   if (!strcmp(fontname, "arial"))
-    textInfo.FONTNAAM = ARIAL; 
+    textInfo.FONTNAAM = ARIAL;
   else if (!strcmp(fontname, "consolas"))
     textInfo.FONTNAAM = CONSOLAS;
   else //struct is already error handled, so it should never be -1
-    textInfo.FONTNAAM = -1; 
+    textInfo.FONTNAAM = -1;
 
   if (!strcmp(fontstyle, "normaal"))
-    textInfo.FONTSTIJL = NORMAAL; 
+    textInfo.FONTSTIJL = NORMAAL;
   else if (!strcmp(fontstyle, "vet"))
     textInfo.FONTSTIJL = VET;
   else if (!strcmp(fontstyle, "cursief"))
@@ -34,6 +46,12 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
   return textInfo;
 }
 
+/**
+ * @brief Haalt de onbewerkte bitmapdata voor een letter op.
+ * @param letter Het karakter waarvoor de data wordt opgehaald.
+ * @param style Het lettertype (ARIAL of CONSOLAS).
+ * @return Een pointer naar de bitmapdata van de letter.
+ */
 const char *getRawLetter(char letter, int style) {
 
   char index = 0;
@@ -125,6 +143,16 @@ const char *getRawLetter(char letter, int style) {
   return NULL;
 }
 
+/**
+ * @brief Tekent een letter op het VGA-scherm.
+ * @param x_lup X-coördinaat van de linkerbovenhoek.
+ * @param y_lup Y-coördinaat van de linkerbovenhoek.
+ * @param color De kleur van de letter.
+ * @param letter Pointer naar de bitmapdata van de letter.
+ * @param x_max De breedte van de letter.
+ * @param y_max De hoogte van de letter.
+ * @param size De grootte van de letter (KLEIN of GROOT).
+ */
 void letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_max, char y_max, int size)
 {
   if (size == KLEIN)
@@ -162,12 +190,20 @@ void letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_
   }
 }
 
+/**
+ * @brief Vult het scherm met de gekozen kleur.
+ * @param CS_struct Struct met de kleur.
+ */
 void clearScreenToVGA(clearscreen_struct CS_struct) {
   UB_VGA_FillScreen(CS_struct.color);
 }
 
+/**
+ * @brief Tekent een rechthoek op het VGA-scherm.
+ * @param rectangleStruct Struct met de eigenschappen van de rechthoek.
+ */
 void rectangleToVGA(rectangle_struct rectangleStruct) {
-  int x = rectangleStruct.x; int w = rectangleStruct.width; 
+  int x = rectangleStruct.x; int w = rectangleStruct.width;
   int y = rectangleStruct.y; int h = rectangleStruct.height;
 
   if (rectangleStruct.filled) {
@@ -196,8 +232,12 @@ void rectangleToVGA(rectangle_struct rectangleStruct) {
   }
 }
 
+/**
+ * @brief Tekent een lijn op het VGA-scherm met een bepaalde dikte.
+ * @param lineStruct Struct met de eigenschappen van de lijn.
+ */
 void lineToVGA(line_struct lineStruct) {
-  int x1 = lineStruct.x_1; int x2 = lineStruct.x_2; 
+  int x1 = lineStruct.x_1; int x2 = lineStruct.x_2;
   int y1 = lineStruct.y_1; int y2 = lineStruct.y_2;
 
   int dx = abs(x2 - x1);
@@ -229,6 +269,11 @@ void lineToVGA(line_struct lineStruct) {
   }
 }
 
+/**
+ * @brief Maakt een byte vet door een extra bit hoog te zetten.
+ * @param byte De input byte.
+ * @return De "vette" byte.
+ */
 char addVet(char byte) {
   if (byte & 0x01)
     return byte;
@@ -241,6 +286,13 @@ char addVet(char byte) {
   return byte;
 }
 
+/**
+ * @brief Maakt een byte cursief door te shiften.
+ * @param byte De input byte.
+ * @param row De huidige rij van de letter.
+ * @param style Het lettertype.
+ * @return De "cursieve" byte.
+ */
 char addCursive(char byte, int row, int style) {
 
   char cursiveFactor;
@@ -253,6 +305,11 @@ char addCursive(char byte, int row, int style) {
   return byte >> (row / cursiveFactor);
 }
 
+/**
+ * @brief Verdubbelt een 8x8 bitmap naar een 16x16 bitmap.
+ * @param src De bron 8x8 bitmap.
+ * @param dst De bestemming 16x16 bitmap.
+ */
 void double_bitmap(const char src[8], char dst[16][2]) {
   for (int y = 0; y < 8; y++) {
     uint8_t row = src[y];
@@ -278,6 +335,10 @@ void double_bitmap(const char src[8], char dst[16][2]) {
   }
 }
 
+/**
+ * @brief Tekent gegeven tekst op het VGA-scherm.
+ * @param textStruct Struct met de eigenschappen van de tekst.
+ */
 void textToVGA(text_struct textStruct) {
   size_t sizeOfText = strlen(textStruct.text);
   textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
@@ -315,8 +376,6 @@ void textToVGA(text_struct textStruct) {
     if (textInfo.FONTGROOTTE == GROOT) {
       uint8_t dest[16][2];
 
-      // The memcpy from NULL was causing a crash. It's removed.
-      // Zeroing the buffer is not necessary as double_bitmap fills it completely.
       double_bitmap((const char*)buff, (char (*)[2])dest);
       letterToVGA(x, y, textStruct.color, (const uint8_t*)dest, dx, dy, textInfo.FONTGROOTTE);
     }
@@ -333,6 +392,10 @@ void textToVGA(text_struct textStruct) {
   }
 }
 
+/**
+ * @brief Tekent een bitmap op het VGA-scherm.
+ * @param bitmapStruct Struct met de eigenschappen van de bitmap.
+ */
 void bitmapToVGA(bitmap_struct bitmapStruct) {
   uint8_t* bitmap = NULL;
 

@@ -1,12 +1,8 @@
 /**
  * @file main.c
- * @date 30.03.2016
+ * @date 7.1.2026
  * @version 1.0
- * @author UB
- * @mod_by J.F. van der Bent
- * @brief VGA_core DMA LIB 320x240, 8bit kleur
- * @details Dit bestand bevat de hoofdprogrammalogica voor het initialiseren van het STM32F4-systeem,
- *          het VGA-scherm en de USART2-communicatie.
+ * @brief Dit programma bevat het main programma van de applicatie
  */
 
 #include "main.h"

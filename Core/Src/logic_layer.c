@@ -270,7 +270,7 @@ void lineToVGA(line_struct lineStruct) {
 }
 
 /**
- * @brief Maakt een byte vet door een bit toe te voegen.
+ * @brief Maakt een byte vet door een extra bit hoog te zetten.
  * @param byte De input byte.
  * @return De "vette" byte.
  */

@@ -4,7 +4,8 @@
 #include <global.h>
 
 // Toevoegen bovenaan bij de parsing/UART sectie
-#define UART_BUF_SIZE 128   // of groter, afhankelijk van maximale commando lengte
+#define UART_BUF_SIZE 1024   // of groter, afhankelijk van maximale commando lengte
+                             
 extern volatile char uart_buf[UART_BUF_SIZE];
 extern volatile uint16_t uart_head;
 extern volatile uint16_t uart_tail;

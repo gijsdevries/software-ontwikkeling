@@ -18,6 +18,18 @@ void Buffer_Check()
 {
   char cmd_var;
 
+  USART2_SendString("buffer: ");
+
+  /*
+  for (int j = 0; j < 255; j++) {
+    if (buffer[j] == ',')
+      break;
+    USART2_SendChar(buffer[j]);
+  }
+
+  USART2_SendString("\r\n");
+  */
+
   for (int i = 0; i < NUM_COMMANDS; i++) //Controleert hoeveel commando's erin de define staan
   {
     //Is er een match in het eerste woord van de commando en de define code
@@ -405,42 +417,51 @@ char* take_word(uint8_t *take_index)
 int take_color(uint8_t *take_index)
 {
   char* color_arg = take_word(take_index);
+  int color = -1;
+
+  if(color_arg == NULL)
+  {
+    return -1; // Malloc failed in take_word
+  }
+
   //If-tree voor het bepalen van kleurwaardes
   if (strcmp(color_arg, "zwart") == 0)
-    return VGA_COL_BLACK;
-  if (strcmp(color_arg, "blauw") == 0)
-    return VGA_COL_BLUE;
-  if (strcmp(color_arg, "groen") == 0)
-    return VGA_COL_GREEN;
-  if (strcmp(color_arg, "rood") == 0)
-    return VGA_COL_RED;
-  if (strcmp(color_arg, "wit") == 0)
-    return VGA_COL_WHITE;
+    color = VGA_COL_BLACK;
+  else if (strcmp(color_arg, "blauw") == 0)
+    color = VGA_COL_BLUE;
+  else if (strcmp(color_arg, "groen") == 0)
+    color = VGA_COL_GREEN;
+  else if (strcmp(color_arg, "rood") == 0)
+    color = VGA_COL_RED;
+  else if (strcmp(color_arg, "wit") == 0)
+    color = VGA_COL_WHITE;
+  else if (strcmp(color_arg, "cyaan") == 0)
+    color = VGA_COL_CYAN;
+  else if (strcmp(color_arg, "magenta") == 0)
+    color = VGA_COL_MAGENTA;
+  else if (strcmp(color_arg, "geel") == 0)
+    color = VGA_COL_YELLOW;
+  else if (strcmp(color_arg, "lichtblauw") == 0)
+    color = VGA_COL_LIGHT_BLUE;
+  else if (strcmp(color_arg, "lichtgroen") == 0)
+    color = VGA_COL_LIGHT_GREEN;
+  else if (strcmp(color_arg, "lichtcyaan") == 0)
+    color = VGA_COL_LIGHT_CYAN;
+  else if (strcmp(color_arg, "lichtrood") == 0)
+    color = VGA_COL_LIGHT_RED;
+  else if (strcmp(color_arg, "lichtmagenta") == 0)
+    color = VGA_COL_LIGHT_MAGENTA;
+  else if (strcmp(color_arg, "bruin") == 0)
+    color = VGA_COL_BROWN;
+  else if (strcmp(color_arg, "grijs") == 0)
+    color = VGA_COL_GREY;
+  else
+  {
+    USART2_SendString("De kleur die ingevuld is bestaat niet\r\n");
+  }
 
-  if (strcmp(color_arg, "cyaan") == 0)
-    return VGA_COL_CYAN;
-  if (strcmp(color_arg, "magenta") == 0)
-    return VGA_COL_MAGENTA;
-  if (strcmp(color_arg, "geel") == 0)
-    return VGA_COL_YELLOW;
-
-  if (strcmp(color_arg, "lichtblauw") == 0)
-    return VGA_COL_LIGHT_BLUE;
-  if (strcmp(color_arg, "lichtgroen") == 0)
-    return VGA_COL_LIGHT_GREEN;
-  if (strcmp(color_arg, "lichtcyaan") == 0)
-    return VGA_COL_LIGHT_CYAN;
-  if (strcmp(color_arg, "lichtrood") == 0)
-    return VGA_COL_LIGHT_RED;
-  if (strcmp(color_arg, "lichtmagenta") == 0)
-    return VGA_COL_LIGHT_MAGENTA;
-  if (strcmp(color_arg, "bruin") == 0)
-    return VGA_COL_BROWN;
-  if (strcmp(color_arg, "grijs") == 0)
-    return VGA_COL_GREY;
-
-  USART2_SendString("De kleur die ingevuld is bestaat niet\r\n");
-  return -1;
+  free(color_arg);
+  return color;
 }
 
 static uint8_t check_coord(int val, int max_val, const char* argument_name) {
@@ -524,7 +545,7 @@ void USART2_BUFFER(void)
 
       buffer[idx++] = c;
 
-      if((c == '\n') && (UART_Flag == 1))  // einde commando
+      if ((c == '\n') && (UART_Flag == 1))  // einde commando
       {
         UART_Flag = 0;
 
@@ -534,9 +555,8 @@ void USART2_BUFFER(void)
         buffer = NULL;
         idx = 0;
 
-
         UART_Flag = 1;
-        USART2_SendString("UART ready!!!\r\n");
+        //USART2_SendString("UART ready!!!\r\n");
       }
     }
   }

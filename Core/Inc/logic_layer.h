@@ -1,5 +1,14 @@
+/** \file
+ * Logic layer of application. 
+ * @brief Dit bestand bevat de declaraties voor de logic laag.
+ */
+
 #ifndef LOGIC_LAYER_H 
 #define LOGIC_LAYER_H
+
+#include <global.h>
+#include <stdbool.h>
+#include <stdint.h>
 
 //structs per msg type
 typedef struct {
@@ -37,12 +46,55 @@ typedef struct {
 } bitmap_struct;
 
 typedef struct {
+  int FONTNAAM;
+  int FONTSTIJL;
+  int FONTGROOTTE;
+} textInfo;
+
+typedef struct {
   int color;
 } clearscreen_struct;
 
-//function prototypes
+enum FONTNAMES {
+  ARIAL,
+  CONSOLAS
+};
+
+enum FONTSTYLE {
+  NORMAAL,
+  VET,
+  CURSIEF
+};
+
+
+#define GROOT 2
+#define KLEIN 1
+
+
+
+/**
+ * @brief writes a color to VGA screen. 
+ *
+ * This functions writes a predefined color to the entire VGA screen. 
+ *
+ * @param a clearscreen_struct.
+ */
+
 void clearScreenToVGA(clearscreen_struct CS_struct);
+
 void rectangleToVGA(rectangle_struct rectangleStruct);
+
 void lineToVGA(line_struct lineStruct);
+
+void textToVGA(text_struct textStruct);
+
+void bitmapToVGA (bitmap_struct bitmapStruct);
+
+#define SIZE_BIG_LETTER_X 8
+#define SIZE_BIG_LETTER_Y 14
+
+#define SIZE_SMALL_LETTER_X 7
+#define SIZE_SMALL_LETTER_Y 8
+
 
 #endif

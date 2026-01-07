@@ -1,6 +1,5 @@
 /**
   ******************************************************************************
-  * @file    system_stm32f4xx.c
   * @author  MCD Application Team
   * @version V1.0.0
   * @date    19-September-2011

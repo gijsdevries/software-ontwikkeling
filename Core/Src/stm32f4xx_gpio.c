@@ -1,6 +1,5 @@
 /**
   ******************************************************************************
-  * @file    stm32f4xx_gpio.c
   * @author  MCD Application Team
   * @version V1.0.0
   * @date    30-September-2011

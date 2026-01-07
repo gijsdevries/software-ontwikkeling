@@ -1,3 +1,10 @@
+/**
+ * @file main.c
+ * @date 7.1.2026
+ * @version 1.0
+ * @brief Dit programma bevat het main programma van de applicatie
+ */
+
 #include "main.h"
 #include "stm32_ub_vga_screen.h"
 #include <math.h>
@@ -5,6 +12,7 @@
 #include "io_layer.h"
 #include "logic_layer.h"
 #include "global.h"
+
 
 int main(void)
 {
@@ -14,7 +22,9 @@ int main(void)
   UB_VGA_FillScreen(VGA_COL_RED);
   USART2_Init();
 
-  while(1)
+  USART2_SendString("\r\nWELKOM\r\n");
+
+  while (1)
   {
     USART2_BUFFER();
   }

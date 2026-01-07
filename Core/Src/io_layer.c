@@ -1,13 +1,18 @@
-/** \file
- * io_layer
-*/
+/**
+ * @file io_layer.c
+ * @brief I/O-laag voor VGA-schermbewerkingen.
+ * @details Dit bestand bevat functies voor het direct manipuleren van pixels op het VGA-scherm,
+ *          zoals het instellen van een individuele pixelkleur.
+ */
 
-#include "io_layer.h"
-
-//--------------------------------------------------------------
-// put one Pixel on the screen with one color
-// Important : the last Pixel+1 from every line must be black
-//--------------------------------------------------------------
+/**
+ * @brief Stelt één pixel in op het scherm met een specifieke kleur.
+ * Belangrijk: De pixel na de laatste pixel van elke lijn moet zwart zijn.
+ * @param xp De x-coördinaat van de pixel.
+ * @param yp De y-coördinaat van de pixel.
+ * @param color De kleur van de pixel (8-bit).
+ * @retval None
+ */
 
 void UB_VGA_SetPixel(uint16_t xp, uint16_t yp, uint8_t color)
 {

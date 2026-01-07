@@ -1,5 +1,6 @@
 /** \file
  * logiclayerc
+ * @brief Doet berekeningen om de gewenste commands op het VGA scherm te krijgen
 */
 
 #include "logic_layer.h"

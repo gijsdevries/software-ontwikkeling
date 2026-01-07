@@ -1,6 +1,10 @@
-/** \file
- * front layer c 
-*/
+/**
+ * @file front_layer.c
+ * @brief Behandelt de communicatie via UART en het parsen van commando's.
+ *
+ * Deze laag ontvangt commando's via UART, parseert deze, en roept de
+ * corresponderende functies in de logic_layer aan om te tekenen op het VGA-scherm.
+ */
 
 #include "stm32f4xx.h"
 #include "front_layer.h"
@@ -10,14 +14,31 @@
 #include <string.h>
 #include <stdlib.h>
 
-volatile char uart_buf[UART_BUF_SIZE]; // USART2 Buffer
-volatile uint16_t uart_head = 0;       // Schrijfpointer
-volatile uint16_t uart_tail = 0;       // Leespointer
+volatile char uart_buf[UART_BUF_SIZE]; ///< Ringbuffer voor UART-ontvangst.
+volatile uint16_t uart_head = 0;       ///< Schrijfpointer voor de UART-ringbuffer.
+volatile uint16_t uart_tail = 0;       ///< Leespointer voor de UART-ringbuffer.
 
-char *buffer = NULL;    // dynamische buffer
-uint16_t idx = 0;       // Lees variabele voor buffer
+char *buffer = NULL;    ///< Dynamische buffer voor het opslaan van een volledig commando.
+uint16_t idx = 0;       ///< Index voor de dynamische buffer.
 
-// Parsing en checking functies
+// Functie declaraties voor interne functies
+void Buffer_Check(void);
+void Buffer_to_struct(char cmd_val);
+char Argument_checker(char Argument_goal);
+char Argument_counter(void);
+int take_int(uint8_t *take_index);
+char* take_word(uint8_t *take_index);
+int take_color(uint8_t *take_index);
+static uint8_t check_coord(int val, int max_val, const char* argument_name);
+
+
+/**
+ * @brief Controleert en identificeert het commando in de buffer.
+ *
+ * Vergelijkt het eerste woord in de buffer met een lijst van bekende commando's.
+ * Als een match wordt gevonden, wordt de bijbehorende functie aangeroepen om
+ * het commando verder te verwerken. Anders wordt een foutmelding verzonden.
+ */
 void Buffer_Check()
 {
   char cmd_var;
@@ -49,6 +70,15 @@ void Buffer_Check()
   USART2_SendString("Herzie het woord voor de eerste komma\r\n");
 }
 
+/**
+ * @brief Parseert de argumenten uit de buffer en vult de juiste datastructuur.
+ *
+ * @param cmd_val De code van het commando dat verwerkt moet worden.
+ *
+ * Afhankelijk van het commando worden de argumenten uit de buffer gehaald,
+ * geconverteerd naar de juiste datatypes, en opgeslagen in een struct.
+ * Na validatie wordt de corresponderende tekenfunctie in de logic_layer aangeroepen.
+ */
 void Buffer_to_struct(char cmd_val)
 {
   uint8_t take_index = 0; // Take_index zodat de plek in de buffer makkelijk gereset kan worden
@@ -211,7 +241,7 @@ void Buffer_to_struct(char cmd_val)
           if (text.fontsize == GROOT) {
             letter_w = SIZE_BIG_LETTER_X;
             letter_h = SIZE_BIG_LETTER_Y;
-          } 
+          }
           else {
             letter_w = SIZE_SMALL_LETTER_X;
             letter_h = SIZE_SMALL_LETTER_Y;
@@ -321,6 +351,16 @@ void Buffer_to_struct(char cmd_val)
   return;
 }
 
+/**
+ * @brief Controleert of het aantal argumenten correct is.
+ *
+ * @param Argument_goal Het verwachte aantal argumenten voor het commando.
+ * @return Het verschil tussen het gevonden en verwachte aantal argumenten.
+ *         Retourneert 0 als het aantal correct is.
+ *
+ * Telt het aantal argumenten in de buffer en vergelijkt dit met het
+ * verwachte aantal. Geeft een foutmelding als het aantal niet klopt.
+ */
 char Argument_checker(char Argument_goal)
 {
   char argAmount = Argument_counter();
@@ -342,6 +382,14 @@ char Argument_checker(char Argument_goal)
   return arg_diff;
 }
 
+/**
+ * @brief Telt het aantal argumenten in de buffer.
+ *
+ * @return Het aantal gevonden argumenten.
+ *
+ * De functie parseert de buffer en telt het aantal door komma's gescheiden
+ * waarden na het commando-woord.
+ */
 char Argument_counter()
 {
   int8_t idx_check = 0;
@@ -367,6 +415,15 @@ char Argument_counter()
   return argAmount;
 }
 
+/**
+ * @brief Haalt een integer-waarde uit de buffer.
+ *
+ * @param take_index Pointer naar de huidige leespositie in de buffer.
+ * @return De geconverteerde integer-waarde.
+ *
+ * Leest het volgende 'woord' uit de buffer, converteert dit naar een integer
+ * en verhoogt de leespositie.
+ */
 int take_int(uint8_t *take_index)
 {
   char* argument = take_word(take_index); // Pak het woord uit de buffer
@@ -376,6 +433,18 @@ int take_int(uint8_t *take_index)
   return int_argument; // Geef int terug
 }
 
+/**
+ * @brief Haalt een 'woord' (string) uit de buffer.
+ *
+ * @param take_index Pointer naar de huidige leespositie in de buffer.
+ * @return Een pointer naar de gealloceerde string met het woord.
+ *         De aanroeper is verantwoordelijk voor het vrijgeven van dit geheugen.
+ *         Retourneert NULL als er geen woorden meer zijn of bij een memory allocation failure.
+ *
+ * Een 'woord' wordt gedefinieerd als een reeks karakters gescheiden door een komma
+ * of het einde van de buffer. Spaties en newlines aan het begin en einde
+ * worden verwijderd.
+ */
 char* take_word(uint8_t *take_index)
 {
   if (*take_index >= idx) return NULL; // Alles al gelezen
@@ -418,6 +487,15 @@ char* take_word(uint8_t *take_index)
   return word;
 }
 
+/**
+ * @brief Haalt een kleurnaam uit de buffer en converteert deze naar een kleurcode.
+ *
+ * @param take_index Pointer naar de huidige leespositie in de buffer.
+ * @return De kleurcode (gedefinieerd in stm32_ub_vga_screen.h) of -1 bij een ongeldige kleur.
+ *
+ * Leest het volgende woord, vergelijkt het met een lijst van bekende kleurnamen
+ * en retourneert de bijbehorende kleurcode.
+ */
 int take_color(uint8_t *take_index)
 {
   char* color_arg = take_word(take_index);
@@ -468,6 +546,14 @@ int take_color(uint8_t *take_index)
   return color;
 }
 
+/**
+ * @brief Controleert of een coördinaat binnen het geldige bereik valt.
+ *
+ * @param val De te controleren waarde.
+ * @param max_val De maximale toegestane waarde.
+ * @param argument_name De naam van het argument (voor de foutmelding).
+ * @return 1 als de coördinaat ongeldig is, anders 0.
+ */
 static uint8_t check_coord(int val, int max_val, const char* argument_name) {
   if (val < 0 || val > max_val) {
     USART2_SendString(argument_name);
@@ -478,8 +564,14 @@ static uint8_t check_coord(int val, int max_val, const char* argument_name) {
 }
 
 
-//Gemaakt op basis van AI-gegenereerde code
 //============================================================================= Start
+/**
+ * @brief Initialiseert de USART2-poort.
+ *
+ * Configureert de GPIO-pinnen (PA2 als TX, PA3 als RX), stelt de baudrate in op 115200,
+ * en activeert de USART-module met interrupts voor ontvangst.
+ * Gemaakt op basis van AI-gegenereerde code
+ */
 void USART2_Init(void)
 {
   // Enable clocks
@@ -501,6 +593,12 @@ void USART2_Init(void)
   NVIC_EnableIRQ(USART2_IRQn);
 }
 
+/**
+ * @brief Interrupt handler voor USART2.
+ *
+ * Wordt aangeroepen wanneer een karakter is ontvangen. Leest het karakter
+ * uit het data register en plaatst het in de ringbuffer `uart_buf`.
+ */
 void USART2_IRQHandler(void)
 {
   if (USART2->SR & USART_SR_RXNE)
@@ -515,6 +613,15 @@ void USART2_IRQHandler(void)
   }
 }
 
+/**
+ * @brief Ontvangt een enkel karakter via USART2 (blocking).
+ *
+ * @return Het ontvangen karakter.
+ *
+ * Wacht tot een karakter beschikbaar is in de receive buffer en retourneert dit.
+ * @note Deze functie wordt momenteel niet gebruikt; de verwerking gebeurt
+ *       via de interrupt-gebaseerde `USART2_BUFFER`.
+ */
 char USART2_ReceiveChar(void)
 {
   while (!(USART2->SR & USART_SR_RXNE));
@@ -522,6 +629,13 @@ char USART2_ReceiveChar(void)
 }
 //============================================================================= Einde
 
+/**
+ * @brief Verwerkt de data in de UART-ringbuffer.
+ *
+ * Leest karakters uit de ringbuffer en voegt ze toe aan een dynamische
+ * commando-buffer. Wanneer een newline-karakter wordt gedetecteerd,
+ * wordt het volledige commando verwerkt door `Buffer_Check()`.
+ */
 void USART2_BUFFER(void)
 {
   static char UART_Flag = 1;
@@ -566,14 +680,26 @@ void USART2_BUFFER(void)
   }
 }
 
-//Gemaakt op basis van AI-gegenereerde code
 //============================================================================= Start
+/**
+ * @brief Verzendt een enkel karakter via USART2.
+ *
+ * @param c Het te verzenden karakter.
+ *
+ * Gemaakt op basis van AI-gegenereerde code
+ * Wacht tot de transmit buffer leeg is en schrijft dan het karakter.
+ */
 void USART2_SendChar(char c)
 {
   while (!(USART2->SR & USART_SR_TXE));
   USART2->DR = c;
 }
 
+/**
+ * @brief Verzendt een string via USART2.
+ *
+ * @param str Pointer naar de te verzenden, null-terminated string.
+ */
 void USART2_SendString(char *str)
 {
   while (*str) USART2_SendChar(*str++);

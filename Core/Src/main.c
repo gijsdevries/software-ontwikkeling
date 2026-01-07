@@ -1,18 +1,13 @@
-/** \file
- * main.
-*/
-
-///--------------------------------------------------------------
-// File     : main.c
-// Datum    : 30.03.2016
-// Version  : 1.0
-// Autor    : UB
-// mods by	: J.F. van der Bent
-// CPU      : STM32F4
-// IDE      : CooCox CoIDE 1.7.x
-// Module   : CMSIS_BOOT, M4_CMSIS_CORE
-// Function : VGA_core DMA LIB 320x240, 8bit color
-//--------------------------------------------------------------
+/**
+ * @file main.c
+ * @date 30.03.2016
+ * @version 1.0
+ * @author UB
+ * @mod_by J.F. van der Bent
+ * @brief VGA_core DMA LIB 320x240, 8bit kleur
+ * @details Dit bestand bevat de hoofdprogrammalogica voor het initialiseren van het STM32F4-systeem,
+ *          het VGA-scherm en de USART2-communicatie.
+ */
 
 #include "main.h"
 #include "stm32_ub_vga_screen.h"

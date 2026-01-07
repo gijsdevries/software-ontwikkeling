@@ -1,6 +1,6 @@
-/** \mainpage
- * VGA project gijs piotr en luuk.
-*/
+/** \file
+ * global h 
+ */
 
 #ifndef GLOBAL_H 
 #define GLOBAL_H

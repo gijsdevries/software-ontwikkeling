@@ -1,3 +1,7 @@
+/** \file
+ * logiclayerc
+*/
+
 #include "logic_layer.h"
 #include "bitmap_defines.h"
 #include "stm32_ub_vga_screen.h"

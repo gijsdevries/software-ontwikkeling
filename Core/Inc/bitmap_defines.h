@@ -1,3 +1,7 @@
+/** \file
+ * bitmap defines
+ */
+
 #ifndef BITMAP_DEFINES 
 #define BITMAP_DEFINES
 

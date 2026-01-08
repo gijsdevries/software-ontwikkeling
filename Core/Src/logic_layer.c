@@ -24,8 +24,6 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
     textInfo.FONTNAAM = ARIAL;
   else if (!strcmp(fontname, "consolas"))
     textInfo.FONTNAAM = CONSOLAS;
-  else //struct is already error handled, so it should never be -1
-    textInfo.FONTNAAM = -1;
 
   if (!strcmp(fontstyle, "normaal"))
     textInfo.FONTSTIJL = NORMAAL;
@@ -33,15 +31,11 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
     textInfo.FONTSTIJL = VET;
   else if (!strcmp(fontstyle, "cursief"))
     textInfo.FONTSTIJL = CURSIEF;
-  else //struct is already error handled, so it should never be -1
-    textInfo.FONTSTIJL= -1;
 
   if (fontsize == 1)
     textInfo.FONTGROOTTE = KLEIN;
   else if (fontsize == 2)
     textInfo.FONTGROOTTE = GROOT;
-  else
-    textInfo.FONTGROOTTE = -1;
 
   return textInfo;
 }
@@ -175,15 +169,15 @@ void letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_
       uint8_t low_byte  = doubled_bitmap[y][1];
 
       // Process high byte (left 8 pixels)
-      for (int x = 0; x < 8; x++) {
+      for (int x = 0; x < LETTER_MARGE_SMALL; x++) {
         if ((high_byte << x) & 0x80) {
           UB_VGA_SetPixel(x_lup + x, y_lup + y, color);
         }
       }
       // Process low byte (right 8 pixels)
-      for (int x = 0; x < 8; x++) {
+      for (int x = 0; x < LETTER_MARGE_SMALL; x++) {
         if ((low_byte << x) & 0x80) {
-          UB_VGA_SetPixel(x_lup + 8 + x, y_lup + y, color); // Offset by 8 for the right half
+          UB_VGA_SetPixel(x_lup + LETTER_MARGE_SMALL + x, y_lup + y, color); // Offset by 8 for the right half
         }
       }
     }
@@ -347,17 +341,15 @@ void textToVGA(text_struct textStruct) {
   int x = textStruct.x_lup;
   int y = textStruct.y_lup;
 
+  dx = LETTER_MARGE_SMALL;
+  dy = LETTER_MARGE_SMALL;
 
-  if (textInfo.FONTGROOTTE == KLEIN) {
-    dx = 8;
-    dy = 8;
-  }
-  else {
-    dx = 16;
-    dy = 16;
+  if (textInfo.FONTGROOTTE == GROOT) {
+    dx *= 2;
+    dy *= 2;
   }
 
-  uint8_t buff[8]; // font data is always 8x8
+  uint8_t buff[LETTER_MARGE_SMALL]; // font data is always 8x8
 
   for (char i = 0; i < sizeOfText; i++) {
     const char *buf = getRawLetter(textStruct.text[i], textInfo.FONTNAAM);
@@ -384,11 +376,6 @@ void textToVGA(text_struct textStruct) {
     }
 
     x += dx;
-
-    if (x > VGA_DISPLAY_X - dx) { //go to a new line
-      x = 0;
-      y += dy;
-    }
   }
 }
 

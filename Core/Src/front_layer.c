@@ -42,10 +42,12 @@ static uint8_t check_coord(int val, int max_val, const char* argument_name);
 void Buffer_Check()
 {
   char cmd_var;
-
-  USART2_SendString("buffer: ");
+  uint8_t take_index = 0;
+  char* cmd_word = take_word(&take_index);
 
   /*
+  USART2_SendString("buffer: ");
+
   for (int j = 0; j < 255; j++) {
     if (buffer[j] == ',')
       break;
@@ -55,17 +57,23 @@ void Buffer_Check()
   USART2_SendString("\r\n");
   */
 
+  if (cmd_word == NULL) {
+    return;
+  }
+
   for (int i = 0; i < NUM_COMMANDS; i++) //Controleert hoeveel commando's erin de define staan
   {
     //Is er een match in het eerste woord van de commando en de define code
-    if (strncmp(buffer, commands[i].name, strlen(commands[i].name)) == 0)
+    if (strcmp(cmd_word, commands[i].name) == 0)
     {
+      free(cmd_word);
       cmd_var = commands[i].code;
       Buffer_to_struct(cmd_var);
       return;
     }
   }
 
+  free(cmd_word);
   USART2_SendString("ERROR: Onbekend commando\r\n");
   USART2_SendString("Herzie het woord voor de eerste komma\r\n");
 }
@@ -91,7 +99,7 @@ void Buffer_to_struct(char cmd_val)
   {
     case LIJN: // Vul lijn struct en roep lijn functie aan
       {
-        USART2_SendString("Lijn command ontvangen\r\n");
+        //USART2_SendString("Lijn command ontvangen\r\n");
 
         line_struct lijn;
 
@@ -138,7 +146,7 @@ void Buffer_to_struct(char cmd_val)
 
     case RECHTHOEK: // Vul rechthoek struct en roep rechthoek functie aan
       {
-        USART2_SendString("RECHTHOEK command ontvangen\r\n");
+        //USART2_SendString("RECHTHOEK command ontvangen\r\n");
         rectangle_struct rechthoek;
 
         arg_diff = Argument_checker(RECHTHOEK_ARGS);
@@ -184,11 +192,10 @@ void Buffer_to_struct(char cmd_val)
 
     case TEKST: // Vul text struct en roep text functie aan
       {
-        USART2_SendString("TEKST command ontvangen\r\n");
+        //USART2_SendString("TEKST command ontvangen\r\n");
 
         text_struct text;
 
-        int letter_w, letter_h; // Letter weight en letter height
         text.text = NULL;
         text.fontname = NULL;
         text.fontstyle = NULL;
@@ -198,10 +205,8 @@ void Buffer_to_struct(char cmd_val)
           return;
 
         text.x_lup = take_int(&take_index);
-        //errors += check_coord(text.x_lup, VGA_DISPLAY_X, "text.x_lup");
 
         text.y_lup = take_int(&take_index);
-        //errors += check_coord(text.y_lup, VGA_DISPLAY_Y, "text.y_lup");
 
         text.color = take_color(&take_index);
         if (text.color == -1) errors++;
@@ -227,27 +232,30 @@ void Buffer_to_struct(char cmd_val)
           errors++;
         }
 
+        //TODO add a define
+        int letter_marge = LETTER_MARGE_SMALL;
+
+        if (text.fontsize == GROOT) {
+          letter_marge *= 2;
+        }
+
+        int error_prev = errors;
+
+        // Check the right boundary for each character in the text
+        for (int i = 0; i < strlen(text.text); i++) {
+          int char_right_x = text.x_lup + (i + 1) * letter_marge - 1;
+          errors += check_coord(char_right_x, VGA_DISPLAY_X, "text.x_lup");
+          if (error_prev < errors)
+            break;
+        }
+        // Also check the bottom boundary of the text
+        errors += check_coord(text.y_lup + letter_marge - 1, VGA_DISPLAY_Y, "text.y_lup");
+
         text.fontstyle = take_word(&take_index);
         if (text.fontstyle == NULL || (strcmp(text.fontstyle, "normaal") != 0 && strcmp(text.fontstyle, "vet") != 0 && strcmp(text.fontstyle, "cursief") != 0))
         {
           USART2_SendString("Fontstijl moet normaal, vet of cursief zijn\r\n");
           errors++;
-        }
-
-        if (!errors)
-        {
-          if (text.fontsize == GROOT) {
-            letter_w = SIZE_BIG_LETTER_X;
-            letter_h = SIZE_BIG_LETTER_Y;
-          }
-          else {
-            letter_w = SIZE_SMALL_LETTER_X;
-            letter_h = SIZE_SMALL_LETTER_Y;
-          }
-
-          //errors += check_coord( text.x_lup + strlen(text.text) * letter_w, VGA_DISPLAY_X,"tekst breedte");
-
-          //errors += check_coord(text.y_lup + letter_h, VGA_DISPLAY_Y,"tekst hoogte");
         }
 
         // Error report
@@ -277,7 +285,7 @@ void Buffer_to_struct(char cmd_val)
 
     case BITMAP: // Vul bitmap struct en roep bitmap functie aan
       {
-        USART2_SendString("BITMAP command ontvangen\r\n");
+        //USART2_SendString("BITMAP command ontvangen\r\n");
 
         bitmap_struct bitmap;
 
@@ -319,7 +327,7 @@ void Buffer_to_struct(char cmd_val)
 
     case CLEARSCHERM: // Vul clearscherm struct en roep clearscherm functie aan
       {
-        USART2_SendString("CLEARSCHERM command ontvangen\r\n");
+        //USART2_SendString("CLEARSCHERM command ontvangen\r\n");
 
         clearscreen_struct clearscherm;
 
@@ -536,9 +544,7 @@ int take_color(uint8_t *take_index)
   else if (strcmp(color_arg, "grijs") == 0)
     color = VGA_COL_GREY;
   else
-  {
     USART2_SendString("De kleur die ingevuld is bestaat niet\r\n");
-  }
 
   free(color_arg);
   return color;

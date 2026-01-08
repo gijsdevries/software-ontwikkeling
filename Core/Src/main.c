@@ -2,7 +2,7 @@
  * @file main.c
  * @date 7.1.2026
  * @version 1.0
- * @brief Dit programma bevat het main programma van de applicatie
+ * @brief Dit programma bevat de main functie van de applicatie
  */
 
 #include "main.h"

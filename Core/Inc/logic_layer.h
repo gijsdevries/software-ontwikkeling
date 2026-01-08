@@ -70,6 +70,8 @@ enum FONTSTYLE {
 #define GROOT 2
 #define KLEIN 1
 
+#define LETTER_MARGE_SMALL 8
+
 void clearScreenToVGA(clearscreen_struct CS_struct);
 
 void rectangleToVGA(rectangle_struct rectangleStruct);

@@ -9,7 +9,6 @@
 
 /**
  * @brief Stelt één pixel in op het scherm met een specifieke kleur.
- * Belangrijk: De pixel na de laatste pixel van elke lijn moet zwart zijn.
  * @param xp De x-coördinaat van de pixel.
  * @param yp De y-coördinaat van de pixel.
  * @param color De kleur van de pixel (8-bit).

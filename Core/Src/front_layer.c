@@ -226,7 +226,7 @@ void Buffer_to_struct(char cmd_val)
         }
 
         //TODO add a define
-        int letter_marge = 8;
+        int letter_marge = LETTER_MARGE_SMALL;
 
         if (text.fontsize == GROOT) {
           letter_marge *= 2;

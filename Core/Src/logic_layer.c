@@ -169,7 +169,7 @@ void letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_
       uint8_t low_byte  = doubled_bitmap[y][1];
 
       // Process high byte (left 8 pixels)
-      for (int x = 0; x < 8; x++) {
+      for (int x = 0; x < LETTER_MARGE_SMALL; x++) {
         if ((high_byte << x) & 0x80) {
           UB_VGA_SetPixel(x_lup + x, y_lup + y, color);
         }

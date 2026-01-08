@@ -70,16 +70,6 @@ enum FONTSTYLE {
 #define GROOT 2
 #define KLEIN 1
 
-
-
-/**
- * @brief writes a color to VGA screen. 
- *
- * This functions writes a predefined color to the entire VGA screen. 
- *
- * @param a clearscreen_struct.
- */
-
 void clearScreenToVGA(clearscreen_struct CS_struct);
 
 void rectangleToVGA(rectangle_struct rectangleStruct);
@@ -89,12 +79,5 @@ void lineToVGA(line_struct lineStruct);
 void textToVGA(text_struct textStruct);
 
 void bitmapToVGA (bitmap_struct bitmapStruct);
-
-#define SIZE_BIG_LETTER_X 8
-#define SIZE_BIG_LETTER_Y 14
-
-#define SIZE_SMALL_LETTER_X 7
-#define SIZE_SMALL_LETTER_Y 8
-
 
 #endif

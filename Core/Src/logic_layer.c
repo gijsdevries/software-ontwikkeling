@@ -24,8 +24,6 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
     textInfo.FONTNAAM = ARIAL;
   else if (!strcmp(fontname, "consolas"))
     textInfo.FONTNAAM = CONSOLAS;
-  else //struct is already error handled, so it should never be -1
-    textInfo.FONTNAAM = -1;
 
   if (!strcmp(fontstyle, "normaal"))
     textInfo.FONTSTIJL = NORMAAL;
@@ -33,15 +31,11 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
     textInfo.FONTSTIJL = VET;
   else if (!strcmp(fontstyle, "cursief"))
     textInfo.FONTSTIJL = CURSIEF;
-  else //struct is already error handled, so it should never be -1
-    textInfo.FONTSTIJL= -1;
 
   if (fontsize == 1)
     textInfo.FONTGROOTTE = KLEIN;
   else if (fontsize == 2)
     textInfo.FONTGROOTTE = GROOT;
-  else
-    textInfo.FONTGROOTTE = -1;
 
   return textInfo;
 }

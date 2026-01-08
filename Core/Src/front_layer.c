@@ -232,20 +232,23 @@ void Buffer_to_struct(char cmd_val)
           letter_marge *= 2;
         }
 
-        errors += check_coord(text.x_lup + letter_marge, VGA_DISPLAY_X, "text.x_lup");
-        errors += check_coord(text.y_lup + letter_marge, VGA_DISPLAY_Y, "text.y_lup");
+        int error_prev = errors;
+
+        // Check the right boundary for each character in the text
+        for (int i = 0; i < strlen(text.text); i++) {
+          int char_right_x = text.x_lup + (i + 1) * letter_marge - 1;
+          errors += check_coord(char_right_x, VGA_DISPLAY_X, "text.x_lup");
+          if (error_prev < errors)
+            break;
+        }
+        // Also check the bottom boundary of the text
+        errors += check_coord(text.y_lup + letter_marge - 1, VGA_DISPLAY_Y, "text.y_lup");
 
         text.fontstyle = take_word(&take_index);
         if (text.fontstyle == NULL || (strcmp(text.fontstyle, "normaal") != 0 && strcmp(text.fontstyle, "vet") != 0 && strcmp(text.fontstyle, "cursief") != 0))
         {
           USART2_SendString("Fontstijl moet normaal, vet of cursief zijn\r\n");
           errors++;
-        }
-
-        if (!errors)
-        {
-          //errors += check_coord(text.x_lup + strlen(text.text) * letter_w, VGA_DISPLAY_X,"tekst breedte");
-          //errors += check_coord(text.y_lup + letter_h, VGA_DISPLAY_Y,"tekst hoogte");
         }
 
         // Error report

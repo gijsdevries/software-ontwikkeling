@@ -42,6 +42,8 @@ static uint8_t check_coord(int val, int max_val, const char* argument_name);
 void Buffer_Check()
 {
   char cmd_var;
+  uint8_t take_index = 0;
+  char* cmd_word = take_word(&take_index);
 
   /*
   USART2_SendString("buffer: ");
@@ -55,17 +57,23 @@ void Buffer_Check()
   USART2_SendString("\r\n");
   */
 
+  if (cmd_word == NULL) {
+    return;
+  }
+
   for (int i = 0; i < NUM_COMMANDS; i++) //Controleert hoeveel commando's erin de define staan
   {
     //Is er een match in het eerste woord van de commando en de define code
-    if (strncmp(buffer, commands[i].name, strlen(commands[i].name)) == 0)
+    if (strcmp(cmd_word, commands[i].name) == 0)
     {
+      free(cmd_word);
       cmd_var = commands[i].code;
       Buffer_to_struct(cmd_var);
       return;
     }
   }
 
+  free(cmd_word);
   USART2_SendString("ERROR: Onbekend commando\r\n");
   USART2_SendString("Herzie het woord voor de eerste komma\r\n");
 }

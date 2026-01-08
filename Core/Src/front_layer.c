@@ -42,9 +42,10 @@ static uint8_t check_coord(int val, int max_val, const char* argument_name);
 void Buffer_Check()
 {
   char cmd_var;
+  uint8_t take_index = 0;
+  char* cmd_word = take_word(&take_index);
 
   /*
-
   USART2_SendString("buffer: ");
 
   for (int j = 0; j < 255; j++) {
@@ -56,17 +57,23 @@ void Buffer_Check()
   USART2_SendString("\r\n");
   */
 
+  if (cmd_word == NULL) {
+    return;
+  }
+
   for (int i = 0; i < NUM_COMMANDS; i++) //Controleert hoeveel commando's erin de define staan
   {
     //Is er een match in het eerste woord van de commando en de define code
-    if (strncmp(buffer, commands[i].name, strlen(commands[i].name)) == 0)
+    if (strcmp(cmd_word, commands[i].name) == 0)
     {
+      free(cmd_word);
       cmd_var = commands[i].code;
       Buffer_to_struct(cmd_var);
       return;
     }
   }
 
+  free(cmd_word);
   USART2_SendString("ERROR: Onbekend commando\r\n");
   USART2_SendString("Herzie het woord voor de eerste komma\r\n");
 }
@@ -92,7 +99,7 @@ void Buffer_to_struct(char cmd_val)
   {
     case LIJN: // Vul lijn struct en roep lijn functie aan
       {
-        USART2_SendString("Lijn command ontvangen\r\n");
+        //USART2_SendString("Lijn command ontvangen\r\n");
 
         line_struct lijn;
 
@@ -139,7 +146,7 @@ void Buffer_to_struct(char cmd_val)
 
     case RECHTHOEK: // Vul rechthoek struct en roep rechthoek functie aan
       {
-        USART2_SendString("RECHTHOEK command ontvangen\r\n");
+        //USART2_SendString("RECHTHOEK command ontvangen\r\n");
         rectangle_struct rechthoek;
 
         arg_diff = Argument_checker(RECHTHOEK_ARGS);
@@ -185,7 +192,7 @@ void Buffer_to_struct(char cmd_val)
 
     case TEKST: // Vul text struct en roep text functie aan
       {
-        USART2_SendString("TEKST command ontvangen\r\n");
+        //USART2_SendString("TEKST command ontvangen\r\n");
 
         text_struct text;
 
@@ -278,7 +285,7 @@ void Buffer_to_struct(char cmd_val)
 
     case BITMAP: // Vul bitmap struct en roep bitmap functie aan
       {
-        USART2_SendString("BITMAP command ontvangen\r\n");
+        //USART2_SendString("BITMAP command ontvangen\r\n");
 
         bitmap_struct bitmap;
 
@@ -320,7 +327,7 @@ void Buffer_to_struct(char cmd_val)
 
     case CLEARSCHERM: // Vul clearscherm struct en roep clearscherm functie aan
       {
-        USART2_SendString("CLEARSCHERM command ontvangen\r\n");
+        //USART2_SendString("CLEARSCHERM command ontvangen\r\n");
 
         clearscreen_struct clearscherm;
 
@@ -537,9 +544,7 @@ int take_color(uint8_t *take_index)
   else if (strcmp(color_arg, "grijs") == 0)
     color = VGA_COL_GREY;
   else
-  {
     USART2_SendString("De kleur die ingevuld is bestaat niet\r\n");
-  }
 
   free(color_arg);
   return color;

@@ -374,13 +374,13 @@ void Buffer_to_struct(char cmd_val)
             cirkel.radius = take_int(&take_index);
 
             if (check_coord((cirkel.x + cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
-            errors++;
+            	errors++;
 			else if (check_coord((cirkel.x - cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
-			errors++;
+				errors++;
 			else if (check_coord((cirkel.y + cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
-			errors++;
+				errors++;
 			else if (check_coord((cirkel.y - cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
-			errors++;
+				errors++;
 
             cirkel.color = take_color(&take_index);
 

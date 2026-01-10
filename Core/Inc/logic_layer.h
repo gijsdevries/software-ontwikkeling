@@ -46,14 +46,28 @@ typedef struct {
 } bitmap_struct;
 
 typedef struct {
+  int color;
+} clearscreen_struct;
+
+typedef struct {
+  int delay_msec;
+} delay_struct;
+
+typedef struct {
+  int x;
+  int y;
+  int rad;
+  int color;
+} circle_struct;
+
+
+
+typedef struct {
   int FONTNAAM;
   int FONTSTIJL;
   int FONTGROOTTE;
 } textInfo;
 
-typedef struct {
-  int color;
-} clearscreen_struct;
 
 enum FONTNAMES {
   ARIAL,

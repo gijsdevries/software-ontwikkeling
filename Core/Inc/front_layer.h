@@ -189,7 +189,8 @@ static Eerste_woord commands[] = {
   {"tekst",       TEKST},
   {"bitmap",      BITMAP},
   {"clearscherm", CLEARSCHERM},
-  {"cirkel", 	  CIRKEL}
+  {"cirkel", 	  CIRKEL},
+  {"wacht",		  WAIT}
 };
 
 /**

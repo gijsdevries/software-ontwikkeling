@@ -13,6 +13,9 @@
 #include "bitmap_defines.h"
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 volatile char uart_buf[UART_BUF_SIZE]; ///< Ringbuffer voor UART-ontvangst.
 volatile uint16_t uart_head = 0;       ///< Schrijfpointer voor de UART-ringbuffer.
@@ -98,7 +101,7 @@ void Buffer_to_struct(char cmd_val)
   switch (cmd_val) // Vul juiste struct, start juiste functie en error handling
   {
     case LIJN: // Vul lijn struct en roep lijn functie aan
-      {
+    {
         //USART2_SendString("Lijn command ontvangen\r\n");
 
         line_struct lijn;
@@ -141,11 +144,11 @@ void Buffer_to_struct(char cmd_val)
 
         //LOGIC LAYER FUNCTIE
         lineToVGA(lijn);
-      }
-      break;
+    }
+    break;
 
     case RECHTHOEK: // Vul rechthoek struct en roep rechthoek functie aan
-      {
+    {
         //USART2_SendString("RECHTHOEK command ontvangen\r\n");
         rectangle_struct rechthoek;
 
@@ -187,11 +190,11 @@ void Buffer_to_struct(char cmd_val)
 
         //LOGIC LAYER FUNCTIE
         rectangleToVGA(rechthoek);
-      }
-      break;
+    }
+    break;
 
     case TEKST: // Vul text struct en roep text functie aan
-      {
+    {
         //USART2_SendString("TEKST command ontvangen\r\n");
 
         text_struct text;
@@ -280,11 +283,11 @@ void Buffer_to_struct(char cmd_val)
         free(text.text);
         free(text.fontname);
         free(text.fontstyle);
-      }
-      break;
+    }
+    break;
 
     case BITMAP: // Vul bitmap struct en roep bitmap functie aan
-      {
+    {
         //USART2_SendString("BITMAP command ontvangen\r\n");
 
         bitmap_struct bitmap;
@@ -322,38 +325,94 @@ void Buffer_to_struct(char cmd_val)
 
         //LOGIC LAYER FUNCTIE
         bitmapToVGA(bitmap);
-      }
-      break;
+    }
+    break;
 
     case CLEARSCHERM: // Vul clearscherm struct en roep clearscherm functie aan
-      {
-        //USART2_SendString("CLEARSCHERM command ontvangen\r\n");
+    {
+    	//USART2_SendString("CLEARSCHERM command ontvangen\r\n");
 
-        clearscreen_struct clearscherm;
+    	clearscreen_struct clearscherm;
 
-        arg_diff = Argument_checker(CLEARSCHERM_ARGS);
-        if (arg_diff != 0)
-          return;
+		arg_diff = Argument_checker(CLEARSCHERM_ARGS);
+		if (arg_diff != 0)
+		  return;
 
-        clearscherm.color = take_color(&take_index);
+		clearscherm.color = take_color(&take_index);
 
-        if (clearscherm.color == -1) errors++;
+		if (clearscherm.color == -1) errors++;
 
-        // Error report
-        if(errors > 0)
-        {
-          USART2_SendString("Totaal aantal errors: ");
-          USART2_SendChar(errors);
-          USART2_SendString("\r\n");
+		// Error report
+		if(errors > 0)
+		{
+		  USART2_SendString("Totaal aantal errors: ");
+		  USART2_SendChar(errors);
+		  USART2_SendString("\r\n");
 
-          return;
+		  return;
+		}
+
+		//LOGIC LAYER FUNCTIE
+		clearScreenToVGA(clearscherm);
+    }
+	break;
+
+    case CIRKEL: // Vul cirkel struct en roep cirkel functie aan
+    	{
+    		circle_struct cirkel;
+
+    		arg_diff = Argument_checker(CIRKEL_ARGS);
+    		if (arg_diff != 0)
+    			return;
+
+            cirkel.x = take_int(&take_index);
+            errors += check_coord(cirkel.x, VGA_DISPLAY_X, "X");
+
+            cirkel.y = take_int(&take_index);
+            errors += check_coord(cirkel.y, VGA_DISPLAY_Y, "Y");
+
+            cirkel.radius = take_int(&take_index);
+
+            if (check_coord((cirkel.x + cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
+            errors++;
+			else if (check_coord((cirkel.x - cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
+			errors++;
+			else if (check_coord((cirkel.y + cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
+			errors++;
+			else if (check_coord((cirkel.y - cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
+			errors++;
+
+            cirkel.color = take_color(&take_index);
+
+    		if (cirkel.color == -1) errors++;
+
+    		// Error report
+    		if(errors > 0)
+    		{
+    		  USART2_SendString("Totaal aantal errors: ");
+    		  USART2_SendChar(errors);
+    		  USART2_SendString("\r\n");
+
+    		  return;
+    		}
+
+    		// LOGIC LAYER FUNCTIE
+    		// TODO: cirkel to vga functie
         }
+    	break;
 
-        //LOGIC LAYER FUNCTIE
-        clearScreenToVGA(clearscherm);
-      }
-      break;
-  }
+    case WAIT:
+    {
+    	wait_struct wacht;
+
+    	wacht.msec = take_int(&take_index);
+
+		// LOGIC LAYER FUNCTIE
+		// TODO: wait to vga functie
+
+    }
+    break;
+    }
   return;
 }
 
@@ -433,6 +492,14 @@ char Argument_counter()
 int take_int(uint8_t *take_index)
 {
   char* argument = take_word(take_index); // Pak het woord uit de buffer
+  for (int i = 0; i < strlen(argument); i++)
+  {
+	  // Controleer of het karakter GEEN cijfer is
+	  if (!isdigit(argument[i])) {
+		  //USART2_SendString("Fout: Argument is geen cijfer, argument is nul!\n");
+		  return 0; // Stop de loop direct bij een fout
+	  }
+  }
   int int_argument = atoi(argument); // Converteer woord naar int
   free(argument); // Geef geheugen vrij
 

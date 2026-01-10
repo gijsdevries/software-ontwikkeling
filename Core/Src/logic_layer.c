@@ -379,6 +379,11 @@ void textToVGA(text_struct textStruct) {
   }
 }
 
+void circleToVGA(circle_struct circleStruct) {
+  UB_VGA_SetPixel(10, 10, circleStruct.color);
+}
+
+
 /**
  * @brief Tekent een bitmap op het VGA-scherm.
  * @param bitmapStruct Struct met de eigenschappen van de bitmap.

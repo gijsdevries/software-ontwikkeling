@@ -94,6 +94,8 @@ void lineToVGA(line_struct lineStruct);
 
 void textToVGA(text_struct textStruct);
 
+void circleToVGA(circle_struct circleStruct);
+
 void bitmapToVGA (bitmap_struct bitmapStruct);
 
 #endif

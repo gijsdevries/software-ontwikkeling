@@ -25,10 +25,10 @@ int main(void)
   USART2_SendString("\r\nWELKOM\r\n");
 
   circle_struct circleStruct = {
-    .x = 10,
-    .y = 10,
-    .rad = 10,
-    .rad = VGA_COL_BLACK,
+    .x = 100,
+    .y = 100,
+    .rad = 40,
+    .color = VGA_COL_BLACK,
   };
 
   circleToVGA(circleStruct);

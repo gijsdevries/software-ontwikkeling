@@ -380,7 +380,28 @@ void textToVGA(text_struct textStruct) {
 }
 
 void circleToVGA(circle_struct circleStruct) {
-  UB_VGA_SetPixel(10, 10, circleStruct.color);
+
+  int cx = circleStruct.x;
+  int cy = circleStruct.y;
+  int r = circleStruct.rad;
+
+  int x, y;
+
+  for (x=0, y=r; x < y; x++)
+    for (; y >= 0; y--) {
+      UB_VGA_SetPixel(cx+x, cy+y, VGA_COL_BLACK);
+      UB_VGA_SetPixel(cx+x, cy-y, VGA_COL_BLACK);
+      UB_VGA_SetPixel(cx-x, cy+y, VGA_COL_BLACK);
+      UB_VGA_SetPixel(cx-x, cy-y, VGA_COL_BLACK);
+
+      UB_VGA_SetPixel(cx+y, cy+x, VGA_COL_BLACK);
+      UB_VGA_SetPixel(cx+y, cy-x, VGA_COL_BLACK);
+      UB_VGA_SetPixel(cx-y, cy+x, VGA_COL_BLACK);
+      UB_VGA_SetPixel(cx-y, cy-x, VGA_COL_BLACK);
+
+      if (x*x + (y-1)*(y-1) < r*r)
+        break;
+    }
 }
 
 

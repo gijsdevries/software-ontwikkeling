@@ -60,8 +60,6 @@ typedef struct {
   int color;
 } circle_struct;
 
-
-
 typedef struct {
   int FONTNAAM;
   int FONTSTIJL;
@@ -97,7 +95,7 @@ void textToVGA(text_struct textStruct);
 void circleToVGA(circle_struct circleStruct);
 
 void API_wait(int msecs);
-void delay(delay_struct delayStruct);
+void delay(wait_struct waitStruct);
 
 void bitmapToVGA (bitmap_struct bitmapStruct);
 

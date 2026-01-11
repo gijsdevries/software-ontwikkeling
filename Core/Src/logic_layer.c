@@ -383,7 +383,7 @@ void circleToVGA(circle_struct circleStruct) {
 
   int cx = circleStruct.x;
   int cy = circleStruct.y;
-  int r = circleStruct.rad;
+  int r = circleStruct.radius;
 
   int x, y;
 
@@ -406,7 +406,7 @@ void circleToVGA(circle_struct circleStruct) {
 
 uint64_t API_get_tick(void)
 {
-  return SYSTICK_LOAD_VAL;
+  //return SYSTICK_LOAD_VAL;
     //return SysTick->VAL;
     //return Tick;
 }
@@ -424,18 +424,20 @@ void API_wait(int msecs)
     }
 }
 
-void delay(delay_struct delayStruct) {
+void delay(wait_struct waitStruct) {
+  /*
   // Calculate reload value for 1ms tick
   SysTick->LOAD = (SystemCoreClock / 1000) - 1;
   SysTick->VAL = 0;
   SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk; // Enable SysTick
 
-  while (delayStruct.delay_msec--) {
+  while (waitStruct.msec--) {
     // Wait for the COUNTFLAG to be set
     while ((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) == 0);
   }
 
   SysTick->CTRL = 0; // Disable SysTick
+                      */
 }
 
 /**

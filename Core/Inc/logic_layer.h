@@ -50,13 +50,13 @@ typedef struct {
 } clearscreen_struct;
 
 typedef struct {
-  int delay_msec;
-} delay_struct;
+  int msec;
+} wait_struct;
 
 typedef struct {
   int x;
   int y;
-  int rad;
+  int radius;
   int color;
 } circle_struct;
 

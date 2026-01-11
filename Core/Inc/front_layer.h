@@ -153,6 +153,16 @@ void USART2_SendString();
 #define CLEARSCHERM_ARGS 1
 
 /**
+ * @brief Aantal argumenten voor het "cirkel" commando.
+ */
+#define CIRKEL_ARGS 4
+
+/**
+ * @brief Aantal argumenten voor het "wait" commando.
+ */
+#define WAIT_ARGS 1
+
+/**
  * @brief Aantal bitmaps.
  */
 #define BITMAP_AMOUNT 6
@@ -178,7 +188,9 @@ static Eerste_woord commands[] = {
   {"rechthoek",   RECHTHOEK},
   {"tekst",       TEKST},
   {"bitmap",      BITMAP},
-  {"clearscherm", CLEARSCHERM}
+  {"clearscherm", CLEARSCHERM},
+  {"cirkel", 	  CIRKEL},
+  {"wacht",		  WAIT}
 };
 
 /**

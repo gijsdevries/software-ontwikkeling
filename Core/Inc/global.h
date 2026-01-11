@@ -15,7 +15,9 @@ enum COMMANDS {
   RECHTHOEK,  ///< Rechthoek commando.
   TEKST,      ///< Tekst commando.
   BITMAP,     ///< Bitmap commando.
-  CLEARSCHERM ///< Clearscherm commando.
+  CLEARSCHERM, ///< Clearscherm commando.
+  CIRKEL,      ///< Cirkel commando.
+  WAIT		  ///< Wait commando.
 };
 
 #endif

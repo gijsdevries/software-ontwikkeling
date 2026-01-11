@@ -135,8 +135,9 @@ void Buffer_to_struct(char cmd_val)
         // Error report
         if(errors > 0)
         {
-          USART2_SendString("Totaal aantal errors: ");
+          USART2_SendString("Lijn totaal aantal errors: ");
           USART2_SendChar(errors + '0');
+          USART2_SendString("\r\n");
           USART2_SendString("\r\n");
 
           return;
@@ -181,8 +182,9 @@ void Buffer_to_struct(char cmd_val)
         // Error report
         if(errors > 0)
         {
-          USART2_SendString("Totaal aantal errors: ");
+          USART2_SendString("Rechthoek totaal aantal errors: ");
           USART2_SendChar(errors + '0');
+          USART2_SendString("\r\n");
           USART2_SendString("\r\n");
 
           return;
@@ -235,7 +237,6 @@ void Buffer_to_struct(char cmd_val)
           errors++;
         }
 
-        //TODO add a define
         int letter_marge = LETTER_MARGE_SMALL;
 
         if (text.fontsize == GROOT) {
@@ -264,8 +265,9 @@ void Buffer_to_struct(char cmd_val)
         // Error report
         if (errors > 0)
         {
-          USART2_SendString("Totaal aantal errors: ");
+          USART2_SendString("Tekst totaal aantal errors: ");
           USART2_SendChar(errors + '0');
+          USART2_SendString("\r\n");
           USART2_SendString("\r\n");
 
           // Free memory if it was allocated before returning
@@ -316,8 +318,9 @@ void Buffer_to_struct(char cmd_val)
         // Error report
         if(errors > 0)
         {
-          USART2_SendString("Totaal aantal errors: ");
+          USART2_SendString("Bitmap totaal aantal errors: ");
           USART2_SendChar(errors + '0');
+          USART2_SendString("\r\n");
           USART2_SendString("\r\n");
 
           return;
@@ -345,8 +348,9 @@ void Buffer_to_struct(char cmd_val)
 		// Error report
 		if(errors > 0)
 		{
-		  USART2_SendString("Totaal aantal errors: ");
+		  USART2_SendString("Clearscherm totaal aantal errors: ");
 		  USART2_SendChar(errors + '0');
+		  USART2_SendString("\r\n");
 		  USART2_SendString("\r\n");
 
 		  return;
@@ -389,8 +393,9 @@ void Buffer_to_struct(char cmd_val)
     // Error report
     if(errors > 0)
     {
-      USART2_SendString("Totaal aantal errors: ");
+      USART2_SendString("Cirkel totaal aantal errors: ");
 		  USART2_SendChar(errors + '0');
+      USART2_SendString("\r\n");
       USART2_SendString("\r\n");
 
       return;

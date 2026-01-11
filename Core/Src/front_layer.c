@@ -136,7 +136,7 @@ void Buffer_to_struct(char cmd_val)
         if(errors > 0)
         {
           USART2_SendString("Totaal aantal errors: ");
-          USART2_SendChar(errors + '0');
+          USART2_SendChar(errors);
           USART2_SendString("\r\n");
 
           return;
@@ -358,61 +358,61 @@ void Buffer_to_struct(char cmd_val)
 	break;
 
     case CIRKEL: // Vul cirkel struct en roep cirkel functie aan
-    	{
-    		circle_struct cirkel;
+  {
+    circle_struct cirkel;
 
-    		arg_diff = Argument_checker(CIRKEL_ARGS);
-    		if (arg_diff != 0)
-    			return;
+    arg_diff = Argument_checker(CIRKEL_ARGS);
+    if (arg_diff != 0)
+      return;
 
-            cirkel.x = take_int(&take_index);
-            errors += check_coord(cirkel.x, VGA_DISPLAY_X, "X");
+    cirkel.x = take_int(&take_index);
+    errors += check_coord(cirkel.x, VGA_DISPLAY_X, "X");
 
-            cirkel.y = take_int(&take_index);
-            errors += check_coord(cirkel.y, VGA_DISPLAY_Y, "Y");
+    cirkel.y = take_int(&take_index);
+    errors += check_coord(cirkel.y, VGA_DISPLAY_Y, "Y");
 
-            cirkel.radius = take_int(&take_index);
+    cirkel.radius = take_int(&take_index);
 
-            if (check_coord((cirkel.x + cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
-            	errors++;
-			else if (check_coord((cirkel.x - cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
-				errors++;
-			else if (check_coord((cirkel.y + cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
-				errors++;
-			else if (check_coord((cirkel.y - cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
-				errors++;
+    if (check_coord((cirkel.x + cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
+      errors++;
+    else if (check_coord((cirkel.x - cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
+      errors++;
+    else if (check_coord((cirkel.y + cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
+      errors++;
+    else if (check_coord((cirkel.y - cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
+      errors++;
 
-            cirkel.color = take_color(&take_index);
+    cirkel.color = take_color(&take_index);
 
-    		if (cirkel.color == -1) errors++;
+    if (cirkel.color == -1) errors++;
 
-    		// Error report
-    		if(errors > 0)
-    		{
-    		  USART2_SendString("Totaal aantal errors: ");
-    		  USART2_SendChar(errors);
-    		  USART2_SendString("\r\n");
+    // Error report
+    if(errors > 0)
+    {
+      USART2_SendString("Totaal aantal errors: ");
+      USART2_SendChar(errors);
+      USART2_SendString("\r\n");
 
-    		  return;
-    		}
+      return;
+    }
 
-    		// LOGIC LAYER FUNCTIE
-    		// TODO: cirkel to vga functie
-        }
-    	break;
+    // LOGIC LAYER FUNCTIE
+    circleToVGA(cirkel);
+  }
+  break;
 
     case WAIT:
-    {
-    	wait_struct wacht;
+  {
+    wait_struct wacht;
 
-    	wacht.msec = take_int(&take_index);
+    wacht.msec = take_int(&take_index);
 
-		// LOGIC LAYER FUNCTIE
-		// TODO: wait to vga functie
+    // LOGIC LAYER FUNCTIE
+    // TODO: wait to vga functie
 
-    }
-    break;
-    }
+  }
+  break;
+  }
   return;
 }
 
@@ -494,11 +494,11 @@ int take_int(uint8_t *take_index)
   char* argument = take_word(take_index); // Pak het woord uit de buffer
   for (int i = 0; i < strlen(argument); i++)
   {
-	  // Controleer of het karakter GEEN cijfer is
-	  if (!isdigit(argument[i])) {
-		  //USART2_SendString("Fout: Argument is geen cijfer, argument is nul!\n");
-		  return 0; // Stop de loop direct bij een fout
-	  }
+    // Controleer of het karakter GEEN cijfer is
+    if (!isdigit(argument[i])) {
+      //USART2_SendString("Fout: Argument is geen cijfer, argument is nul!\n");
+      return 0; // Stop de loop direct bij een fout
+    }
   }
   int int_argument = atoi(argument); // Converteer woord naar int
   free(argument); // Geef geheugen vrij

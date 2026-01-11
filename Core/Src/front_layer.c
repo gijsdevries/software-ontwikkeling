@@ -136,7 +136,7 @@ void Buffer_to_struct(char cmd_val)
         if(errors > 0)
         {
           USART2_SendString("Totaal aantal errors: ");
-          USART2_SendChar(errors);
+          USART2_SendChar(errors + '0');
           USART2_SendString("\r\n");
 
           return;
@@ -182,7 +182,7 @@ void Buffer_to_struct(char cmd_val)
         if(errors > 0)
         {
           USART2_SendString("Totaal aantal errors: ");
-          USART2_SendChar(errors);
+          USART2_SendChar(errors + '0');
           USART2_SendString("\r\n");
 
           return;
@@ -317,7 +317,7 @@ void Buffer_to_struct(char cmd_val)
         if(errors > 0)
         {
           USART2_SendString("Totaal aantal errors: ");
-          USART2_SendChar(errors);
+          USART2_SendChar(errors + '0');
           USART2_SendString("\r\n");
 
           return;
@@ -346,7 +346,7 @@ void Buffer_to_struct(char cmd_val)
 		if(errors > 0)
 		{
 		  USART2_SendString("Totaal aantal errors: ");
-		  USART2_SendChar(errors);
+		  USART2_SendChar(errors + '0');
 		  USART2_SendString("\r\n");
 
 		  return;
@@ -390,7 +390,7 @@ void Buffer_to_struct(char cmd_val)
     if(errors > 0)
     {
       USART2_SendString("Totaal aantal errors: ");
-      USART2_SendChar(errors);
+		  USART2_SendChar(errors + '0');
       USART2_SendString("\r\n");
 
       return;

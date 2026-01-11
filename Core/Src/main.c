@@ -13,7 +13,6 @@
 #include "logic_layer.h"
 #include "global.h"
 
-
 int main(void)
 {
   SystemCoreClockUpdate();
@@ -23,6 +22,26 @@ int main(void)
   USART2_Init();
 
   USART2_SendString("\r\nWELKOM\r\n");
+
+  circle_struct circleStruct2 = {
+    .x = 10,
+    .y = 10,
+    .rad = 5,
+    .color = VGA_COL_BLUE,
+  };
+
+  circleToVGA(circleStruct2);
+
+/*
+  delay_struct delayStruct = {
+    .delay_msec = 1000,
+  };
+
+  delay(delayStruct);
+  */
+
+  API_wait(100);
+
 
   circle_struct circleStruct = {
     .x = 100,

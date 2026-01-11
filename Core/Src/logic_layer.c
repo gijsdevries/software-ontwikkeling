@@ -389,21 +389,54 @@ void circleToVGA(circle_struct circleStruct) {
 
   for (x=0, y=r; x < y; x++)
     for (; y >= 0; y--) {
-      UB_VGA_SetPixel(cx+x, cy+y, VGA_COL_BLACK);
-      UB_VGA_SetPixel(cx+x, cy-y, VGA_COL_BLACK);
-      UB_VGA_SetPixel(cx-x, cy+y, VGA_COL_BLACK);
-      UB_VGA_SetPixel(cx-x, cy-y, VGA_COL_BLACK);
+      UB_VGA_SetPixel(cx+x, cy+y, circleStruct.color);
+      UB_VGA_SetPixel(cx+x, cy-y, circleStruct.color);
+      UB_VGA_SetPixel(cx-x, cy+y, circleStruct.color);
+      UB_VGA_SetPixel(cx-x, cy-y, circleStruct.color);
 
-      UB_VGA_SetPixel(cx+y, cy+x, VGA_COL_BLACK);
-      UB_VGA_SetPixel(cx+y, cy-x, VGA_COL_BLACK);
-      UB_VGA_SetPixel(cx-y, cy+x, VGA_COL_BLACK);
-      UB_VGA_SetPixel(cx-y, cy-x, VGA_COL_BLACK);
+      UB_VGA_SetPixel(cx+y, cy+x, circleStruct.color);
+      UB_VGA_SetPixel(cx+y, cy-x, circleStruct.color);
+      UB_VGA_SetPixel(cx-y, cy+x, circleStruct.color);
+      UB_VGA_SetPixel(cx-y, cy-x, circleStruct.color);
 
       if (x*x + (y-1)*(y-1) < r*r)
         break;
     }
 }
 
+uint64_t API_get_tick(void)
+{
+  return SYSTICK_LOAD_VAL;
+    //return SysTick->VAL;
+    //return Tick;
+}
+
+
+void API_wait(int msecs)
+{
+    uint64_t startTick = API_get_tick();
+
+    if (startTick == 0)
+      UB_VGA_SetPixel(10, 10, VGA_COL_BLACK);
+
+    while ((API_get_tick() - startTick) < (unsigned int)msecs)
+    {
+    }
+}
+
+void delay(delay_struct delayStruct) {
+  // Calculate reload value for 1ms tick
+  SysTick->LOAD = (SystemCoreClock / 1000) - 1;
+  SysTick->VAL = 0;
+  SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk; // Enable SysTick
+
+  while (delayStruct.delay_msec--) {
+    // Wait for the COUNTFLAG to be set
+    while ((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) == 0);
+  }
+
+  SysTick->CTRL = 0; // Disable SysTick
+}
 
 /**
  * @brief Tekent een bitmap op het VGA-scherm.

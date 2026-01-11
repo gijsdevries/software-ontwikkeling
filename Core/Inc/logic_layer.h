@@ -96,6 +96,9 @@ void textToVGA(text_struct textStruct);
 
 void circleToVGA(circle_struct circleStruct);
 
+void API_wait(int msecs);
+void delay(delay_struct delayStruct);
+
 void bitmapToVGA (bitmap_struct bitmapStruct);
 
 #endif

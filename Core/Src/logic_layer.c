@@ -376,6 +376,11 @@ void textToVGA(text_struct textStruct) {
     }
 
     x += dx;
+
+    if (x > VGA_DISPLAY_X - dx) { //go to a new line
+      x = 0;
+      y += dy;
+    }
   }
 }
 
@@ -412,21 +417,21 @@ void circleToVGA(circle_struct circleStruct) {
 uint64_t API_get_tick(void)
 {
   //return SYSTICK_LOAD_VAL;
-    //return SysTick->VAL;
-    //return Tick;
+  //return SysTick->VAL;
+  //return Tick;
 }
 
 
 void API_wait(int msecs)
 {
-    uint64_t startTick = API_get_tick();
+  uint64_t startTick = API_get_tick();
 
-    if (startTick == 0)
-      UB_VGA_SetPixel(10, 10, VGA_COL_BLACK);
+  if (startTick == 0)
+    UB_VGA_SetPixel(10, 10, VGA_COL_BLACK);
 
-    while ((API_get_tick() - startTick) < (unsigned int)msecs)
-    {
-    }
+  while ((API_get_tick() - startTick) < (unsigned int)msecs)
+  {
+  }
 }
 
 void delay(wait_struct waitStruct) {
@@ -437,12 +442,12 @@ void delay(wait_struct waitStruct) {
   SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk; // Enable SysTick
 
   while (waitStruct.msec--) {
-    // Wait for the COUNTFLAG to be set
-    while ((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) == 0);
+  // Wait for the COUNTFLAG to be set
+  while ((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) == 0);
   }
 
   SysTick->CTRL = 0; // Disable SysTick
-                      */
+  */
 }
 
 /**

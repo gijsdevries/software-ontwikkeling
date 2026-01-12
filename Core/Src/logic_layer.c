@@ -414,26 +414,6 @@ void circleToVGA(circle_struct circleStruct) {
     }
 }
 
-uint64_t API_get_tick(void)
-{
-  //return SYSTICK_LOAD_VAL;
-  //return SysTick->VAL;
-  //return Tick;
-}
-
-
-void API_wait(int msecs)
-{
-  uint64_t startTick = API_get_tick();
-
-  if (startTick == 0)
-    UB_VGA_SetPixel(10, 10, VGA_COL_BLACK);
-
-  while ((API_get_tick() - startTick) < (unsigned int)msecs)
-  {
-  }
-}
-
 void delay(wait_struct waitStruct) {
   /*
   // Calculate reload value for 1ms tick

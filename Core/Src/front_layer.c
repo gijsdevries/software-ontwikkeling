@@ -247,6 +247,7 @@ void Buffer_to_struct(char cmd_val)
         int x = text.x_lup;
         int y = text.y_lup;
 
+        //check if it is possible to print every letter on screen
         while (j < strlen(text.text)) {
           errors += check_coord(x + letter_marge, VGA_DISPLAY_X, "text.x_lup");
           errors += check_coord(y + letter_marge, VGA_DISPLAY_Y, "text.y_lup");
@@ -260,18 +261,6 @@ void Buffer_to_struct(char cmd_val)
 
           j++;
         }
-
-        /*
-        // Check the right boundary for each character in the text
-        for (int i = 0; i < strlen(text.text); i++) {
-        int char_right_x = text.x_lup + (i + 1) * letter_marge - 1;
-        errors += check_coord(char_right_x, VGA_DISPLAY_X, "text.x_lup");
-        if (error_prev < errors)
-        break;
-        }
-        // Also check the bottom boundary of the text
-        errors += check_coord(text.y_lup + letter_marge - 1, VGA_DISPLAY_Y, "text.y_lup");
-        */
 
         text.fontstyle = take_word(&take_index);
         if (text.fontstyle == NULL || (strcmp(text.fontstyle, "normaal") != 0 && strcmp(text.fontstyle, "vet") != 0 && strcmp(text.fontstyle, "cursief") != 0))
@@ -787,6 +776,6 @@ void USART2_SendString(char *str)
 void USART2_SendCharUser(char c) {
   char str[2];
   sprintf(str, "%d", c);
-  
+
   USART2_SendString(str);
 }

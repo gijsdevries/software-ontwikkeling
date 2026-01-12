@@ -379,6 +379,11 @@ void textToVGA(text_struct textStruct) {
   }
 }
 
+/**
+ * @brief Tekent cirkel op het VGA-scherm.
+ * @param circle_struct Struct met de eigenschappen van de cirkel.
+ */
+
 void circleToVGA(circle_struct circleStruct) {
 
   int cx = circleStruct.x;

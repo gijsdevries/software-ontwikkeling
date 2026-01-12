@@ -76,7 +76,6 @@ void Buffer_Check()
     }
   }
 
-  USART2_SendString("ERROR: ");
   USART2_SendString("'");
   USART2_SendString(cmd_word);
   USART2_SendString("'");
@@ -626,8 +625,12 @@ int take_color(uint8_t *take_index)
     color = VGA_COL_BROWN;
   else if (strcmp(color_arg, "grijs") == 0)
     color = VGA_COL_GREY;
-  else
-    USART2_SendString("De kleur die ingevuld is bestaat niet\r\n");
+  else {
+    USART2_SendString("'");
+    USART2_SendString(color_arg);
+    USART2_SendString("'");
+    USART2_SendString(" is een onbekende kleur\r\n");
+  }
 
   free(color_arg);
   return color;

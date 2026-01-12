@@ -121,10 +121,17 @@ void USART2_SendChar(char c);
  */
 void USART2_SendString();
 
+/**
+ * @brief Zet een int om in een str en verstuur via UART.
+ */
+void USART2_SendCharUser(char c);
+
+
 // Argument defines
 /**
  * @brief Maximaal aantal argumenten toegestaan voor een commando.
  */
+
 #define MAX_ARG 7
 
 /**

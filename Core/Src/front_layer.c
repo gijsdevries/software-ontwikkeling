@@ -76,9 +76,12 @@ void Buffer_Check()
     }
   }
 
+  USART2_SendString("ERROR: ");
+  USART2_SendString("'");
+  USART2_SendString(cmd_word);
+  USART2_SendString("'");
+  USART2_SendString(" is een onbekend command\r\n");
   free(cmd_word);
-  USART2_SendString("ERROR: Onbekend commando\r\n");
-  USART2_SendString("Herzie het woord voor de eerste komma\r\n");
 }
 
 /**

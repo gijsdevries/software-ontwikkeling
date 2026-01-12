@@ -126,7 +126,6 @@ void USART2_SendString();
  */
 void USART2_SendCharUser(char c);
 
-
 // Argument defines
 /**
  * @brief Maximaal aantal argumenten toegestaan voor een commando.

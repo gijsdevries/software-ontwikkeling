@@ -450,13 +450,13 @@ char Argument_checker(char Argument_goal)
   if(argAmount > Argument_goal)
   {
     arg_diff = argAmount - Argument_goal;
-    USART2_SendChar(arg_diff);
+    USART2_SendCharUser(arg_diff);
     USART2_SendString(" argument(en) te veel. \r\n");
   }
   if(argAmount < Argument_goal)
   {
     arg_diff = Argument_goal - argAmount;
-    USART2_SendChar(arg_diff);
+    USART2_SendCharUser(arg_diff);
     USART2_SendString(" argument(en) te weinig. \r\n");
   }
 

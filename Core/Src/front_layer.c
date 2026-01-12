@@ -136,7 +136,7 @@ void Buffer_to_struct(char cmd_val)
         if(errors > 0)
         {
           USART2_SendString("Lijn totaal aantal errors: ");
-          USART2_SendChar(errors + '0');
+          USART2_SendCharUser(errors);
           USART2_SendString("\r\n");
           USART2_SendString("\r\n");
 
@@ -183,7 +183,7 @@ void Buffer_to_struct(char cmd_val)
         if(errors > 0)
         {
           USART2_SendString("Rechthoek totaal aantal errors: ");
-          USART2_SendChar(errors + '0');
+          USART2_SendCharUser(errors);
           USART2_SendString("\r\n");
           USART2_SendString("\r\n");
 
@@ -286,7 +286,6 @@ void Buffer_to_struct(char cmd_val)
           USART2_SendString("Tekst totaal aantal errors: ");
           USART2_SendCharUser(errors);
 
-          //USART2_SendChar(errors + '0');
           USART2_SendString("\r\n");
           USART2_SendString("\r\n");
 
@@ -339,7 +338,7 @@ void Buffer_to_struct(char cmd_val)
       if(errors > 0)
       {
         USART2_SendString("Bitmap totaal aantal errors: ");
-        USART2_SendChar(errors + '0');
+        USART2_SendCharUser(errors);
         USART2_SendString("\r\n");
         USART2_SendString("\r\n");
 
@@ -369,7 +368,7 @@ void Buffer_to_struct(char cmd_val)
       if(errors > 0)
       {
         USART2_SendString("Clearscherm totaal aantal errors: ");
-        USART2_SendChar(errors + '0');
+        USART2_SendCharUser(errors);
         USART2_SendString("\r\n");
         USART2_SendString("\r\n");
 
@@ -414,7 +413,7 @@ void Buffer_to_struct(char cmd_val)
       if(errors > 0)
       {
         USART2_SendString("Cirkel totaal aantal errors: ");
-        USART2_SendChar(errors + '0');
+        USART2_SendCharUser(errors);
         USART2_SendString("\r\n");
         USART2_SendString("\r\n");
 

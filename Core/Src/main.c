@@ -22,35 +22,6 @@ int main(void)
   USART2_Init();
 
   USART2_SendString("\r\nWELKOM\r\n");
-/*
-
-  circle_struct circleStruct2 = {
-    .x = 10,
-    .y = 10,
-    .radius= 5,
-    .color = VGA_COL_BLUE,
-  };
-
-  circleToVGA(circleStruct2);
-
-  wait_struct waitStruct = {
-    .msec = 1000,
-  };
-
-  delay(waitStruct);
-
-  API_wait(100);
-
-
-  circle_struct circleStruct = {
-    .x = 100,
-    .y = 100,
-    .radius= 40,
-    .color = VGA_COL_BLACK,
-  };
-
-  circleToVGA(circleStruct);
-  */
 
   while (1)
   {

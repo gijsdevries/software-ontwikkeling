@@ -413,7 +413,7 @@ void Buffer_to_struct(char cmd_val)
     wacht.msec = take_int(&take_index);
 
     // LOGIC LAYER FUNCTIE
-    // TODO: wait to vga functie
+    delay(wacht);
 
   }
   break;

@@ -18,12 +18,15 @@ Zoals beschreven in het cursusmateriaal van het vak softwareontwikkeling moet er
 Figuur 1: Overzicht 3-lagenmodel
 
 **Frontlayer**
+
 De frontlayer is de laag waarin de gebruiker communiceert met de applicatie en dus zijn commando’s kan doorgeven. Deze commando’s worden via UART ontvangen, verwerkt en gecheckt. Hierbij wordt bij een juist commando de instructie doorgegeven aan de logiclayer. Bij een onjuist commando wordt er op basis van het probleem een error bericht terug gestuurd naar de gebruiker. Ook regelt de laag wanneer een commando ontvangen kan worden door gebruik te maken van een flag, op deze manier wordt gezorgd dat de applicatie niet overbelast raakt.
 
 **Logiclayer**
+
 In de logiclayer wordt het verwerkte commando uitgevoerd. Hier wordt dus bepaalt welke pixels welke kleur moeten worden. Vervolgens wordt dit naar de I/O-layer doorgestuurd.
 
 **I/O-layer**
+
 De I/O-layer verandert de kleur van de pixels op het VGA-scherm op basis van de bepaalde pixel kleuren van de logiclayer.
 Graphical design
 Op basis van het eerder beschreven 3-lagenmodel en de gegeven basis eisen voor de applicatie is een high level design opgesteld, zie figuur 2: 
@@ -32,9 +35,11 @@ Op basis van het eerder beschreven 3-lagenmodel en de gegeven basis eisen voor d
 Figuur 2: High level design
 
 
+
 In dit ontwerp staan de volgend (hoofd)functies centraal:
 
 **Frontlayer:**
+
 -	**USART2_BUFFER():** Verwerkt de data uit de USART2 ontvangstbuffer en voegt ze toe aan een dynamische commando-buffer. Wanneer een newline-karakter wordt gedetecteerd, wordt het volledige commando verwerkt door Buffer_check().
 -	**Buffer_Check():** Vergelijkt het eerste woord in de buffer met een lijst van bekende commando's. Als een match wordt gevonden, wordt de bijbehorende functie  Buffer_to_struct() aangeroepen om het commando verder te verwerken. Anders wordt een foutmelding verzonden.
 -	**Buffer_to_struct():** Afhankelijk van het commando worden de argumenten uit de buffer gehaald, geconverteerd naar de juiste datatypes, en opgeslagen in een struct. Na validatie wordt de bijbehorende tekenfunctie in de logiclayer aangeroepen.
@@ -45,6 +50,8 @@ In dit ontwerp staan de volgend (hoofd)functies centraal:
 -	**rectangleToVGA():** Tekent een rechthoek op het VGA-scherm.
 -	**textToVGA():** Tekent gegeven tekst op het VGA-scherm.
 -	**bitmapToVGA():** Tekent een bitmap op het VGA-scherm.
+- **circleToVGA():** Tekent een cirkel op het VGA-scherm.
+-	**delay():** Start een delay.
 
 **I/O-layer:**
 -	**UB_VGA_SetPixel():** Stelt één pixel in op het scherm met een specifieke kleur.
@@ -90,4 +97,16 @@ Commando: tekst, x, y, kleur, tekst, fontnaam, fontgrootte, fontstijl
 
 Commando: clearscherm, kleur
 -	**kleur:** Kleur van het scherm
+
+**Cirkel**
+
+Commando: cirkel, x, y, radius, kleur
+- **x, y:** De coördinaten van het midden van de cirkel.
+-	**radius:** De straal van de cirkel.
+- **kleur:** De kleur van de cirkel.
+
+**Wacht**
+
+Commando: wacht, msecs
+-	**msecs:** de wachttijd in millisecondes
 

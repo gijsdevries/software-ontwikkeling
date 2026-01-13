@@ -46,14 +46,26 @@ typedef struct {
 } bitmap_struct;
 
 typedef struct {
+  int color;
+} clearscreen_struct;
+
+typedef struct {
+  int msec;
+} wait_struct;
+
+typedef struct {
+  int x;
+  int y;
+  int radius;
+  int color;
+} circle_struct;
+
+typedef struct {
   int FONTNAAM;
   int FONTSTIJL;
   int FONTGROOTTE;
 } textInfo;
 
-typedef struct {
-  int color;
-} clearscreen_struct;
 
 enum FONTNAMES {
   ARIAL,
@@ -79,6 +91,12 @@ void rectangleToVGA(rectangle_struct rectangleStruct);
 void lineToVGA(line_struct lineStruct);
 
 void textToVGA(text_struct textStruct);
+
+void circleToVGA(circle_struct circleStruct);
+
+void API_wait(int msecs);
+
+void delay(wait_struct waitStruct);
 
 void bitmapToVGA (bitmap_struct bitmapStruct);
 

@@ -376,7 +376,58 @@ void textToVGA(text_struct textStruct) {
     }
 
     x += dx;
+
+    if (x > VGA_DISPLAY_X - dx) { //go to a new line
+      x = 0;
+      y += dy;
+    }
   }
+}
+
+/**
+ * @brief Tekent cirkel op het VGA-scherm.
+ * @param circle_struct Struct met de eigenschappen van de cirkel.
+ */
+
+void circleToVGA(circle_struct circleStruct) {
+
+  int cx = circleStruct.x;
+  int cy = circleStruct.y;
+  int r = circleStruct.radius;
+
+  int x, y;
+
+  for (x=0, y=r; x < y; x++)
+    for (; y >= 0; y--) {
+      UB_VGA_SetPixel(cx+x, cy+y, circleStruct.color);
+      UB_VGA_SetPixel(cx+x, cy-y, circleStruct.color);
+      UB_VGA_SetPixel(cx-x, cy+y, circleStruct.color);
+      UB_VGA_SetPixel(cx-x, cy-y, circleStruct.color);
+
+      UB_VGA_SetPixel(cx+y, cy+x, circleStruct.color);
+      UB_VGA_SetPixel(cx+y, cy-x, circleStruct.color);
+      UB_VGA_SetPixel(cx-y, cy+x, circleStruct.color);
+      UB_VGA_SetPixel(cx-y, cy-x, circleStruct.color);
+
+      if (x*x + (y-1)*(y-1) < r*r)
+        break;
+    }
+}
+
+void delay(wait_struct waitStruct) {
+  /*
+  // Calculate reload value for 1ms tick
+  SysTick->LOAD = (SystemCoreClock / 1000) - 1;
+  SysTick->VAL = 0;
+  SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk; // Enable SysTick
+
+  while (waitStruct.msec--) {
+  // Wait for the COUNTFLAG to be set
+  while ((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) == 0);
+  }
+
+  SysTick->CTRL = 0; // Disable SysTick
+  */
 }
 
 /**

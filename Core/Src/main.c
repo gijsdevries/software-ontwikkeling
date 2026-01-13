@@ -13,7 +13,6 @@
 #include "logic_layer.h"
 #include "global.h"
 
-
 int main(void)
 {
   SystemCoreClockUpdate();

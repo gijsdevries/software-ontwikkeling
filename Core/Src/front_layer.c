@@ -10,7 +10,6 @@
 #include "front_layer.h"
 #include "logic_layer.h"
 #include "stm32_ub_vga_screen.h"
-#include "bitmap_defines.h"
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -23,17 +22,6 @@ volatile uint16_t uart_tail = 0;       ///< Leespointer voor de UART-ringbuffer.
 
 char *buffer = NULL;    ///< Dynamische buffer voor het opslaan van een volledig commando.
 uint16_t idx = 0;       ///< Index voor de dynamische buffer.
-
-// Functie declaraties voor interne functies
-void Buffer_Check(void);
-void Buffer_to_struct(char cmd_val);
-char Argument_checker(char Argument_goal);
-char Argument_counter(void);
-int take_int(uint8_t *take_index);
-char* take_word(uint8_t *take_index);
-int take_color(uint8_t *take_index);
-static uint8_t check_coord(int val, int max_val, const char* argument_name);
-
 
 /**
  * @brief Controleert en identificeert het commando in de buffer.
@@ -468,10 +456,10 @@ char Argument_counter()
   // Parse parameters op basis van buffer
   char *arg[MAX_ARG];
 
-  for (char argCounter = 0; argCounter < MAX_ARG; argCounter++)
+  for (int argCounter = 0; argCounter < MAX_ARG; argCounter++)
     arg[argCounter] = take_word(&idx_check);
 
-  for(char argNum = 0; argNum < MAX_ARG; argNum++)
+  for(int argNum = 0; argNum < MAX_ARG; argNum++)
   {
     if (arg[argNum] != NULL)
     {
@@ -632,7 +620,7 @@ int take_color(uint8_t *take_index)
  * @param argument_name De naam van het argument (voor de foutmelding).
  * @return 1 als de coördinaat ongeldig is, anders 0.
  */
-static uint8_t check_coord(int val, int max_val, const char* argument_name) {
+uint8_t check_coord(int val, int max_val, const char* argument_name) {
   if (val < 0 || val > max_val) {
     USART2_SendString(argument_name);
     USART2_SendString(" coordinaat out of range\r\n");
@@ -768,7 +756,7 @@ void USART2_SendString(char *str)
 }
 
 void USART2_SendCharUser(char c) {
-  char str[2];
+  char str[16];
   sprintf(str, "%d", c);
 
   USART2_SendString(str);

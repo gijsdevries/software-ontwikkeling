@@ -97,7 +97,7 @@ int take_color(uint8_t *take_index);
  * @param argument_name De naam van het argument voor foutrapportage.
  * @return 1 als de coördinaat geldig is, 0 anders.
  */
-static uint8_t check_coord(int val, int max_val, const char* argument_name);
+uint8_t check_coord(int val, int max_val, const char* argument_name);
 
 // Prototypes voor UART
 /**

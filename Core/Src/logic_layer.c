@@ -48,7 +48,7 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
  */
 const char *getRawLetter(char letter, int style) {
 
-  char index = 0;
+  int index = 0;
 
   if (style == ARIAL)
     index = 0;

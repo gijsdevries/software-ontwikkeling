@@ -493,12 +493,6 @@
 //  uint32_t tempreg;
 //
 //  /* Set all possible values for the extended clock type parameter------------*/
-//  PeriphClkInit->PeriphClockSelection = RCC_PERIPHCLK_I2S_APB1 | RCC_PERIPHCLK_I2S_APB2 |\
-//                                        RCC_PERIPHCLK_SAI1     | RCC_PERIPHCLK_SAI2     |\
-//                                        RCC_PERIPHCLK_TIM      | RCC_PERIPHCLK_RTC      |\
-//                                        RCC_PERIPHCLK_CEC      | RCC_PERIPHCLK_FMPI2C1  |\
-//                                        RCC_PERIPHCLK_CLK48     | RCC_PERIPHCLK_SDIO     |\
-//                                        RCC_PERIPHCLK_SPDIFRX;
 //
 //  /* Get the PLLI2S Clock configuration --------------------------------------*/
 //  PeriphClkInit->PLLI2S.PLLI2SM = (uint32_t)((RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SM) >> RCC_PLLI2SCFGR_PLLI2SM_Pos);
@@ -1155,10 +1149,6 @@
 //  uint32_t tempreg;
 //
 //  /* Set all possible values for the extended clock type parameter------------*/
-//  PeriphClkInit->PeriphClockSelection = RCC_PERIPHCLK_I2S        | RCC_PERIPHCLK_SAI_PLLSAI |\
-//                                        RCC_PERIPHCLK_SAI_PLLI2S | RCC_PERIPHCLK_LTDC       |\
-//                                        RCC_PERIPHCLK_TIM        | RCC_PERIPHCLK_RTC        |\
-//                                        RCC_PERIPHCLK_CLK48       | RCC_PERIPHCLK_SDIO;
 //
 //  /* Get the PLLI2S Clock configuration --------------------------------------*/
 //  PeriphClkInit->PLLI2S.PLLI2SN = (uint32_t)((RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SN) >> RCC_PLLI2SCFGR_PLLI2SN_Pos);
@@ -1638,21 +1628,6 @@
 //  uint32_t tempreg;
 //
 //  /* Set all possible values for the extended clock type parameter------------*/
-//#if defined(STM32F413xx) || defined(STM32F423xx)
-//  PeriphClkInit->PeriphClockSelection = RCC_PERIPHCLK_I2S_APB1     | RCC_PERIPHCLK_I2S_APB2 |\
-//                                        RCC_PERIPHCLK_TIM          | RCC_PERIPHCLK_RTC      |\
-//                                        RCC_PERIPHCLK_FMPI2C1      | RCC_PERIPHCLK_CLK48    |\
-//                                        RCC_PERIPHCLK_SDIO         | RCC_PERIPHCLK_DFSDM1   |\
-//                                        RCC_PERIPHCLK_DFSDM1_AUDIO | RCC_PERIPHCLK_DFSDM2   |\
-//                                        RCC_PERIPHCLK_DFSDM2_AUDIO | RCC_PERIPHCLK_LPTIM1   |\
-//                                        RCC_PERIPHCLK_SAIA         | RCC_PERIPHCLK_SAIB;
-//#else /* STM32F412Zx || STM32F412Vx || STM32F412Rx || STM32F412Cx */
-//  PeriphClkInit->PeriphClockSelection = RCC_PERIPHCLK_I2S_APB1 | RCC_PERIPHCLK_I2S_APB2 |\
-//                                        RCC_PERIPHCLK_TIM      | RCC_PERIPHCLK_RTC      |\
-//                                        RCC_PERIPHCLK_FMPI2C1  | RCC_PERIPHCLK_CLK48    |\
-//                                        RCC_PERIPHCLK_SDIO     | RCC_PERIPHCLK_DFSDM1   |\
-//                                        RCC_PERIPHCLK_DFSDM1_AUDIO;
-//#endif /* STM32F413xx || STM32F423xx */
 //
 //
 //
@@ -2498,8 +2473,6 @@
 //}
 //#endif /* STM32F427xx || STM32F437xx || STM32F429xx || STM32F439xx */
 //
-//#if defined(STM32F405xx) || defined(STM32F415xx) || defined(STM32F407xx)|| defined(STM32F417xx) ||\
-//    defined(STM32F401xC) || defined(STM32F401xE) || defined(STM32F411xE)
 ///**
 //  * @brief  Initializes the RCC extended peripherals clocks according to the specified parameters in the
 //  *         RCC_PeriphCLKInitTypeDef.
@@ -2751,9 +2724,6 @@
 //  return frequency;
 //}
 //#endif /* STM32F405xx || STM32F415xx || STM32F407xx || STM32F417xx || STM32F401xC || STM32F401xE  || STM32F411xE */
-//
-//#if defined(STM32F410Tx) || defined(STM32F410Cx) || defined(STM32F410Rx) || defined(STM32F411xE) || defined(STM32F446xx) || defined(STM32F469xx) || defined(STM32F479xx) || defined(STM32F412Zx) ||\
-//    defined(STM32F412Vx) || defined(STM32F412Rx) || defined(STM32F412Cx) || defined(STM32F413xx) || defined(STM32F423xx)
 ///**
 //  * @brief  Select LSE mode
 //  *
@@ -2839,16 +2809,6 @@
 //  /* I2SPCLK = PLLI2S_VCO / PLLI2SP */
 //  /* I2SQCLK = PLLI2S_VCO / PLLI2SQ */
 //  /* I2SRCLK = PLLI2S_VCO / PLLI2SR */
-//  __HAL_RCC_PLLI2S_CONFIG(PLLI2SInit->PLLI2SM, PLLI2SInit->PLLI2SN, \
-//                          PLLI2SInit->PLLI2SP, PLLI2SInit->PLLI2SQ, PLLI2SInit->PLLI2SR);
-//#elif defined(STM32F412Zx) || defined(STM32F412Vx) || defined(STM32F412Rx) || defined(STM32F412Cx) ||\
-//      defined(STM32F413xx) || defined(STM32F423xx)
-//  /* PLLI2S_VCO = f(VCO clock) = f(PLLI2S clock input) * (PLLI2SN/PLLI2SM)*/
-//  /* I2SQCLK = PLLI2S_VCO / PLLI2SQ */
-//  /* I2SRCLK = PLLI2S_VCO / PLLI2SR */
-//  __HAL_RCC_PLLI2S_CONFIG(PLLI2SInit->PLLI2SM, PLLI2SInit->PLLI2SN, \
-//                          PLLI2SInit->PLLI2SQ, PLLI2SInit->PLLI2SR);
-//#elif defined(STM32F427xx) || defined(STM32F437xx) || defined(STM32F429xx) || defined(STM32F439xx) ||\
 //      defined(STM32F469xx) || defined(STM32F479xx)
 //  /* PLLI2S_VCO = f(VCO clock) = f(PLLI2S clock input) * PLLI2SN */
 //  /* I2SQCLK = PLLI2S_VCO / PLLI2SQ */
@@ -2952,16 +2912,6 @@
 //  /* SAIPCLK = PLLSAI_VCO / PLLSAIP */
 //  /* SAIQCLK = PLLSAI_VCO / PLLSAIQ */
 //  /* SAIRCLK = PLLSAI_VCO / PLLSAIR */
-//  __HAL_RCC_PLLSAI_CONFIG(PLLSAIInit->PLLSAIM, PLLSAIInit->PLLSAIN, \
-//                          PLLSAIInit->PLLSAIP, PLLSAIInit->PLLSAIQ, 0U);
-//#elif defined(STM32F469xx) || defined(STM32F479xx)
-//  /* PLLSAI_VCO = f(VCO clock) = f(PLLSAI clock input) * PLLSAIN */
-//  /* SAIPCLK = PLLSAI_VCO / PLLSAIP */
-//  /* SAIQCLK = PLLSAI_VCO / PLLSAIQ */
-//  /* SAIRCLK = PLLSAI_VCO / PLLSAIR */
-//  __HAL_RCC_PLLSAI_CONFIG(PLLSAIInit->PLLSAIN, PLLSAIInit->PLLSAIP, \
-//                          PLLSAIInit->PLLSAIQ, PLLSAIInit->PLLSAIR);
-//#else
 //  /* PLLSAI_VCO = f(VCO clock) = f(PLLSAI clock input) x PLLSAIN */
 //  /* SAIQCLK = PLLSAI_VCO / PLLSAIQ */
 //  /* SAIRCLK = PLLSAI_VCO / PLLSAIR */

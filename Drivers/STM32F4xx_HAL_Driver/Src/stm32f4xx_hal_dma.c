@@ -229,10 +229,6 @@
 //  tmp = hdma->Instance->CR;
 //
 //  /* Clear CHSEL, MBURST, PBURST, PL, MSIZE, PSIZE, MINC, PINC, CIRC, DIR, CT and DBM bits */
-//  tmp &= ((uint32_t)~(DMA_SxCR_CHSEL | DMA_SxCR_MBURST | DMA_SxCR_PBURST | \
-//                      DMA_SxCR_PL    | DMA_SxCR_MSIZE  | DMA_SxCR_PSIZE  | \
-//                      DMA_SxCR_MINC  | DMA_SxCR_PINC   | DMA_SxCR_CIRC   | \
-//                      DMA_SxCR_DIR   | DMA_SxCR_CT     | DMA_SxCR_DBM));
 //
 //  /* Prepare the DMA Stream configuration */
 //  tmp |=  hdma->Init.Channel             | hdma->Init.Direction        |

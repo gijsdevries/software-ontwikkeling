@@ -56,10 +56,7 @@
 //#define __STM32F4xx_HAL_VERSION_SUB1   (0x07U) /*!< [23:16] sub1 version */
 //#define __STM32F4xx_HAL_VERSION_SUB2   (0x0AU) /*!< [15:8]  sub2 version */
 //#define __STM32F4xx_HAL_VERSION_RC     (0x00U) /*!< [7:0]  release candidate */
-//#define __STM32F4xx_HAL_VERSION         ((__STM32F4xx_HAL_VERSION_MAIN << 24U)\
-//                                        |(__STM32F4xx_HAL_VERSION_SUB1 << 16U)\
-//                                        |(__STM32F4xx_HAL_VERSION_SUB2 << 8U )\
-//                                        |(__STM32F4xx_HAL_VERSION_RC))
+
 //
 //#define IDCODE_DEVID_MASK    0x00000FFFU
 //
@@ -564,8 +561,6 @@
 //  return (READ_REG(*((uint32_t *)(UID_BASE + 8U))));
 //}
 //
-//#if defined(STM32F427xx) || defined(STM32F437xx) || defined(STM32F429xx)|| defined(STM32F439xx) ||\
-//    defined(STM32F469xx) || defined(STM32F479xx)
 ///**
 //  * @brief  Enables the Internal FLASH Bank Swapping.
 //  *

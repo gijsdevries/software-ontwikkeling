@@ -236,9 +236,6 @@
 //    /* Check the parameters */
 //    assert_param(IS_RCC_HSE(RCC_OscInitStruct->HSEState));
 //    /* When the HSE is used as system clock or clock source for PLL in these cases HSE will not disabled */
-//    if((__HAL_RCC_GET_SYSCLK_SOURCE() == RCC_CFGR_SWS_HSE) ||\
-//      ((__HAL_RCC_GET_SYSCLK_SOURCE() == RCC_CFGR_SWS_PLL) && ((RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) == RCC_PLLCFGR_PLLSRC_HSE)))
-//    {
 //      if((__HAL_RCC_GET_FLAG(RCC_FLAG_HSERDY) != RESET) && (RCC_OscInitStruct->HSEState == RCC_HSE_OFF))
 //      {
 //        return HAL_ERROR;
@@ -288,9 +285,6 @@
 //    assert_param(IS_RCC_CALIBRATION_VALUE(RCC_OscInitStruct->HSICalibrationValue));
 //
 //    /* Check if HSI is used as system clock or as PLL source when PLL is selected as system clock */
-//    if((__HAL_RCC_GET_SYSCLK_SOURCE() == RCC_CFGR_SWS_HSI) ||\
-//      ((__HAL_RCC_GET_SYSCLK_SOURCE() == RCC_CFGR_SWS_PLL) && ((RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) == RCC_PLLCFGR_PLLSRC_HSI)))
-//    {
 //      /* When HSI is used as system clock it will not disabled */
 //      if((__HAL_RCC_GET_FLAG(RCC_FLAG_HSIRDY) != RESET) && (RCC_OscInitStruct->HSIState != RCC_HSI_ON))
 //      {
@@ -491,11 +485,6 @@
 //        }
 //
 //        /* Configure the main PLL clock source, multiplication and division factors. */
-//        WRITE_REG(RCC->PLLCFGR, (RCC_OscInitStruct->PLL.PLLSource                                            | \
-//                                 RCC_OscInitStruct->PLL.PLLM                                                 | \
-//                                 (RCC_OscInitStruct->PLL.PLLN << RCC_PLLCFGR_PLLN_Pos)             | \
-//                                 (((RCC_OscInitStruct->PLL.PLLP >> 1U) - 1U) << RCC_PLLCFGR_PLLP_Pos) | \
-//                                 (RCC_OscInitStruct->PLL.PLLQ << RCC_PLLCFGR_PLLQ_Pos)));
 //        /* Enable the main PLL. */
 //        __HAL_RCC_PLL_ENABLE();
 //

@@ -263,11 +263,6 @@
 //  uint32_t addresstmp = 0U;
 //
 //  /* Check FLASH operation error flags */
-//#if defined(FLASH_SR_RDERR)
-//  if(__HAL_FLASH_GET_FLAG((FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | \
-//    FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR | FLASH_FLAG_RDERR)) != RESET)
-//#else
-//  if(__HAL_FLASH_GET_FLAG((FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | \
 //    FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR)) != RESET)
 //#endif /* FLASH_SR_RDERR */
 //  {
@@ -579,12 +574,6 @@
 //    /* Clear FLASH End of Operation pending bit */
 //    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP);
 //  }
-//#if defined(FLASH_SR_RDERR)
-//  if(__HAL_FLASH_GET_FLAG((FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | \
-//                           FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR | FLASH_FLAG_RDERR)) != RESET)
-//#else
-//  if(__HAL_FLASH_GET_FLAG((FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | \
-//                           FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR)) != RESET)
 //#endif /* FLASH_SR_RDERR */
 //  {
 //    /*Save the error code*/

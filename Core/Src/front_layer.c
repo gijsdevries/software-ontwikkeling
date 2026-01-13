@@ -48,18 +48,6 @@ void Buffer_Check()
   uint8_t take_index = 0;
   char* cmd_word = take_word(&take_index);
 
-  /*
-  USART2_SendString("buffer: ");
-
-  for (int j = 0; j < 255; j++) {
-    if (buffer[j] == ',')
-      break;
-    USART2_SendChar(buffer[j]);
-  }
-
-  USART2_SendString("\r\n");
-  */
-
   if (cmd_word == NULL) {
     return;
   }

@@ -36,7 +36,8 @@ void Buffer_Check()
   uint8_t take_index = 0;
   char* cmd_word = take_word(&take_index);
 
-  if (cmd_word == NULL) {
+  if (cmd_word == NULL) 
+  {
     return;
   }
 
@@ -79,7 +80,7 @@ void Buffer_to_struct(char cmd_val)
   switch (cmd_val) // Vul juiste struct, start juiste functie en error handling
   {
     case LIJN: // Vul lijn struct en roep lijn functie aan
-    {
+      {
         //USART2_SendString("Lijn command ontvangen\r\n");
 
         line_struct lijn;
@@ -117,23 +118,24 @@ void Buffer_to_struct(char cmd_val)
           USART2_SendCharUser(errors);
           USART2_SendString("\r\n");
           USART2_SendString("\r\n");
-
           return;
         }
 
         //LOGIC LAYER FUNCTIE
         lineToVGA(lijn);
-    }
-    break;
+      }
+      break;
 
     case RECHTHOEK: // Vul rechthoek struct en roep rechthoek functie aan
-    {
+      {
         //USART2_SendString("RECHTHOEK command ontvangen\r\n");
         rectangle_struct rechthoek;
 
         arg_diff = Argument_checker(RECHTHOEK_ARGS);
-        if (arg_diff != 0)
+        if (arg_diff != 0) 
+        {
           return;
+        }
 
         rechthoek.x = take_int(&take_index);
         errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
@@ -148,7 +150,10 @@ void Buffer_to_struct(char cmd_val)
         errors += check_coord((rechthoek.y + rechthoek.height), VGA_DISPLAY_Y, "Hoogte");
 
         rechthoek.color = take_color(&take_index);
-        if (rechthoek.color == -1) errors++;
+        if (rechthoek.color == -1) 
+        {
+          errors++;
+        }
 
         rechthoek.filled = take_int(&take_index);
         if ((rechthoek.filled != 0) && (rechthoek.filled != 1))
@@ -164,17 +169,16 @@ void Buffer_to_struct(char cmd_val)
           USART2_SendCharUser(errors);
           USART2_SendString("\r\n");
           USART2_SendString("\r\n");
-
           return;
         }
 
         //LOGIC LAYER FUNCTIE
         rectangleToVGA(rechthoek);
-    }
-    break;
+      }
+      break;
 
     case TEKST: // Vul text struct en roep text functie aan
-    {
+      {
         //USART2_SendString("TEKST command ontvangen\r\n");
 
         text_struct text;
@@ -192,7 +196,10 @@ void Buffer_to_struct(char cmd_val)
         text.y_lup = take_int(&take_index);
 
         text.color = take_color(&take_index);
-        if (text.color == -1) errors++;
+        if (text.color == -1) 
+        {
+          errors++;
+        }
 
         text.text = take_word(&take_index);
         if (text.text == NULL || strlen(text.text) == 0)
@@ -217,7 +224,8 @@ void Buffer_to_struct(char cmd_val)
 
         int letter_marge = LETTER_MARGE_SMALL;
 
-        if (text.fontsize == GROOT) {
+        if (text.fontsize == GROOT) 
+        {
           letter_marge *= 2;
         }
 
@@ -226,17 +234,18 @@ void Buffer_to_struct(char cmd_val)
         int y = text.y_lup;
 
         //check if it is possible to print every letter on screen
-        while (j < strlen(text.text)) {
+        while (j < strlen(text.text)) 
+        {
           errors += check_coord(x + letter_marge, VGA_DISPLAY_X, "text.x_lup");
           errors += check_coord(y + letter_marge, VGA_DISPLAY_Y, "text.y_lup");
 
           x += letter_marge;
 
-          if (x > VGA_DISPLAY_X - letter_marge) { //go to a new line
+          if (x > VGA_DISPLAY_X - letter_marge)
+          { //go to a new line
             x = 0;
             y += letter_marge;
           }
-
           j++;
         }
 
@@ -271,138 +280,136 @@ void Buffer_to_struct(char cmd_val)
         free(text.text);
         free(text.fontname);
         free(text.fontstyle);
-    }
-    break;
+      }
+      break;
 
     case BITMAP: // Vul bitmap struct en roep bitmap functie aan
-    {
-      //USART2_SendString("BITMAP command ontvangen\r\n");
-
-      bitmap_struct bitmap;
-
-      arg_diff = Argument_checker(BITMAP_ARGS);
-      if (arg_diff != 0)
-        return;
-
-      bitmap.bm_nr = take_int(&take_index);
-      errors += check_coord(bitmap.bm_nr, BITMAP_AMOUNT, "bitmap.bm_nr");
-
-      bitmap.x_lup = take_int(&take_index);
-      errors += check_coord(bitmap.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
-      errors += check_coord(bitmap.x_lup + MAX_BITMAP_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
-
-      bitmap.y_lup = take_int(&take_index);
-      errors += check_coord(bitmap.y_lup, VGA_DISPLAY_Y, "bitmap.y_lup");
-      errors += check_coord(bitmap.y_lup + MAX_BITMAP_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
-
-      if (bitmap.bm_nr < 0 || bitmap.bm_nr > BITMAP_AMOUNT)
       {
-        USART2_SendString("De Bitmap functie die is ingevuld bestaat niet\r\n");
-        errors++;
+        //USART2_SendString("BITMAP command ontvangen\r\n");
+
+        bitmap_struct bitmap;
+
+        arg_diff = Argument_checker(BITMAP_ARGS);
+        if (arg_diff != 0)
+          return;
+
+        bitmap.bm_nr = take_int(&take_index);
+        errors += check_coord(bitmap.bm_nr, BITMAP_AMOUNT, "bitmap.bm_nr");
+
+        bitmap.x_lup = take_int(&take_index);
+        errors += check_coord(bitmap.x_lup, VGA_DISPLAY_X, "bitmap.x_lup");
+        errors += check_coord(bitmap.x_lup + MAX_BITMAP_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+
+        bitmap.y_lup = take_int(&take_index);
+        errors += check_coord(bitmap.y_lup, VGA_DISPLAY_Y, "bitmap.y_lup");
+        errors += check_coord(bitmap.y_lup + MAX_BITMAP_ARRAY, VGA_DISPLAY_X, "bitmap.x_lup");
+
+        if (bitmap.bm_nr < 0 || bitmap.bm_nr > BITMAP_AMOUNT)
+        {
+          USART2_SendString("De Bitmap functie die is ingevuld bestaat niet\r\n");
+          errors++;
+        }
+
+        // Error report
+        if(errors > 0)
+        {
+          USART2_SendString("Bitmap totaal aantal errors: ");
+          USART2_SendCharUser(errors);
+          USART2_SendString("\r\n");
+          USART2_SendString("\r\n");
+
+          return;
+        }
+
+        //LOGIC LAYER FUNCTIE
+        bitmapToVGA(bitmap);
       }
-
-      // Error report
-      if(errors > 0)
-      {
-        USART2_SendString("Bitmap totaal aantal errors: ");
-        USART2_SendCharUser(errors);
-        USART2_SendString("\r\n");
-        USART2_SendString("\r\n");
-
-        return;
-      }
-
-      //LOGIC LAYER FUNCTIE
-      bitmapToVGA(bitmap);
-    }
-    break;
+      break;
 
     case CLEARSCHERM: // Vul clearscherm struct en roep clearscherm functie aan
-    {
-      //USART2_SendString("CLEARSCHERM command ontvangen\r\n");
-
-      clearscreen_struct clearscherm;
-
-      arg_diff = Argument_checker(CLEARSCHERM_ARGS);
-      if (arg_diff != 0)
-        return;
-
-      clearscherm.color = take_color(&take_index);
-
-      if (clearscherm.color == -1) errors++;
-
-      // Error report
-      if(errors > 0)
       {
-        USART2_SendString("Clearscherm totaal aantal errors: ");
-        USART2_SendCharUser(errors);
-        USART2_SendString("\r\n");
-        USART2_SendString("\r\n");
+        //USART2_SendString("CLEARSCHERM command ontvangen\r\n");
 
-        return;
+        clearscreen_struct clearscherm;
+
+        arg_diff = Argument_checker(CLEARSCHERM_ARGS);
+        if (arg_diff != 0)
+          return;
+
+        clearscherm.color = take_color(&take_index);
+
+        if (clearscherm.color == -1) errors++;
+
+        // Error report
+        if(errors > 0)
+        {
+          USART2_SendString("Clearscherm totaal aantal errors: ");
+          USART2_SendCharUser(errors);
+          USART2_SendString("\r\n");
+          USART2_SendString("\r\n");
+
+          return;
+        }
+
+        //LOGIC LAYER FUNCTIE
+        clearScreenToVGA(clearscherm);
       }
-
-      //LOGIC LAYER FUNCTIE
-      clearScreenToVGA(clearscherm);
-    }
-    break;
+      break;
 
     case CIRKEL: // Vul cirkel struct en roep cirkel functie aan
-    {
-      circle_struct cirkel;
-
-      arg_diff = Argument_checker(CIRKEL_ARGS);
-      if (arg_diff != 0)
-        return;
-
-      cirkel.x = take_int(&take_index);
-      errors += check_coord(cirkel.x, VGA_DISPLAY_X, "X");
-
-      cirkel.y = take_int(&take_index);
-      errors += check_coord(cirkel.y, VGA_DISPLAY_Y, "Y");
-
-      cirkel.radius = take_int(&take_index);
-
-      if (check_coord((cirkel.x + cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
-        errors++;
-      else if (check_coord((cirkel.x - cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
-        errors++;
-      else if (check_coord((cirkel.y + cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
-        errors++;
-      else if (check_coord((cirkel.y - cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
-        errors++;
-
-      cirkel.color = take_color(&take_index);
-
-      if (cirkel.color == -1) errors++;
-
-      // Error report
-      if(errors > 0)
       {
-        USART2_SendString("Cirkel totaal aantal errors: ");
-        USART2_SendCharUser(errors);
-        USART2_SendString("\r\n");
-        USART2_SendString("\r\n");
+        circle_struct cirkel;
 
-        return;
+        arg_diff = Argument_checker(CIRKEL_ARGS);
+        if (arg_diff != 0)
+          return;
+
+        cirkel.x = take_int(&take_index);
+        errors += check_coord(cirkel.x, VGA_DISPLAY_X, "X");
+
+        cirkel.y = take_int(&take_index);
+        errors += check_coord(cirkel.y, VGA_DISPLAY_Y, "Y");
+
+        cirkel.radius = take_int(&take_index);
+
+        if (check_coord((cirkel.x + cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
+          errors++;
+        else if (check_coord((cirkel.x - cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
+          errors++;
+        else if (check_coord((cirkel.y + cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
+          errors++;
+        else if (check_coord((cirkel.y - cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
+          errors++;
+
+        cirkel.color = take_color(&take_index);
+
+        if (cirkel.color == -1) errors++;
+
+        // Error report
+        if(errors > 0)
+        {
+          USART2_SendString("Cirkel totaal aantal errors: ");
+          USART2_SendCharUser(errors);
+          USART2_SendString("\r\n");
+          USART2_SendString("\r\n");
+
+          return;
+        }
+
+        // LOGIC LAYER FUNCTIE
+        circleToVGA(cirkel);
       }
-
-      // LOGIC LAYER FUNCTIE
-      circleToVGA(cirkel);
-    }
-    break;
+      break;
 
     case WAIT:
-    {
-      wait_struct wacht;
+      {
+        wait_struct wacht;
+        wacht.msec = take_int(&take_index);
 
-      wacht.msec = take_int(&take_index);
-
-      // LOGIC LAYER FUNCTIE
-      delay(wacht);
-
-    }
-    break;
+        // LOGIC LAYER FUNCTIE
+        delay(wacht);
+      }
+      break;
   }
   return;
 }
@@ -428,6 +435,7 @@ char Argument_checker(char Argument_goal)
     USART2_SendCharUser(arg_diff);
     USART2_SendString(" argument(en) te veel. \r\n");
   }
+
   if(argAmount < Argument_goal)
   {
     arg_diff = Argument_goal - argAmount;
@@ -620,8 +628,10 @@ int take_color(uint8_t *take_index)
  * @param argument_name De naam van het argument (voor de foutmelding).
  * @return 1 als de coördinaat ongeldig is, anders 0.
  */
-uint8_t check_coord(int val, int max_val, const char* argument_name) {
-  if (val < 0 || val > max_val) {
+uint8_t check_coord(int val, int max_val, const char* argument_name) 
+{
+  if (val < 0 || val > max_val) 
+  {
     USART2_SendString(argument_name);
     USART2_SendString(" coordinaat out of range\r\n");
     return 1;

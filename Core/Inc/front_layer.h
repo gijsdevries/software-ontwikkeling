@@ -189,7 +189,7 @@ typedef struct {
 /**
  * @brief Array van ondersteunde commando's en hun codes.
  */
-static Eerste_woord commands[] = {
+static const Eerste_woord commands[] = {
   {"lijn",        LIJN},
   {"rechthoek",   RECHTHOEK},
   {"tekst",       TEKST},

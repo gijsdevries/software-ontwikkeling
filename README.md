@@ -15,6 +15,7 @@ Zoals beschreven in het cursusmateriaal van het vak softwareontwikkeling moet er
 -	De I/O-layer
 
 <img width="945" height="308" alt="image" src="https://github.com/user-attachments/assets/0c874061-57c0-43ed-be31-29f7b5e99ee5" />
+
 Figuur 1: Overzicht 3-lagenmodel
 
 **Frontlayer**
@@ -32,6 +33,7 @@ Graphical design
 Op basis van het eerder beschreven 3-lagenmodel en de gegeven basis eisen voor de applicatie is een high level design opgesteld, zie figuur 2: 
 
 <img width="1238" height="1104" alt="image" src="https://github.com/user-attachments/assets/85707f5d-9940-4e4b-9d46-209c3fc5d25e" />
+
 Figuur 2: High level design
 
 

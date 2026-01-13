@@ -486,7 +486,7 @@ int take_int(uint8_t *take_index)
   for (int i = 0; i < strlen(argument); i++)
   {
     // Controleer of het karakter GEEN cijfer is
-    if (!isdigit(argument[i])) {
+    if (!isdigit((unsigned char)argument[i])) {
       //USART2_SendString("Fout: Argument is geen cijfer, argument is nul!\n");
       return 0; // Stop de loop direct bij een fout
     }

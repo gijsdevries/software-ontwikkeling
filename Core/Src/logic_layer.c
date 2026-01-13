@@ -6,8 +6,10 @@
 #include "logic_layer.h"
 #include "bitmap_defines.h"
 #include "stm32_ub_vga_screen.h"
+#include "io_layer.h"
 #include "front_layer.h"
 #include <stdio.h>
+#include <string.h>
 
 /**
  * @brief Converteert tekstinformatie van strings naar integers.
@@ -234,8 +236,8 @@ void lineToVGA(line_struct lineStruct) {
   int x1 = lineStruct.x_1; int x2 = lineStruct.x_2;
   int y1 = lineStruct.y_1; int y2 = lineStruct.y_2;
 
-  int dx = abs(x2 - x1);
-  int dy = abs(y2 - y1);
+  int dx = x2 - x1;
+  int dy = y2 - y1;
   int sx = (x1 < x2) ? 1 : -1;
   int sy = (y1 < y2) ? 1 : -1;
   int err = dx - dy;
@@ -352,16 +354,16 @@ void textToVGA(text_struct textStruct) {
   uint8_t buff[LETTER_MARGE_SMALL]; // font data is always 8x8
 
   for (char i = 0; i < sizeOfText; i++) {
-    const char *buf = getRawLetter(textStruct.text[i], textInfo.FONTNAAM);
+    const char *buf = getRawLetter(textStruct.text[(unsigned char)i], textInfo.FONTNAAM);
     memcpy(buff, buf, 8);
 
     if (textInfo.FONTSTIJL == VET) {
       for (char j = 0; j < 8; j++) {
-        buff[j] = addVet(buff[j]);
+        buff[(unsigned char)j] = addVet(buff[(unsigned char)j]);
       }
     } else if (textInfo.FONTSTIJL == CURSIEF) {
       for (char j = 0; j < 8; j++) {
-        buff[j] = addCursive(buff[j], j, textInfo.FONTNAAM);
+        buff[(unsigned char)j] = addCursive(buff[(unsigned char)j], j, textInfo.FONTNAAM);
       }
     }
 

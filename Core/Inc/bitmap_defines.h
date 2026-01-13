@@ -391,7 +391,7 @@ static const char *uc_z[SIZES] = {
 };
 
 //defines for bitmaps
-static const char SMILEY_BLIJ_BITMAP[1024] = {
+uint8_t SMILEY_BLIJ_BITMAP[1024] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255,
@@ -458,7 +458,7 @@ static const char SMILEY_BLIJ_BITMAP[1024] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
 
-static const char SMILEY_BOOS_BITMAP[1024] = {
+uint8_t SMILEY_BOOS_BITMAP[1024] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255,
@@ -526,7 +526,7 @@ static const char SMILEY_BOOS_BITMAP[1024] = {
 };
 
 
-static const char PIJL_OMHOOG_BITMAP[1024] = {
+uint8_t PIJL_OMHOOG_BITMAP[1024] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -594,7 +594,7 @@ static const char PIJL_OMHOOG_BITMAP[1024] = {
 
 };
 
-static const char PIJL_NAAR_BENEDEN_BITMAP[1024] = {
+uint8_t PIJL_NAAR_BENEDEN_BITMAP[1024] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -662,7 +662,7 @@ static const char PIJL_NAAR_BENEDEN_BITMAP[1024] = {
 
 };
 
-static const char PIJL_NAAR_RECHTS_BITMAP[1024] = {
+uint8_t PIJL_NAAR_RECHTS_BITMAP[1024] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -730,7 +730,7 @@ static const char PIJL_NAAR_RECHTS_BITMAP[1024] = {
 
 };
 
-static const char PIJL_NAAR_LINKS_BITMAP[1024] = {
+uint8_t PIJL_NAAR_LINKS_BITMAP[1024] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -798,7 +798,7 @@ static const char PIJL_NAAR_LINKS_BITMAP[1024] = {
 
 };
 
-static const char INKTVIS_BITMAP[1024] = {
+uint8_t INKTVIS_BITMAP[1024] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255,
   255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0,

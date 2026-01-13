@@ -4,11 +4,15 @@ Projectgroep 2:
 -	Piotr van Houwelingen, 1861692 (Notulist, voorzitter vergaderingen)
 -	Gijs de Vries, 1860901 (Git master)
 -	Luuk Laseur, 1820771 (Scrum leader)
+
 3-lagen model
 Zoals beschreven in het cursusmateriaal van het vak softwareontwikkeling moet er professionele software ontwikkeld worden via een meerdere lagen systeem. In dit geval is het type software-architectuur wat hiervoor gebruikt wordt het 3-lagenmodel, dit is op de canvas pagina van de cursus met de volgende afbeelding weergegeven, zie figuur 1. Het 3-lagen model houdt in dat er een 1e en 3e laag zijn die gescheiden worden door een 2e laag. In de door ons gemaakte toepassing is dit model als volgt ingericht:
 -	De frontlayer
 -	De logiclayer
 -	De I/O-layer
+
+<img width="945" height="308" alt="image" src="https://github.com/user-attachments/assets/0c874061-57c0-43ed-be31-29f7b5e99ee5" />
+
  
 Figuur 1: Overzicht 3-lagenmodel
 Frontlayer

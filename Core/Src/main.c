@@ -6,24 +6,24 @@
  */
 
 #include "main.h"
-#include "stm32_ub_vga_screen.h"
-#include <math.h>
 #include "front_layer.h"
+#include "global.h"
 #include "io_layer.h"
 #include "logic_layer.h"
-#include "global.h"
+#include "stm32_ub_vga_screen.h"
+#include <math.h>
 
-int main(void)
+int main(void) 
 {
   SystemCoreClockUpdate();
-  SystemInit(); // System speed to 168MHz
+  SystemInit();         // System speed to 168MHz
   UB_VGA_Screen_Init(); // Init VGA-Screen
   UB_VGA_FillScreen(VGA_COL_RED);
   USART2_Init();
 
   USART2_SendString("\r\nWELKOM\r\n");
 
-  while (1)
+  while (1) 
   {
     USART2_BUFFER();
   }

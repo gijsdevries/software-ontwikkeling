@@ -18,8 +18,8 @@
  * @param fontsize De grootte van het lettertype.
  * @return Een textInfo struct met de geconverteerde waarden.
  */
-textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
-
+textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) 
+{
   textInfo textInfo;
 
   if (!strcmp(fontname, "arial"))
@@ -48,8 +48,8 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize) {
  * @param style Het lettertype (ARIAL of CONSOLAS).
  * @return Een pointer naar de bitmapdata van de letter.
  */
-const char *getRawLetter(char letter, int style) {
-
+const char *getRawLetter(char letter, int style) 
+{
   int index = 0;
 
   if (style == ARIAL)
@@ -164,21 +164,30 @@ void letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_
       }
     }
   }
-  else { // GROOT
+  // GROOT
+  else 
+  {
     const char (*doubled_bitmap)[2] = (const char (*)[2])letter; // Cast to correct type
-    for (int y = 0; y < y_max; y++) { // Loop through 16 rows, was y_max + 2
+
+    // Loop through 16 rows, was y_max + 2
+    for (int y = 0; y < y_max; y++) 
+    {
       uint8_t high_byte = doubled_bitmap[y][0];
       uint8_t low_byte  = doubled_bitmap[y][1];
 
       // Process high byte (left 8 pixels)
-      for (int x = 0; x < LETTER_MARGE_SMALL; x++) {
-        if ((high_byte << x) & 0x80) {
+      for (int x = 0; x < LETTER_MARGE_SMALL; x++) 
+      {
+        if ((high_byte << x) & 0x80) 
+        {
           UB_VGA_SetPixel(x_lup + x, y_lup + y, color);
         }
       }
       // Process low byte (right 8 pixels)
-      for (int x = 0; x < LETTER_MARGE_SMALL; x++) {
-        if ((low_byte << x) & 0x80) {
+      for (int x = 0; x < LETTER_MARGE_SMALL; x++) 
+      {
+        if ((low_byte << x) & 0x80) 
+        {
           UB_VGA_SetPixel(x_lup + LETTER_MARGE_SMALL + x, y_lup + y, color); // Offset by 8 for the right half
         }
       }
@@ -190,7 +199,8 @@ void letterToVGA(int x_lup, int y_lup, int color, const uint8_t *letter, char x_
  * @brief Vult het scherm met de gekozen kleur.
  * @param CS_struct Struct met de kleur.
  */
-void clearScreenToVGA(clearscreen_struct CS_struct) {
+void clearScreenToVGA(clearscreen_struct CS_struct) 
+{
   UB_VGA_FillScreen(CS_struct.color);
 }
 
@@ -198,18 +208,23 @@ void clearScreenToVGA(clearscreen_struct CS_struct) {
  * @brief Tekent een rechthoek op het VGA-scherm.
  * @param rectangleStruct Struct met de eigenschappen van de rechthoek.
  */
-void rectangleToVGA(rectangle_struct rectangleStruct) {
+void rectangleToVGA(rectangle_struct rectangleStruct) 
+{
   int x = rectangleStruct.x; int w = rectangleStruct.width;
   int y = rectangleStruct.y; int h = rectangleStruct.height;
 
-  if (rectangleStruct.filled) {
-    for (int yy = y; yy < y + h; yy++) {
-      for (int xx = x; xx < x + w; xx++) {
+  if (rectangleStruct.filled) 
+  {
+    for (int yy = y; yy < y + h; yy++) 
+    {
+      for (int xx = x; xx < x + w; xx++) 
+      {
         UB_VGA_SetPixel(xx, yy, rectangleStruct.color);
       }
     }
   }
-  else {
+  else 
+  {
     // Top edge
     for (int xx = x; xx < x + w; xx++)
       UB_VGA_SetPixel(xx, y, rectangleStruct.color);
@@ -232,7 +247,8 @@ void rectangleToVGA(rectangle_struct rectangleStruct) {
  * @brief Tekent een lijn op het VGA-scherm met een bepaalde dikte.
  * @param lineStruct Struct met de eigenschappen van de lijn.
  */
-void lineToVGA(line_struct lineStruct) {
+void lineToVGA(line_struct lineStruct) 
+{
   int x1 = lineStruct.x_1; int x2 = lineStruct.x_2;
   int y1 = lineStruct.y_1; int y2 = lineStruct.y_2;
 
@@ -242,7 +258,8 @@ void lineToVGA(line_struct lineStruct) {
   int sy = (y1 < y2) ? 1 : -1;
   int err = dx - dy;
 
-  while (1) {
+  while (1) 
+  {
     for (int i = 0; i < lineStruct.weight; i++)
       if (dx > dy)
         UB_VGA_SetPixel(x1, y1 + i, lineStruct.color);
@@ -254,11 +271,13 @@ void lineToVGA(line_struct lineStruct) {
 
     int e2 = err * 2;
 
-    if (e2 > -dy) {
+    if (e2 > -dy) 
+    {
       err -= dy;
       x1 += sx;
     }
-    if (e2 < dx) {
+    if (e2 < dx) 
+    {
       err += dx;
       y1 += sy;
     }
@@ -270,14 +289,15 @@ void lineToVGA(line_struct lineStruct) {
  * @param byte De input byte.
  * @return De "vette" byte.
  */
-char addVet(char byte) {
+char addVet(char byte) 
+{
   if (byte & 0x01)
     return byte;
 
-  for (int i = 1; i < 8; i++) {
-    if (byte & (1 << i)) {
+  for (int i = 1; i < 8; i++) 
+  {
+    if (byte & (1 << i)) 
       return byte | (1 << (i - 1));
-    }
   }
   return byte;
 }
@@ -289,8 +309,8 @@ char addVet(char byte) {
  * @param style Het lettertype.
  * @return De "cursieve" byte.
  */
-char addCursive(char byte, int row, int style) {
-
+char addCursive(char byte, int row, int style) 
+{
   char cursiveFactor;
 
   if (style == ARIAL)
@@ -306,14 +326,18 @@ char addCursive(char byte, int row, int style) {
  * @param src De bron 8x8 bitmap.
  * @param dst De bestemming 16x16 bitmap.
  */
-void double_bitmap(const char src[8], char dst[16][2]) {
-  for (int y = 0; y < 8; y++) {
+void double_bitmap(const char src[8], char dst[16][2]) 
+{
+  for (int y = 0; y < 8; y++) 
+  {
     uint8_t row = src[y];
     uint16_t doubled_row = 0;
 
     // Double each bit horizontally
-    for (int x = 0; x < 8; x++) {
+    for (int x = 0; x < 8; x++) 
+    {
       int bit = (row >> (7 - x)) & 1;
+
       // Place two bits for doubling
       doubled_row |= (bit << (15 - 2*x));
       doubled_row |= (bit << (15 - 2*x - 1));
@@ -335,7 +359,8 @@ void double_bitmap(const char src[8], char dst[16][2]) {
  * @brief Tekent gegeven tekst op het VGA-scherm.
  * @param textStruct Struct met de eigenschappen van de tekst.
  */
-void textToVGA(text_struct textStruct) {
+void textToVGA(text_struct textStruct) 
+{
   size_t sizeOfText = strlen(textStruct.text);
   textInfo textInfo = textStructToInt(textStruct.fontname, textStruct.fontstyle, textStruct.fontsize);
 
@@ -346,40 +371,50 @@ void textToVGA(text_struct textStruct) {
   dx = LETTER_MARGE_SMALL;
   dy = LETTER_MARGE_SMALL;
 
-  if (textInfo.FONTGROOTTE == GROOT) {
+  if (textInfo.FONTGROOTTE == GROOT) 
+  {
     dx *= 2;
     dy *= 2;
   }
 
   uint8_t buff[LETTER_MARGE_SMALL]; // font data is always 8x8
 
-  for (char i = 0; i < sizeOfText; i++) {
+  for (char i = 0; i < sizeOfText; i++) 
+  {
     const char *buf = getRawLetter(textStruct.text[(unsigned char)i], textInfo.FONTNAAM);
     memcpy(buff, buf, 8);
 
-    if (textInfo.FONTSTIJL == VET) {
+    if (textInfo.FONTSTIJL == VET) 
+    {
       for (char j = 0; j < 8; j++) {
         buff[(unsigned char)j] = addVet(buff[(unsigned char)j]);
       }
-    } else if (textInfo.FONTSTIJL == CURSIEF) {
-      for (char j = 0; j < 8; j++) {
+    }
+    else if (textInfo.FONTSTIJL == CURSIEF) 
+    {
+      for (char j = 0; j < 8; j++) 
+      {
         buff[(unsigned char)j] = addCursive(buff[(unsigned char)j], j, textInfo.FONTNAAM);
       }
     }
 
-    if (textInfo.FONTGROOTTE == GROOT) {
+    if (textInfo.FONTGROOTTE == GROOT) 
+    {
       uint8_t dest[16][2];
 
       double_bitmap((const char*)buff, (char (*)[2])dest);
       letterToVGA(x, y, textStruct.color, (const uint8_t*)dest, dx, dy, textInfo.FONTGROOTTE);
     }
-    else {
+    else 
+    {
       letterToVGA(x, y, textStruct.color, buff, dx, dy, textInfo.FONTGROOTTE);
     }
 
     x += dx;
 
-    if (x > VGA_DISPLAY_X - dx) { //go to a new line
+    //go to a new line
+    if (x > VGA_DISPLAY_X - dx) 
+    {
       x = 0;
       y += dy;
     }
@@ -391,8 +426,8 @@ void textToVGA(text_struct textStruct) {
  * @param circle_struct Struct met de eigenschappen van de cirkel.
  */
 
-void circleToVGA(circle_struct circleStruct) {
-
+void circleToVGA(circle_struct circleStruct) 
+{
   int cx = circleStruct.x;
   int cy = circleStruct.y;
   int r = circleStruct.radius;
@@ -400,7 +435,8 @@ void circleToVGA(circle_struct circleStruct) {
   int x, y;
 
   for (x=0, y=r; x < y; x++)
-    for (; y >= 0; y--) {
+    for (; y >= 0; y--) 
+    {
       UB_VGA_SetPixel(cx+x, cy+y, circleStruct.color);
       UB_VGA_SetPixel(cx+x, cy-y, circleStruct.color);
       UB_VGA_SetPixel(cx-x, cy+y, circleStruct.color);
@@ -416,30 +452,22 @@ void circleToVGA(circle_struct circleStruct) {
     }
 }
 
-void delay(wait_struct waitStruct) {
-  /*
-  // Calculate reload value for 1ms tick
-  SysTick->LOAD = (SystemCoreClock / 1000) - 1;
-  SysTick->VAL = 0;
-  SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk; // Enable SysTick
+void delay(wait_struct waitStruct) 
+{
 
-  while (waitStruct.msec--) {
-  // Wait for the COUNTFLAG to be set
-  while ((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) == 0);
-  }
-
-  SysTick->CTRL = 0; // Disable SysTick
-  */
 }
 
 /**
  * @brief Tekent een bitmap op het VGA-scherm.
  * @param bitmapStruct Struct met de eigenschappen van de bitmap.
  */
-void bitmapToVGA(bitmap_struct bitmapStruct) {
+void bitmapToVGA(bitmap_struct bitmapStruct) 
+{
   uint8_t* bitmap = NULL;
 
-  switch (bitmapStruct.bm_nr) { //Kies bitmap op basis van ingevoerd getal
+  //Kies bitmap op basis van ingevoerd getal
+  switch (bitmapStruct.bm_nr) 
+  {
     case 0:
       bitmap = SMILEY_BOOS_BITMAP;
       break;
@@ -464,7 +492,8 @@ void bitmapToVGA(bitmap_struct bitmapStruct) {
   }
 
   //Zet witte pixels van bitmap op het scherm, negeer de rest
-  for (int yy = 0; yy < MAX_BITMAP_ARRAY; yy++) {
+  for (int yy = 0; yy < MAX_BITMAP_ARRAY; yy++) 
+  {
     for (int xx = 0; xx < MAX_BITMAP_ARRAY; xx++)
     {
       uint8_t pixelColor = bitmap[yy * MAX_BITMAP_ARRAY + xx];

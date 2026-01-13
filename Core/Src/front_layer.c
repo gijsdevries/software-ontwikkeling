@@ -448,7 +448,7 @@ char Argument_checker(char Argument_goal)
  */
 char Argument_counter()
 {
-  int8_t idx_check = 0;
+  uint8_t idx_check = 0;
   char argAmount = 0;
 
   // Skip het commando woord

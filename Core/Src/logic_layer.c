@@ -23,21 +23,35 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize)
   textInfo textInfo;
 
   if (!strcmp(fontname, "arial"))
+  {
     textInfo.FONTNAAM = ARIAL;
+  }
   else if (!strcmp(fontname, "consolas"))
+  {
     textInfo.FONTNAAM = CONSOLAS;
+  }
 
   if (!strcmp(fontstyle, "normaal"))
+  {
     textInfo.FONTSTIJL = NORMAAL;
+  }
   else if (!strcmp(fontstyle, "vet"))
+  {
     textInfo.FONTSTIJL = VET;
+  }
   else if (!strcmp(fontstyle, "cursief"))
+  {
     textInfo.FONTSTIJL = CURSIEF;
+  }
 
   if (fontsize == 1)
+  {
     textInfo.FONTGROOTTE = KLEIN;
+  }
   else if (fontsize == 2)
+  {
     textInfo.FONTGROOTTE = GROOT;
+  }
 
   return textInfo;
 }
@@ -53,11 +67,16 @@ const char *getRawLetter(char letter, int style)
   int index = 0;
 
   if (style == ARIAL)
+  {
     index = 0;
+  }
   else if (style == CONSOLAS)
+  {
     index = 1;
+  }
 
-  switch (letter) {
+  switch (letter) 
+  {
     case '!': return exclamation[index];
     case '@': return at[index];
     case '#': return hash[index];
@@ -227,19 +246,27 @@ void rectangleToVGA(rectangle_struct rectangleStruct)
   {
     // Top edge
     for (int xx = x; xx < x + w; xx++)
+    {
       UB_VGA_SetPixel(xx, y, rectangleStruct.color);
+    }
 
     // Bottom edge
     for (int xx = x; xx < x + w; xx++)
+    {
       UB_VGA_SetPixel(xx, y + h - 1, rectangleStruct.color);
+    }
 
     // Left edge
     for (int yy = y; yy < y + h; yy++)
+    {
       UB_VGA_SetPixel(x, yy, rectangleStruct.color);
+    }
 
     // Right edge
     for (int yy = y; yy < y + h; yy++)
+    {
       UB_VGA_SetPixel(x + w - 1, yy, rectangleStruct.color);
+    }
   }
 }
 
@@ -261,13 +288,21 @@ void lineToVGA(line_struct lineStruct)
   while (1) 
   {
     for (int i = 0; i < lineStruct.weight; i++)
+    {
       if (dx > dy)
+      {
         UB_VGA_SetPixel(x1, y1 + i, lineStruct.color);
+      }
       else
+      {
         UB_VGA_SetPixel(x1 + i, y1, lineStruct.color);
+      }
+    }
 
     if (x1 == x2 && y1 == y2)
+    {
       break;
+    }
 
     int e2 = err * 2;
 
@@ -292,12 +327,16 @@ void lineToVGA(line_struct lineStruct)
 char addVet(char byte) 
 {
   if (byte & 0x01)
+  {
     return byte;
+  }
 
   for (int i = 1; i < 8; i++) 
   {
     if (byte & (1 << i)) 
+    {
       return byte | (1 << (i - 1));
+    }
   }
   return byte;
 }
@@ -314,9 +353,13 @@ char addCursive(char byte, int row, int style)
   char cursiveFactor;
 
   if (style == ARIAL)
+  {
     cursiveFactor = 5;
+  }
   else
+  {
     cursiveFactor = 3;
+  }
 
   return byte >> (row / cursiveFactor);
 }
@@ -386,7 +429,8 @@ void textToVGA(text_struct textStruct)
 
     if (textInfo.FONTSTIJL == VET) 
     {
-      for (char j = 0; j < 8; j++) {
+      for (char j = 0; j < 8; j++) 
+      {
         buff[(unsigned char)j] = addVet(buff[(unsigned char)j]);
       }
     }
@@ -434,7 +478,8 @@ void circleToVGA(circle_struct circleStruct)
 
   int x, y;
 
-  for (x=0, y=r; x < y; x++)
+  for (x=0, y=r; x < y; x++) 
+  {
     for (; y >= 0; y--) 
     {
       UB_VGA_SetPixel(cx+x, cy+y, circleStruct.color);
@@ -448,8 +493,11 @@ void circleToVGA(circle_struct circleStruct)
       UB_VGA_SetPixel(cx-y, cy-x, circleStruct.color);
 
       if (x*x + (y-1)*(y-1) < r*r)
+      {
         break;
+      }
     }
+  }
 }
 
 void delay(wait_struct waitStruct) 
@@ -498,7 +546,9 @@ void bitmapToVGA(bitmap_struct bitmapStruct)
     {
       uint8_t pixelColor = bitmap[yy * MAX_BITMAP_ARRAY + xx];
       if (pixelColor == 255)
+      {
         UB_VGA_SetPixel(bitmapStruct.x_lup + xx, bitmapStruct.y_lup + yy, pixelColor);
+      }
     }
   }
 }

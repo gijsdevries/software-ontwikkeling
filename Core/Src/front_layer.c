@@ -765,7 +765,8 @@ void USART2_SendString(char *str)
   while (*str) USART2_SendChar(*str++);
 }
 
-void USART2_SendCharUser(char c) {
+void USART2_SendCharUser(char c)
+{
   char str[16];
   sprintf(str, "%d", c);
 

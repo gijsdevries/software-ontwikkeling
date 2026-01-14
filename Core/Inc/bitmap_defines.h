@@ -18,6 +18,7 @@
  * @brief CONSOLAS https://github.com/torvalds/linux/blob/master/lib/fonts/font_acorn_8x8.c 
  */
 
+//amount of fonts (arial/ consolas)
 #define SIZES 2 
 
 static const char *exclamation[SIZES] = 
@@ -146,7 +147,6 @@ static const char *nine[SIZES] =
   "\x3C\x66\x66\x3E\x06\x0C\x38\x00"
 };
 
-
 // lower case
 static const char *lc_a[SIZES] = 
 {
@@ -166,139 +166,139 @@ static const char *lc_c[SIZES] =
   "\x00\x00\x3C\x66\x60\x66\x3C\x00"
 };
 
-
-
-static const char *lc_d[SIZES] = {
+static const char *lc_d[SIZES] = 
+{
   "\x04\x04\x34\x4C\x44\x4C\x34\x00",
   "\x06\x06\x3E\x66\x66\x66\x3E\x00"
 };
 
-
-static const char *lc_e[SIZES] = {
+static const char *lc_e[SIZES] = 
+{
   "\x00\x00\x38\x44\x7C\x40\x3C\x00",
   "\x00\x00\x3C\x66\x7E\x60\x3C\x00"
 };
 
 
-static const char *lc_f[SIZES] = {
+static const char *lc_f[SIZES] = 
+{
   "\x0C\x10\x10\x38\x10\x10\x10\x00",
   "\x1C\x30\x30\x7C\x30\x30\x30\x00"
 };
 
-
-static const char *lc_g[SIZES] = {
+static const char *lc_g[SIZES] = 
+{
   "\x00\x34\x4C\x44\x4C\x34\x04\x38",
   "\x00\x00\x3E\x66\x66\x3E\x06\x3C"
 };
 
-
-static const char *lc_h[SIZES] = {
+static const char *lc_h[SIZES] = 
+{
   "\x40\x40\x78\x44\x44\x44\x44\x00",
   "\x60\x60\x7C\x66\x66\x66\x66\x00"
 };
 
-
-static const char *lc_i[SIZES] = {
+static const char *lc_i[SIZES] = 
+{
   "\x10\x00\x30\x10\x10\x10\x38\x00",
   "\x18\x00\x38\x18\x18\x18\x3C\x00"
 };
 
-
-static const char *lc_j[SIZES] = {
+static const char *lc_j[SIZES] = 
+{
   "\x10\x00\x30\x10\x10\x10\x10\x60",
   "\x18\x00\x38\x18\x18\x18\x18\x70"
 };
 
-
-static const char *lc_k[SIZES] = {
+static const char *lc_k[SIZES] = 
+{
   "\x40\x40\x48\x50\x70\x48\x44\x00",
   "\x60\x60\x66\x6C\x78\x6C\x66\x00"
 };
 
 
-static const char *lc_l[SIZES] = {
+static const char *lc_l[SIZES] = 
+{
   "\x30\x10\x10\x10\x10\x10\x38\x00",
   "\x38\x18\x18\x18\x18\x18\x3C\x00"
 };
 
-
-static const char *lc_m[SIZES] = {
+static const char *lc_m[SIZES] = 
+{
   "\x00\x00\x68\x54\x54\x54\x54\x00",
   "\x00\x00\x36\x7F\x6B\x6B\x63\x00"
 };
 
-
-static const char *lc_n[SIZES] = {
+static const char *lc_n[SIZES] = 
+{
   "\x00\x00\x58\x64\x44\x44\x44\x00",
   "\x00\x00\x7C\x66\x66\x66\x66\x00"
 };
 
-
-static const char *lc_o[SIZES] = {
+static const char *lc_o[SIZES] = 
+{
   "\x00\x00\x38\x44\x44\x44\x38\x00",
   "\x00\x00\x3C\x66\x66\x66\x3C\x00"
 };
 
-
-static const char *lc_p[SIZES] = {
+static const char *lc_p[SIZES] = 
+{
   "\x00\x00\x78\x44\x64\x58\x40\x40",
   "\x00\x00\x7C\x66\x66\x7C\x60\x60"
 };
 
-
-static const char *lc_q[SIZES] = {
+static const char *lc_q[SIZES] = 
+{
   "\x00\x00\x3C\x44\x4C\x34\x04\x04",
   "\x00\x00\x3E\x66\x66\x3E\x06\x07"
 };
 
-
-static const char *lc_r[SIZES] = {
+static const char *lc_r[SIZES] = 
+{
   "\x00\x00\x58\x64\x40\x40\x40\x00",
   "\x00\x00\x6C\x76\x60\x60\x60\x00"
 };
 
-
-static const char *lc_s[SIZES] = {
+static const char *lc_s[SIZES] = 
+{
   "\x00\x00\x3C\x40\x38\x04\x78\x00",
   "\x00\x00\x3E\x60\x3C\x06\x7C\x00"
 };
 
-
-static const char *lc_t[SIZES] = {
+static const char *lc_t[SIZES] = 
+{
   "\x10\x10\x38\x10\x10\x10\x0C\x00",
   "\x30\x30\x7C\x30\x30\x30\x1C\x00"
 };
 
-
-static const char *lc_u[SIZES] = {
+static const char *lc_u[SIZES] = 
+{
   "\x00\x00\x44\x44\x44\x4C\x34\x00",
   "\x00\x00\x66\x66\x66\x66\x3E\x00"
 };
 
-
-static const char *lc_v[SIZES] = {
+static const char *lc_v[SIZES] = 
+{
   "\x00\x00\x44\x44\x44\x28\x10\x00",
   "\x00\x00\x66\x66\x66\x3C\x18\x00"
 };
 
-
-static const char *lc_w[SIZES] = {
+static const char *lc_w[SIZES] = 
+{
   "\x00\x00\x54\x54\x54\x54\x28\x00",
   "\x00\x00\x63\x6B\x6B\x7F\x36\x00"
 };
 
-
-static const char *lc_x[SIZES] = {
+static const char *lc_x[SIZES] = 
+{
   "\x00\x00\x44\x28\x10\x28\x44\x00",
   "\x00\x00\x66\x3C\x18\x3C\x66\x00"
 };
 
-
-static const char *lc_y[SIZES] = {
+static const char *lc_y[SIZES] = 
+{
   "\x00\x00\x44\x44\x44\x3C\x04\x38",
   "\x00\x00\x66\x66\x66\x3E\x06\x3C"
 };
-
 
 static const char *lc_z[SIZES] = {
   "\x00\x00\x7C\x08\x10\x20\x7C\x00",
@@ -442,7 +442,6 @@ static const char *uc_w[SIZES] =
 {
   "\x44\x44\x44\x54\x54\x6C\x44\x00",
   "\x63\x63\x6B\x6B\x7F\x77\x63\x00"
-
 };
 
 static const char *uc_x[SIZES] = 
@@ -599,7 +598,6 @@ uint8_t SMILEY_BOOS_BITMAP[1024] =
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
-
 
 uint8_t PIJL_OMHOOG_BITMAP[1024] = 
 {

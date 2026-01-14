@@ -10,7 +10,6 @@
 #include "front_layer.h"
 #include "logic_layer.h"
 #include "stm32_ub_vga_screen.h"
-#include "bitmap_defines.h"
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -23,17 +22,6 @@ volatile uint16_t uart_tail = 0;       ///< Leespointer voor de UART-ringbuffer.
 
 char *buffer = NULL;    ///< Dynamische buffer voor het opslaan van een volledig commando.
 uint16_t idx = 0;       ///< Index voor de dynamische buffer.
-
-// Functie declaraties voor interne functies
-void Buffer_Check(void);
-void Buffer_to_struct(char cmd_val);
-char Argument_checker(char Argument_goal);
-char Argument_counter(void);
-int take_int(uint8_t *take_index);
-char* take_word(uint8_t *take_index);
-int take_color(uint8_t *take_index);
-static uint8_t check_coord(int val, int max_val, const char* argument_name);
-
 
 /**
  * @brief Controleert en identificeert het commando in de buffer.
@@ -48,7 +36,8 @@ void Buffer_Check()
   uint8_t take_index = 0;
   char* cmd_word = take_word(&take_index);
 
-  if (cmd_word == NULL) {
+  if (cmd_word == NULL) 
+  {
     return;
   }
 
@@ -92,197 +81,212 @@ void Buffer_to_struct(char cmd_val)
   {
     case LIJN: // Vul lijn struct en roep lijn functie aan
     {
-        //USART2_SendString("Lijn command ontvangen\r\n");
+      //USART2_SendString("Lijn command ontvangen\r\n");
 
-        line_struct lijn;
+      line_struct lijn;
 
-        arg_diff = Argument_checker(LIJN_ARGS);
-        if (arg_diff != 0)
-          return;
+      arg_diff = Argument_checker(LIJN_ARGS);
+      if (arg_diff != 0)
+      {
+        return;
+      }
 
-        lijn.x_1 = take_int(&take_index);
-        errors += check_coord(lijn.x_1, VGA_DISPLAY_X, "X_1");
+      lijn.x_1 = take_int(&take_index);
+      errors += check_coord(lijn.x_1, VGA_DISPLAY_X, "X_1");
 
-        lijn.y_1 = take_int(&take_index);
-        errors += check_coord(lijn.y_1, VGA_DISPLAY_Y, "Y_1");
+      lijn.y_1 = take_int(&take_index);
+      errors += check_coord(lijn.y_1, VGA_DISPLAY_Y, "Y_1");
 
-        lijn.x_2 = take_int(&take_index);
-        errors += check_coord(lijn.x_2, VGA_DISPLAY_X, "X_2");
+      lijn.x_2 = take_int(&take_index);
+      errors += check_coord(lijn.x_2, VGA_DISPLAY_X, "X_2");
 
-        lijn.y_2 = take_int(&take_index);
-        errors += check_coord(lijn.y_2, VGA_DISPLAY_Y, "Y_2");
+      lijn.y_2 = take_int(&take_index);
+      errors += check_coord(lijn.y_2, VGA_DISPLAY_Y, "Y_2");
 
-        lijn.color = take_color(&take_index);
-        if (lijn.color == -1) errors++;
+      lijn.color = take_color(&take_index);
+      if (lijn.color == -1)
+      {
+        errors++;
+      }
 
-        lijn.weight = take_int(&take_index);
-        if (lijn.weight <= 0)
-        {
-          USART2_SendString("Dikte moet een positief getal zijn\r\n");
-          errors++;
-        }
+      lijn.weight = take_int(&take_index);
+      if (lijn.weight <= 0)
+      {
+        USART2_SendString("Dikte moet een positief getal zijn\r\n");
+        errors++;
+      }
 
-        // Error report
-        if(errors > 0)
-        {
-          USART2_SendString("Lijn totaal aantal errors: ");
-          USART2_SendCharUser(errors);
-          USART2_SendString("\r\n");
-          USART2_SendString("\r\n");
+      // Error report
+      if(errors > 0)
+      {
+        USART2_SendString("Lijn totaal aantal errors: ");
+        USART2_SendCharUser(errors);
+        USART2_SendString("\r\n");
+        USART2_SendString("\r\n");
+        return;
+      }
 
-          return;
-        }
-
-        //LOGIC LAYER FUNCTIE
-        lineToVGA(lijn);
+      //LOGIC LAYER FUNCTIE
+      lineToVGA(lijn);
     }
     break;
 
     case RECHTHOEK: // Vul rechthoek struct en roep rechthoek functie aan
     {
-        //USART2_SendString("RECHTHOEK command ontvangen\r\n");
-        rectangle_struct rechthoek;
+      //USART2_SendString("RECHTHOEK command ontvangen\r\n");
+      rectangle_struct rechthoek;
 
-        arg_diff = Argument_checker(RECHTHOEK_ARGS);
-        if (arg_diff != 0)
-          return;
+      arg_diff = Argument_checker(RECHTHOEK_ARGS);
+      if (arg_diff != 0) 
+      {
+        return;
+      }
 
-        rechthoek.x = take_int(&take_index);
-        errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
+      rechthoek.x = take_int(&take_index);
+      errors += check_coord(rechthoek.x, VGA_DISPLAY_X, "X");
 
-        rechthoek.y = take_int(&take_index);
-        errors += check_coord(rechthoek.y, VGA_DISPLAY_Y, "Y");
+      rechthoek.y = take_int(&take_index);
+      errors += check_coord(rechthoek.y, VGA_DISPLAY_Y, "Y");
 
-        rechthoek.width = take_int(&take_index);
-        errors += check_coord((rechthoek.x + rechthoek.width), VGA_DISPLAY_X, "Breedte");
+      rechthoek.width = take_int(&take_index);
+      errors += check_coord((rechthoek.x + rechthoek.width), VGA_DISPLAY_X, "Breedte");
 
-        rechthoek.height = take_int(&take_index);
-        errors += check_coord((rechthoek.y + rechthoek.height), VGA_DISPLAY_Y, "Hoogte");
+      rechthoek.height = take_int(&take_index);
+      errors += check_coord((rechthoek.y + rechthoek.height), VGA_DISPLAY_Y, "Hoogte");
 
-        rechthoek.color = take_color(&take_index);
-        if (rechthoek.color == -1) errors++;
+      rechthoek.color = take_color(&take_index);
+      if (rechthoek.color == -1) 
+      {
+        errors++;
+      }
 
-        rechthoek.filled = take_int(&take_index);
-        if ((rechthoek.filled != 0) && (rechthoek.filled != 1))
-        {
-          errors++;
-          USART2_SendString("Opvulling kan alleen 0 of 1 zijn \r\n");
-        }
+      rechthoek.filled = take_int(&take_index);
+      if ((rechthoek.filled != 0) && (rechthoek.filled != 1))
+      {
+        errors++;
+        USART2_SendString("Opvulling kan alleen 0 of 1 zijn \r\n");
+      }
 
-        // Error report
-        if(errors > 0)
-        {
-          USART2_SendString("Rechthoek totaal aantal errors: ");
-          USART2_SendCharUser(errors);
-          USART2_SendString("\r\n");
-          USART2_SendString("\r\n");
+      // Error report
+      if(errors > 0)
+      {
+        USART2_SendString("Rechthoek totaal aantal errors: ");
+        USART2_SendCharUser(errors);
+        USART2_SendString("\r\n");
+        USART2_SendString("\r\n");
+        return;
+      }
 
-          return;
-        }
-
-        //LOGIC LAYER FUNCTIE
-        rectangleToVGA(rechthoek);
+      //LOGIC LAYER FUNCTIE
+      rectangleToVGA(rechthoek);
     }
     break;
 
     case TEKST: // Vul text struct en roep text functie aan
     {
-        //USART2_SendString("TEKST command ontvangen\r\n");
+      //USART2_SendString("TEKST command ontvangen\r\n");
 
-        text_struct text;
+      text_struct text;
 
-        text.text = NULL;
-        text.fontname = NULL;
-        text.fontstyle = NULL;
+      text.text = NULL;
+      text.fontname = NULL;
+      text.fontstyle = NULL;
 
-        arg_diff = Argument_checker(TEKST_ARGS);
-        if (arg_diff != 0)
-          return;
+      arg_diff = Argument_checker(TEKST_ARGS);
+      if (arg_diff != 0)
+      {
+        return;
+      }
 
-        text.x_lup = take_int(&take_index);
+      text.x_lup = take_int(&take_index);
 
-        text.y_lup = take_int(&take_index);
+      text.y_lup = take_int(&take_index);
 
-        text.color = take_color(&take_index);
-        if (text.color == -1) errors++;
+      text.color = take_color(&take_index);
+      if (text.color == -1) 
+      {
+        errors++;
+      }
 
-        text.text = take_word(&take_index);
-        if (text.text == NULL || strlen(text.text) == 0)
-        {
-          USART2_SendString("Tekst mag niet leeg zijn\r\n");
-          errors++;
+      text.text = take_word(&take_index);
+      if (text.text == NULL || strlen(text.text) == 0)
+      {
+        USART2_SendString("Tekst mag niet leeg zijn\r\n");
+        errors++;
+      }
+
+      text.fontname = take_word(&take_index);
+      if (text.fontname == NULL || (strcmp(text.fontname, "arial") != 0 && strcmp(text.fontname, "consolas") != 0))
+      {
+        USART2_SendString("Ongeldige fontnaam (arial/consolas)\r\n");
+        errors++;
+      }
+
+      text.fontsize = take_int(&take_index);
+      if (text.fontsize < KLEIN || text.fontsize > GROOT)
+      {
+        USART2_SendString("Fontgrootte moet 1 (klein) of 2 (groot) zijn\r\n");
+        errors++;
+      }
+
+      int letter_marge = LETTER_MARGE_SMALL;
+
+      if (text.fontsize == GROOT) 
+      {
+        letter_marge *= 2;
+      }
+
+      int j = 0;
+      int x = text.x_lup;
+      int y = text.y_lup;
+
+      //check if it is possible to print every letter on screen
+      while (j < strlen(text.text)) 
+      {
+        errors += check_coord(x + letter_marge, VGA_DISPLAY_X, "text.x_lup");
+        errors += check_coord(y + letter_marge, VGA_DISPLAY_Y, "text.y_lup");
+
+        x += letter_marge;
+
+        if (x > VGA_DISPLAY_X - letter_marge)
+        { //go to a new line
+          x = 0;
+          y += letter_marge;
         }
+        j++;
+      }
 
-        text.fontname = take_word(&take_index);
-        if (text.fontname == NULL || (strcmp(text.fontname, "arial") != 0 && strcmp(text.fontname, "consolas") != 0))
-        {
-          USART2_SendString("Ongeldige fontnaam (arial/consolas)\r\n");
-          errors++;
-        }
+      text.fontstyle = take_word(&take_index);
+      if (text.fontstyle == NULL || (strcmp(text.fontstyle, "normaal") != 0 && strcmp(text.fontstyle, "vet") != 0 && strcmp(text.fontstyle, "cursief") != 0))
+      {
+        USART2_SendString("Fontstijl moet normaal, vet of cursief zijn\r\n");
+        errors++;
+      }
 
-        text.fontsize = take_int(&take_index);
-        if (text.fontsize < KLEIN || text.fontsize > GROOT)
-        {
-          USART2_SendString("Fontgrootte moet 1 (klein) of 2 (groot) zijn\r\n");
-          errors++;
-        }
+      // Error report
+      if (errors > 0)
+      {
+        USART2_SendString("Tekst totaal aantal errors: ");
+        USART2_SendCharUser(errors);
 
-        int letter_marge = LETTER_MARGE_SMALL;
+        USART2_SendString("\r\n");
+        USART2_SendString("\r\n");
 
-        if (text.fontsize == GROOT) {
-          letter_marge *= 2;
-        }
-
-        int j = 0;
-        int x = text.x_lup;
-        int y = text.y_lup;
-
-        //check if it is possible to print every letter on screen
-        while (j < strlen(text.text)) {
-          errors += check_coord(x + letter_marge, VGA_DISPLAY_X, "text.x_lup");
-          errors += check_coord(y + letter_marge, VGA_DISPLAY_Y, "text.y_lup");
-
-          x += letter_marge;
-
-          if (x > VGA_DISPLAY_X - letter_marge) { //go to a new line
-            x = 0;
-            y += letter_marge;
-          }
-
-          j++;
-        }
-
-        text.fontstyle = take_word(&take_index);
-        if (text.fontstyle == NULL || (strcmp(text.fontstyle, "normaal") != 0 && strcmp(text.fontstyle, "vet") != 0 && strcmp(text.fontstyle, "cursief") != 0))
-        {
-          USART2_SendString("Fontstijl moet normaal, vet of cursief zijn\r\n");
-          errors++;
-        }
-
-        // Error report
-        if (errors > 0)
-        {
-          USART2_SendString("Tekst totaal aantal errors: ");
-          USART2_SendCharUser(errors);
-
-          USART2_SendString("\r\n");
-          USART2_SendString("\r\n");
-
-          // Free memory if it was allocated before returning
-          free(text.text);
-          free(text.fontname);
-          free(text.fontstyle);
-          return;
-        }
-
-        //LOGIC LAYER FUNCTIE
-        textToVGA(text);
-
-
-        // Geef geheugen vrij
+        // Free memory if it was allocated before returning
         free(text.text);
         free(text.fontname);
         free(text.fontstyle);
+        return;
+      }
+
+      //LOGIC LAYER FUNCTIE
+      textToVGA(text);
+
+
+      // Geef geheugen vrij
+      free(text.text);
+      free(text.fontname);
+      free(text.fontstyle);
     }
     break;
 
@@ -294,7 +298,9 @@ void Buffer_to_struct(char cmd_val)
 
       arg_diff = Argument_checker(BITMAP_ARGS);
       if (arg_diff != 0)
+      {
         return;
+      }
 
       bitmap.bm_nr = take_int(&take_index);
       errors += check_coord(bitmap.bm_nr, BITMAP_AMOUNT, "bitmap.bm_nr");
@@ -337,11 +343,16 @@ void Buffer_to_struct(char cmd_val)
 
       arg_diff = Argument_checker(CLEARSCHERM_ARGS);
       if (arg_diff != 0)
+      {
         return;
+      }
 
       clearscherm.color = take_color(&take_index);
 
-      if (clearscherm.color == -1) errors++;
+      if (clearscherm.color == -1)
+      {
+        errors++;
+      }
 
       // Error report
       if(errors > 0)
@@ -365,7 +376,9 @@ void Buffer_to_struct(char cmd_val)
 
       arg_diff = Argument_checker(CIRKEL_ARGS);
       if (arg_diff != 0)
+      {
         return;
+      }
 
       cirkel.x = take_int(&take_index);
       errors += check_coord(cirkel.x, VGA_DISPLAY_X, "X");
@@ -376,17 +389,28 @@ void Buffer_to_struct(char cmd_val)
       cirkel.radius = take_int(&take_index);
 
       if (check_coord((cirkel.x + cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
+      {
         errors++;
+      }
       else if (check_coord((cirkel.x - cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
+      {
         errors++;
+      }
       else if (check_coord((cirkel.y + cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
+      {
         errors++;
+      }
       else if (check_coord((cirkel.y - cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
+      {
         errors++;
+      }
 
       cirkel.color = take_color(&take_index);
 
-      if (cirkel.color == -1) errors++;
+      if (cirkel.color == -1)
+      {
+        errors++;
+      }
 
       // Error report
       if(errors > 0)
@@ -407,12 +431,10 @@ void Buffer_to_struct(char cmd_val)
     case WAIT:
     {
       wait_struct wacht;
-
       wacht.msec = take_int(&take_index);
 
       // LOGIC LAYER FUNCTIE
       delay(wacht);
-
     }
     break;
   }
@@ -440,6 +462,7 @@ char Argument_checker(char Argument_goal)
     USART2_SendCharUser(arg_diff);
     USART2_SendString(" argument(en) te veel. \r\n");
   }
+
   if(argAmount < Argument_goal)
   {
     arg_diff = Argument_goal - argAmount;
@@ -460,7 +483,7 @@ char Argument_checker(char Argument_goal)
  */
 char Argument_counter()
 {
-  int8_t idx_check = 0;
+  uint8_t idx_check = 0;
   char argAmount = 0;
 
   // Skip het commando woord
@@ -468,10 +491,12 @@ char Argument_counter()
   // Parse parameters op basis van buffer
   char *arg[MAX_ARG];
 
-  for (char argCounter = 0; argCounter < MAX_ARG; argCounter++)
+  for (int argCounter = 0; argCounter < MAX_ARG; argCounter++)
+  {
     arg[argCounter] = take_word(&idx_check);
+  }
 
-  for(char argNum = 0; argNum < MAX_ARG; argNum++)
+  for(int argNum = 0; argNum < MAX_ARG; argNum++)
   {
     if (arg[argNum] != NULL)
     {
@@ -498,7 +523,8 @@ int take_int(uint8_t *take_index)
   for (int i = 0; i < strlen(argument); i++)
   {
     // Controleer of het karakter GEEN cijfer is
-    if (!isdigit(argument[i])) {
+    if (!isdigit((unsigned char)argument[i]))
+    {
       //USART2_SendString("Fout: Argument is geen cijfer, argument is nul!\n");
       return 0; // Stop de loop direct bij een fout
     }
@@ -523,11 +549,16 @@ int take_int(uint8_t *take_index)
  */
 char* take_word(uint8_t *take_index)
 {
-  if (*take_index >= idx) return NULL; // Alles al gelezen
+  if (*take_index >= idx)
+  {
+    return NULL; // Alles al gelezen
+  }
 
   // Skip spaties voor het woord
   while (*take_index < idx && buffer[*take_index] == ' ')
+  {
     (*take_index)++;
+  }
 
   uint8_t start = *take_index;
   uint8_t len = 0;
@@ -540,25 +571,30 @@ char* take_word(uint8_t *take_index)
   }
 
   // Trim spaties, newline (\n) en carriage return (\r) van het einde
-  while (len > 0 &&
-      (buffer[start + len - 1] == ' ' ||
-       buffer[start + len - 1] == '\n' ||
-       buffer[start + len - 1] == '\r'))
+  while (len > 0 && (buffer[start + len - 1] == ' ' || buffer[start + len - 1] == '\n' || buffer[start + len - 1] == '\r'))
   {
     len--;
   }
 
   // Allocate geheugen voor het woord
   char* word = malloc(len + 1);
-  if (!word) return NULL;
+  if (!word)
+  {
+    return NULL;
+  }
 
   for (uint8_t j = 0; j < len; j++)
+  {
     word[j] = buffer[start + j];
+  }
 
   word[len] = '\0'; // Sluit af
 
   // Skip de komma als die er is
-  if (*take_index < idx && buffer[*take_index] == ',') (*take_index)++;
+  if (*take_index < idx && buffer[*take_index] == ',')
+  {
+    (*take_index)++;
+  }
 
   return word;
 }
@@ -584,36 +620,67 @@ int take_color(uint8_t *take_index)
 
   //If-tree voor het bepalen van kleurwaardes
   if (strcmp(color_arg, "zwart") == 0)
+  {
     color = VGA_COL_BLACK;
+  }
   else if (strcmp(color_arg, "blauw") == 0)
+  {
     color = VGA_COL_BLUE;
+  }
   else if (strcmp(color_arg, "groen") == 0)
+  {
     color = VGA_COL_GREEN;
+  }
   else if (strcmp(color_arg, "rood") == 0)
+  {
     color = VGA_COL_RED;
+  }
   else if (strcmp(color_arg, "wit") == 0)
+  {
     color = VGA_COL_WHITE;
+  }
   else if (strcmp(color_arg, "cyaan") == 0)
+  {
     color = VGA_COL_CYAN;
+  }
   else if (strcmp(color_arg, "magenta") == 0)
+  {
     color = VGA_COL_MAGENTA;
+  }
   else if (strcmp(color_arg, "geel") == 0)
+  {
     color = VGA_COL_YELLOW;
+  }
   else if (strcmp(color_arg, "lichtblauw") == 0)
+  {
     color = VGA_COL_LIGHT_BLUE;
+  }
   else if (strcmp(color_arg, "lichtgroen") == 0)
+  {
     color = VGA_COL_LIGHT_GREEN;
+  }
   else if (strcmp(color_arg, "lichtcyaan") == 0)
+  {
     color = VGA_COL_LIGHT_CYAN;
+  }
   else if (strcmp(color_arg, "lichtrood") == 0)
+  {
     color = VGA_COL_LIGHT_RED;
+  }
   else if (strcmp(color_arg, "lichtmagenta") == 0)
+  {
     color = VGA_COL_LIGHT_MAGENTA;
+  }
   else if (strcmp(color_arg, "bruin") == 0)
+  {
     color = VGA_COL_BROWN;
+  }
   else if (strcmp(color_arg, "grijs") == 0)
+  {
     color = VGA_COL_GREY;
-  else {
+  }
+  else 
+  {
     USART2_SendString("'");
     USART2_SendString(color_arg);
     USART2_SendString("'");
@@ -632,8 +699,10 @@ int take_color(uint8_t *take_index)
  * @param argument_name De naam van het argument (voor de foutmelding).
  * @return 1 als de coördinaat ongeldig is, anders 0.
  */
-static uint8_t check_coord(int val, int max_val, const char* argument_name) {
-  if (val < 0 || val > max_val) {
+uint8_t check_coord(int val, int max_val, const char* argument_name) 
+{
+  if (val < 0 || val > max_val) 
+  {
     USART2_SendString(argument_name);
     USART2_SendString(" coordinaat out of range\r\n");
     return 1;
@@ -720,7 +789,9 @@ void USART2_BUFFER(void)
       {
         char* tmp = realloc(buffer, idx + 1);
         if(tmp == NULL) continue; // memory fail
-        buffer = tmp;
+        {
+          buffer = tmp;
+        }
       }
 
       buffer[idx++] = c;
@@ -764,11 +835,15 @@ void USART2_SendChar(char c)
  */
 void USART2_SendString(char *str)
 {
-  while (*str) USART2_SendChar(*str++);
+  while (*str) 
+  {
+    USART2_SendChar(*str++);
+  }
 }
 
-void USART2_SendCharUser(char c) {
-  char str[2];
+void USART2_SendCharUser(char c)
+{
+  char str[16];
   sprintf(str, "%d", c);
 
   USART2_SendString(str);

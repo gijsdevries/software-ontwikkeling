@@ -97,7 +97,7 @@ int take_color(uint8_t *take_index);
  * @param argument_name De naam van het argument voor foutrapportage.
  * @return 1 als de coördinaat geldig is, 0 anders.
  */
-static uint8_t check_coord(int val, int max_val, const char* argument_name);
+uint8_t check_coord(int val, int max_val, const char* argument_name);
 
 // Prototypes voor UART
 /**
@@ -181,7 +181,8 @@ void USART2_SendCharUser(char c);
 /**
  * @brief Structuur om commandonamen te koppelen aan hun corresponderende define-codes.
  */
-typedef struct {
+typedef struct 
+{
   const char *name; /**< De naam van het commando. */
   char code;        /**< De code geassocieerd met het commando. */
 } Eerste_woord;
@@ -189,7 +190,8 @@ typedef struct {
 /**
  * @brief Array van ondersteunde commando's en hun codes.
  */
-static Eerste_woord commands[] = {
+static const Eerste_woord commands[] = 
+{
   {"lijn",        LIJN},
   {"rechthoek",   RECHTHOEK},
   {"tekst",       TEKST},

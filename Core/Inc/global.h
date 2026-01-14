@@ -10,7 +10,8 @@
  * @enum COMMANDS
  * @brief Enums voor de verschillende commando's.
  */
-enum COMMANDS {
+enum COMMANDS 
+{
   LIJN,       ///< Lijn commando.
   RECHTHOEK,  ///< Rechthoek commando.
   TEKST,      ///< Tekst commando.

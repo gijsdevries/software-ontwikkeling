@@ -620,35 +620,65 @@ int take_color(uint8_t *take_index)
 
   //If-tree voor het bepalen van kleurwaardes
   if (strcmp(color_arg, "zwart") == 0)
+  {
     color = VGA_COL_BLACK;
+  }
   else if (strcmp(color_arg, "blauw") == 0)
+  {
     color = VGA_COL_BLUE;
+  }
   else if (strcmp(color_arg, "groen") == 0)
+  {
     color = VGA_COL_GREEN;
+  }
   else if (strcmp(color_arg, "rood") == 0)
+  {
     color = VGA_COL_RED;
+  }
   else if (strcmp(color_arg, "wit") == 0)
+  {
     color = VGA_COL_WHITE;
+  }
   else if (strcmp(color_arg, "cyaan") == 0)
+  {
     color = VGA_COL_CYAN;
+  }
   else if (strcmp(color_arg, "magenta") == 0)
+  {
     color = VGA_COL_MAGENTA;
+  }
   else if (strcmp(color_arg, "geel") == 0)
+  {
     color = VGA_COL_YELLOW;
+  }
   else if (strcmp(color_arg, "lichtblauw") == 0)
+  {
     color = VGA_COL_LIGHT_BLUE;
+  }
   else if (strcmp(color_arg, "lichtgroen") == 0)
+  {
     color = VGA_COL_LIGHT_GREEN;
+  }
   else if (strcmp(color_arg, "lichtcyaan") == 0)
+  {
     color = VGA_COL_LIGHT_CYAN;
+  }
   else if (strcmp(color_arg, "lichtrood") == 0)
+  {
     color = VGA_COL_LIGHT_RED;
+  }
   else if (strcmp(color_arg, "lichtmagenta") == 0)
+  {
     color = VGA_COL_LIGHT_MAGENTA;
+  }
   else if (strcmp(color_arg, "bruin") == 0)
+  {
     color = VGA_COL_BROWN;
+  }
   else if (strcmp(color_arg, "grijs") == 0)
+  {
     color = VGA_COL_GREY;
+  }
   else {
     USART2_SendString("'");
     USART2_SendString(color_arg);
@@ -758,7 +788,9 @@ void USART2_BUFFER(void)
       {
         char* tmp = realloc(buffer, idx + 1);
         if(tmp == NULL) continue; // memory fail
-        buffer = tmp;
+        {
+          buffer = tmp;
+        }
       }
 
       buffer[idx++] = c;
@@ -802,7 +834,10 @@ void USART2_SendChar(char c)
  */
 void USART2_SendString(char *str)
 {
-  while (*str) USART2_SendChar(*str++);
+  while (*str) 
+  {
+    USART2_SendChar(*str++);
+  }
 }
 
 void USART2_SendCharUser(char c)

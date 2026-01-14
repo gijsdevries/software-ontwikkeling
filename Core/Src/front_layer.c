@@ -87,7 +87,9 @@ void Buffer_to_struct(char cmd_val)
 
         arg_diff = Argument_checker(LIJN_ARGS);
         if (arg_diff != 0)
+        {
           return;
+        }
 
         lijn.x_1 = take_int(&take_index);
         errors += check_coord(lijn.x_1, VGA_DISPLAY_X, "X_1");
@@ -102,7 +104,10 @@ void Buffer_to_struct(char cmd_val)
         errors += check_coord(lijn.y_2, VGA_DISPLAY_Y, "Y_2");
 
         lijn.color = take_color(&take_index);
-        if (lijn.color == -1) errors++;
+        if (lijn.color == -1)
+        {
+          errors++;
+        }
 
         lijn.weight = take_int(&take_index);
         if (lijn.weight <= 0)
@@ -189,7 +194,9 @@ void Buffer_to_struct(char cmd_val)
 
         arg_diff = Argument_checker(TEKST_ARGS);
         if (arg_diff != 0)
+        {
           return;
+        }
 
         text.x_lup = take_int(&take_index);
 
@@ -291,7 +298,9 @@ void Buffer_to_struct(char cmd_val)
 
         arg_diff = Argument_checker(BITMAP_ARGS);
         if (arg_diff != 0)
+        {
           return;
+        }
 
         bitmap.bm_nr = take_int(&take_index);
         errors += check_coord(bitmap.bm_nr, BITMAP_AMOUNT, "bitmap.bm_nr");
@@ -334,11 +343,16 @@ void Buffer_to_struct(char cmd_val)
 
         arg_diff = Argument_checker(CLEARSCHERM_ARGS);
         if (arg_diff != 0)
+        {
           return;
+        }
 
         clearscherm.color = take_color(&take_index);
 
-        if (clearscherm.color == -1) errors++;
+        if (clearscherm.color == -1)
+        {
+          errors++;
+        }
 
         // Error report
         if(errors > 0)
@@ -362,7 +376,9 @@ void Buffer_to_struct(char cmd_val)
 
         arg_diff = Argument_checker(CIRKEL_ARGS);
         if (arg_diff != 0)
+        {
           return;
+        }
 
         cirkel.x = take_int(&take_index);
         errors += check_coord(cirkel.x, VGA_DISPLAY_X, "X");
@@ -373,17 +389,28 @@ void Buffer_to_struct(char cmd_val)
         cirkel.radius = take_int(&take_index);
 
         if (check_coord((cirkel.x + cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
+        {
           errors++;
+        }
         else if (check_coord((cirkel.x - cirkel.radius), VGA_DISPLAY_X, "Radius") == 1)
+        {
           errors++;
+        }
         else if (check_coord((cirkel.y + cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
+        {
           errors++;
+        }
         else if (check_coord((cirkel.y - cirkel.radius), VGA_DISPLAY_Y, "Radius") == 1)
+        {
           errors++;
+        }
 
         cirkel.color = take_color(&take_index);
 
-        if (cirkel.color == -1) errors++;
+        if (cirkel.color == -1)
+        {
+		  errors++;
+        }
 
         // Error report
         if(errors > 0)
@@ -465,7 +492,9 @@ char Argument_counter()
   char *arg[MAX_ARG];
 
   for (int argCounter = 0; argCounter < MAX_ARG; argCounter++)
+  {
     arg[argCounter] = take_word(&idx_check);
+  }
 
   for(int argNum = 0; argNum < MAX_ARG; argNum++)
   {
@@ -494,7 +523,8 @@ int take_int(uint8_t *take_index)
   for (int i = 0; i < strlen(argument); i++)
   {
     // Controleer of het karakter GEEN cijfer is
-    if (!isdigit((unsigned char)argument[i])) {
+    if (!isdigit((unsigned char)argument[i]))
+    {
       //USART2_SendString("Fout: Argument is geen cijfer, argument is nul!\n");
       return 0; // Stop de loop direct bij een fout
     }
@@ -519,11 +549,16 @@ int take_int(uint8_t *take_index)
  */
 char* take_word(uint8_t *take_index)
 {
-  if (*take_index >= idx) return NULL; // Alles al gelezen
+  if (*take_index >= idx)
+  {
+	return NULL; // Alles al gelezen
+  }
 
   // Skip spaties voor het woord
   while (*take_index < idx && buffer[*take_index] == ' ')
+  {
     (*take_index)++;
+  }
 
   uint8_t start = *take_index;
   uint8_t len = 0;
@@ -536,25 +571,30 @@ char* take_word(uint8_t *take_index)
   }
 
   // Trim spaties, newline (\n) en carriage return (\r) van het einde
-  while (len > 0 &&
-      (buffer[start + len - 1] == ' ' ||
-       buffer[start + len - 1] == '\n' ||
-       buffer[start + len - 1] == '\r'))
+  while (len > 0 && (buffer[start + len - 1] == ' ' || buffer[start + len - 1] == '\n' || buffer[start + len - 1] == '\r'))
   {
     len--;
   }
 
   // Allocate geheugen voor het woord
   char* word = malloc(len + 1);
-  if (!word) return NULL;
+  if (!word)
+  {
+    return NULL;
+  }
 
   for (uint8_t j = 0; j < len; j++)
+  {
     word[j] = buffer[start + j];
+  }
 
   word[len] = '\0'; // Sluit af
 
   // Skip de komma als die er is
-  if (*take_index < idx && buffer[*take_index] == ',') (*take_index)++;
+  if (*take_index < idx && buffer[*take_index] == ',')
+  {
+    (*take_index)++;
+  }
 
   return word;
 }

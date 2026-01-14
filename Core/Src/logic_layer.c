@@ -52,7 +52,6 @@ textInfo textStructToInt(char *fontname, char *fontstyle, char fontsize)
   {
     textInfo.FONTGROOTTE = GROOT;
   }
-
   return textInfo;
 }
 

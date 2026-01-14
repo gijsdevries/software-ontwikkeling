@@ -181,7 +181,8 @@ void USART2_SendCharUser(char c);
 /**
  * @brief Structuur om commandonamen te koppelen aan hun corresponderende define-codes.
  */
-typedef struct {
+typedef struct 
+{
   const char *name; /**< De naam van het commando. */
   char code;        /**< De code geassocieerd met het commando. */
 } Eerste_woord;
@@ -189,7 +190,8 @@ typedef struct {
 /**
  * @brief Array van ondersteunde commando's en hun codes.
  */
-static const Eerste_woord commands[] = {
+static const Eerste_woord commands[] = 
+{
   {"lijn",        LIJN},
   {"rechthoek",   RECHTHOEK},
   {"tekst",       TEKST},
